@@ -1,5 +1,5 @@
 <p align="center">
-<img src="resources/mihomeicon.png" height="200" width="200">
+<img src="resources/mihomeicon.png">
 </p>
 
 # MiHome

@@ -3,10 +3,13 @@ var express = require('express');
 var app = express();
 var mongoose = require('mongoose');
 var cors = require('cors')
+var CONFIG = require('./config.json');
 
-mongoose.connect('mongodb://mogilska:homework@ds137730.mlab.com:37730/heroku_zdq7nd1v')
-
-var Payload = require('./payload');
+mongoose.Promise = global.Promise;
+mongoose.connect('mongodb://mogilska:homework@ds137730.mlab.com:37730/heroku_zdq7nd1v', {
+    useMongoClient: true,
+    promiseLibrary: global.Promise
+})
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -15,35 +18,18 @@ app.use(function(req, res, next) {
 });
 
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
 
-app.get('/data', function(req, res){
-  Payload.find({}, function (err, data) {
-    res.json(data);
-  });
-});
+var usersRoutes = require('./routes/users');
+var dataRoutes = require('./routes/data');
 
-app.post('/dx', function(req, res){
-  console.log(req.body);
-  res.json({'status':true});
-});
+app.use('/api/users', usersRoutes);
+app.use('/api/data', dataRoutes);
 
-app.get('/ping', function(req, res){
-  console.log("ping");
-  res.json({'pong':true});
-});
-
-app.post('/', function(req, res){
-  var time = req.body.published_at;
-  var payload = JSON.parse(req.body.data);
-  var temp_load = new Payload(payload);
-  temp_load['datetime'] = time;
-  temp_load.save(function(err) {
-    if (err) throw err;
-    console.log(temp_load);
-    res.json(temp_load);
-  });
-});
-
-app.listen(process.env.PORT || 3000, function () {
-  console.log('MiHome API Running')
+var server = app.listen(process.env.PORT || CONFIG.server.port, function () {
+  console.log('MiHome API Running');
+  var port = server.address().port;
+  console.log('Server listening at http://localhost:%s', port);
 })

@@ -49,6 +49,10 @@ void setup()
 {
   Wire.begin();
   Serial.begin(9600);
+  pinMode(LED, OUTPUT);  
+  Blink(LED, 1000, 2); 
+  Blink(LED, 100, 5);
+  Blink(LED, 1000, 2); 
   //delay(5000);
   //while (!Serial) { delay(1000); } 
   delay(5000);
@@ -84,8 +88,7 @@ void setup()
   Serial.println("-----------------------------------------");
   Serial.println();
   delay(2000);
-  
-  pinMode(LED, OUTPUT);    
+    
   pinMode(RFM69_RST, OUTPUT);
   digitalWrite(RFM69_RST, LOW);
   // Reset
@@ -182,7 +185,7 @@ void send(String payload,int size) {
 String transmit(String name) {
   digitalWrite(LED,HIGH);
   char radiopacket[20];
-  name.toCharArray(radiopacket, 20);
+  name.toCharArray(radiopacket, 20); 
   //itoa(packetnum++, radiopacket+13, 10);
   Serial.print("Sending - Command Data: ");
   rf69.send((uint8_t *)radiopacket, strlen(radiopacket));
@@ -199,6 +202,7 @@ String transmit(String name) {
     } else { }
   } else { 
     Serial.print("No Response?");
+    digitalWrite(LED,LOW);
     Serial.println();   
   }
   return res;

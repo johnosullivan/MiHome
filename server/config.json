@@ -1,0 +1,10 @@
+{
+  "server": {
+    "hostName": "localhost",
+    "port": "8888"
+  },
+  "token": {
+    "secret": "secretapplication",
+    "expiresInSeconds": "3600"
+  }
+}

@@ -26,14 +26,6 @@ var schema = new Schema({
     type: String,
     required: true
   },
-  tickets: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Ticket'
-  }],
-  events: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Event'
-  }],
   createdAt: {
     type: Date
   },

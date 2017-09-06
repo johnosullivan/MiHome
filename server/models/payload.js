@@ -11,7 +11,8 @@ var payloadSchema = new Schema({
   UV: Number,
   IR: Number,
   pressure: Number,
-  datetime:Date
+  datetime:Date,
+  nodeID:String
 });
 
 var payload = mongoose.model('Payload', payloadSchema);

@@ -9,11 +9,7 @@ var User = require('../models/user');
 
 var router = express.Router();
 
-router.post('/', function createUser(request, response) {
-
-  console.log(request.body);
-
-  // find the user
+router.post('/register', function createUser(request, response) {
   User.findOne({
     username: request.body.username
   }, function handleQuery(error, user) {
@@ -87,8 +83,6 @@ router.post('/', function createUser(request, response) {
 });
 
 router.post('/authenticate', function authenticateUser(request, response) {
-
-  // find the user
   User.findOne({
     username: request.body.username
   }, function handleQuery(error, user) {

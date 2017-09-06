@@ -6,10 +6,7 @@ var cors = require('cors')
 var CONFIG = require('./config.json');
 
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://mogilska:homework@ds137730.mlab.com:37730/heroku_zdq7nd1v', {
-    useMongoClient: true,
-    promiseLibrary: global.Promise
-})
+mongoose.connect(CONFIG.database.address, { useMongoClient: true, promiseLibrary: global.Promise });
 
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -18,18 +15,15 @@ app.use(function(req, res, next) {
 });
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-  extended: false
-}));
 
-var usersRoutes = require('./routes/users');
-var dataRoutes = require('./routes/data');
+app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use('/api/users', usersRoutes);
-app.use('/api/data', dataRoutes);
+app.use('/api/user', require('./routes/users'));
+
+app.use('/api/data', require('./routes/data'));
 
 var server = app.listen(process.env.PORT || CONFIG.server.port, function () {
-  console.log('MiHome API Running');
   var port = server.address().port;
+  console.log('MiHome API Running');
   console.log('Server listening at http://localhost:%s', port);
 })

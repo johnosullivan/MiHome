@@ -9,19 +9,22 @@ var User = require('../models/user');
 var tokenMiddleware = require('../middleware/token');
 var router = express.Router();
 
-router.get('/', function(req, res){
+router.get('/', tokenMiddleware.verifyToken, function(req, res){
   Payload.find({}, function (err, data) {
     res.json({'size':data.length,'data':data});
   });
 });
 
 router.post('/find', tokenMiddleware.verifyToken, function(req, res){
+  if (req.body.start === undefined || req.body.end === undefined) {
+    res.json({success: false, message:'Time Frame Required'});
+  }
   if (req.body.types === undefined) {
     Payload.find({ "datetime" : { $lt: new Date(req.body.end), $gte: new Date(req.body.start) } }, function (err, data) {
       if (data !== undefined) {
-        res.json({'size':data.length,'data':data});
+        res.json({success: true, size:data.length, data :data});
       } else {
-        res.json({'size':0,'data':[]});
+        res.json({success: true, size :0, data:[]});
       }
     });
   } else {
@@ -39,9 +42,9 @@ router.post('/find', tokenMiddleware.verifyToken, function(req, res){
     }
     Payload.find({ "datetime" : { $lt: new Date(req.body.end), $gte: new Date(req.body.start) }}).select(selectquery).exec(function (err, data) {
       if (data !== undefined) {
-        res.json({'size':data.length,'data':data});
+        res.json({success: true, size:data.length, data:data});
       } else {
-        res.json({'size':0,'data':[]});
+        res.json({success: true, size:0, data:[]});
       }
     });
   }

@@ -18,7 +18,7 @@ RH_RF69 rf69(RFM69_CS, RFM69_IRQ);
 
 Ticker ticker;
 
-// The data variables
+// The data points
 double temperature = 0;
 double humidity = 0;
 double co2 = 0;
@@ -33,8 +33,12 @@ double pressure = 0;
 //const char* ssid     = "";
 //const char* password = "";
 // The WiFi Host and PostURL
-const char* postURI = "http://pacific-springs-32410.herokuapp.com/";
+const char* postURI = "http://pacific-springs-32410.herokuapp.com/api/data"; 
+const char* nodeID = "00000012340987011";
 
+long previousMillis = 0;        
+long interval = 60000;
+ 
 void tick()
 {
   int state = digitalRead(0);  // get the current state of GPIO1 pin
@@ -49,12 +53,12 @@ void setup()
 {
   Wire.begin();
   Serial.begin(9600);
+  // Default setup led blinking
   pinMode(LED, OUTPUT);  
   Blink(LED, 1000, 2); 
   Blink(LED, 100, 5);
   Blink(LED, 1000, 2); 
-  //delay(5000);
-  //while (!Serial) { delay(1000); } 
+  // Settle delay
   delay(5000);
   pinMode(0, OUTPUT);
   //Connecting to the WiFi network
@@ -65,12 +69,6 @@ void setup()
   Serial.println(WiFi.macAddress());
   wifiManager.setAPCallback(configModeCallback);
   wifiManager.autoConnect("MiHome");
-   
-  //Serial.println(ssid);  
-  //WiFi.begin(ssid,password);
-  //while (WiFi.status() != WL_CONNECTED) {
-  //  delay(1000);
-  //}
   // Prints details to the serial ports
   Serial.println();
   Serial.println("-----------------------------------------");
@@ -88,17 +86,15 @@ void setup()
   Serial.println("-----------------------------------------");
   Serial.println();
   delay(2000);
-    
+  // Setuping the pins  
   pinMode(RFM69_RST, OUTPUT);
   digitalWrite(RFM69_RST, LOW);
-  // Reset
+  // Reset Radio
   digitalWrite(RFM69_RST, HIGH);
   delay(10);
   digitalWrite(RFM69_RST, LOW);
   delay(10);
-
-  ticker.detach();
-
+  // Setting up the radio
   if (!rf69.init()) {
     Serial.println("RFM69 Radio Init. Failed!");
     int status = 1;
@@ -111,17 +107,16 @@ void setup()
     }
   }
   Serial.println("RFM69 Radio Init Good!");
-
+  ticker.detach();
   if (!rf69.setFrequency(RF69_FREQ)) {
     Serial.println("Setting Frequency Failed!");
   }
-
+  // Sets the power and the encryption key
   rf69.setTxPower(20, true); 
-
   uint8_t key[] = { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08,
                     0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08};
   rf69.setEncryptionKey(key);
-    
+  // Prints out the final details
   Serial.print("RFM69 Radio @");  Serial.print((int)RF69_FREQ);  Serial.println(" MHz");
   Serial.println();
 }
@@ -131,7 +126,7 @@ void send(String payload,int size) {
   Serial.println("[Send Start]");
   Serial.print("Radio Response: ");
   Serial.print(payload);
-  
+  // Creates the sized char for the paylaod
   char sz[size];
   payload.toCharArray(sz, size);
   char *p = sz;
@@ -160,6 +155,7 @@ void send(String payload,int size) {
   root["UV"] = UV;
   root["IR"] = IR;
   root["pressure"] = pressure;
+  root["nodeID"] = nodeID;
   char cbuf[256];
   root.printTo(cbuf,sizeof(cbuf));
   Serial.print("Post Payload: ");
@@ -209,13 +205,21 @@ String transmit(String name) {
 }
 
 void loop() {
-  String data = transmit("data");
-  if (data != "") {
-    Serial.print(data);
-    Serial.println();  
-    send(data,data.length());
+  // Gets the current timestamp in millis()
+  unsigned long currentMillis = millis();
+  // Check the time pasted to see if match interval
+  if(currentMillis - previousMillis > interval) {
+    previousMillis = currentMillis;
+    
+    String data = transmit("data");
+    if (data != "") {
+      Serial.print(data);
+      Serial.println();  
+      send(data,data.length());
+    }
+   
   }
-  delay(60000);
+  
 }
 void blink(){
   Serial.println("blinking");  

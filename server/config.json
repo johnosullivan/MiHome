@@ -5,6 +5,9 @@
   },
   "token": {
     "secret": "secretapplication",
-    "expiresInSeconds": "3600"
+    "expiresInSeconds": "2628000"
+  },
+  "database": {
+    "address":"mongodb://mogilska:homework@ds137730.mlab.com:37730/heroku_zdq7nd1v"
   }
 }

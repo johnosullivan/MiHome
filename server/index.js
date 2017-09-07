@@ -1,9 +1,11 @@
 var bodyParser = require('body-parser');
 var express = require('express');
 var app = express();
+var http = require("http");
 var mongoose = require('mongoose');
 var cors = require('cors')
 var CONFIG = require('./config.json');
+var WebSocketServer = require('ws').Server;
 
 mongoose.Promise = global.Promise;
 mongoose.connect(CONFIG.database.address, { useMongoClient: true, promiseLibrary: global.Promise });
@@ -21,6 +23,23 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/api/user', require('./routes/users'));
 
 app.use('/api/data', require('./routes/data'));
+
+
+var Server = require('ws').Server;
+var port = process.env.PORT || 9030;
+var ws = new Server({port: port});
+
+ws.on('connection', function(w){
+
+  w.on('message', function(msg){
+
+w.send("jdgkfskjs");
+  });
+
+  w.on('close', function() {
+
+  });
+});
 
 var server = app.listen(process.env.PORT || CONFIG.server.port, function () {
   var port = server.address().port;

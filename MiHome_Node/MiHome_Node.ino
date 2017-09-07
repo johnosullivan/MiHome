@@ -16,6 +16,7 @@
 #define RFM69_CS      4
 #define RFM69_RST     2
 #define LED           13
+#define CCS811_ADDR 0x5B
 
 // The data variables
 double temperature = 0;
@@ -29,11 +30,15 @@ double light = 0;
 double pressure = 0;
 
 // Sensors Objects
-//CCS811 ccs811(CCS811_ADDR);
+//CCS811 ccs811;
+CCS811 ccs811(CCS811_ADDR);
 SHT31 sht31 = SHT31();
 TSL2561 tsl = TSL2561(TSL2561_ADDR_FLOAT, 12345);
 SI1145 uv = SI1145();
 Adafruit_BMP085 bmp;
+
+#define CCS811_ADDR      0x5B
+#define CCS811_WAKE_PIN  8
 
 #define FREQUENCY RF69_915MHZ
 
@@ -48,13 +53,18 @@ void setup()
   pinMode(RFM69_RST, OUTPUT);
   digitalWrite(RFM69_RST, LOW);
 
+  //if(!ccs811.begin(uint8_t(CCS811_ADDR), uint8_t(CCS811_WAKE_PIN))) {
+  //  Serial.println("CCS811 Initialization Failed!");
+  //}
+  ccs811.begin();
+
   //Setups the pressure sensor
   if (!bmp.begin()) {
-    Serial.println("Error BMP085.");
+    Serial.println("BMP085 Initialization Failed!");
     //while (1) {}
   }
   if (!sht31.begin(0x44)) {
-    Serial.println("Error SHT31.");
+    Serial.println("SHT31 Initialization Failed!");
     //while (1) delay(2000);
   }
   // Setups the light sensor
@@ -62,16 +72,16 @@ void setup()
   tsl.setIntegrationTime(TSL2561_INTEGRATIONTIME_13MS);
   // Setups the temperature / humidity sensor
   if (!sht31.begin(0x44)) {
-    Serial.println("Error SHT31.");
+    Serial.println("SHT31 Initialization Failed!");
     //while (1) delay(2000);
   }
   // Setups the UV sensor
   if (!uv.begin()) {
-    Serial.println("Error Si114.");
+    Serial.println("SI114 Initialization Failed!");
     //while (1) delay(2000);
   }
 
-  Serial.println("Feather RFM69 RX Test!");
+  Serial.println("RFM69 RX Test!");
   Serial.println();
 
   // manual reset
@@ -81,15 +91,15 @@ void setup()
   delay(10);
 
   if (!rf69.init()) {
-    Serial.println("RFM69 radio init failed");
+    Serial.println("RFM69 Radio Initialization Failed!");
     while (1);
   }
-  Serial.println("RFM69 radio init OK!");
+  Serial.println("RFM69 Radio Initialization Ok!");
 
   if (!rf69.setFrequency(RF69_FREQ)) {
-    Serial.println("setFrequency failed");
+    Serial.println("Set Frequency Initialization Failed!");
   }
-
+  
   // If you are using a high power RF69 eg RFM69HW, you *must* set a Tx power with the
   // ishighpowermodule flag set like this:
   rf69.setTxPower(20, true);  // range from 14-20 for power, 2nd arg must be true for 69HCW
@@ -104,7 +114,13 @@ void setup()
   Serial.print("RFM69 radio @");  Serial.print((int)RF69_FREQ);  Serial.println(" MHz");
 }
 
-void getSensorData() {
+void getSensorData_1() {
+  if (ccs811.dataAvailable())
+  {
+    ccs811.readAlgorithmResults();
+    co2 = ccs811.getCO2();
+    voc = ccs811.getTVOC();
+  }
   float t = sht31.readTemperature();
   float h = sht31.readHumidity();
   // Checks and makes sure the temp is a number and sets to global
@@ -119,7 +135,18 @@ void getSensorData() {
   } else {
     Serial.println("Failed to read humidity");
   }
+  // Sets all the data points
+  visible = uv.readVisible();
+}
+
+void getSensorData_2() {
+  IR = uv.readIR();
+  float UVindex = uv.readUV();
+  UVindex /= 100.0;
+  UV = UVindex;
+  pressure = bmp.readPressure();
   // Gets the light sensor data
+  delay(50);
   sensors_event_t event;
   tsl.getEvent(&event);
   // See if the light object is valid
@@ -129,16 +156,9 @@ void getSensorData() {
   } else {
     Serial.println("Sensor overload");
   }
-  // Sets all the data points
-  IR = uv.readIR();
-  visible = uv.readVisible();
-  float UVindex = uv.readUV();
-  UVindex /= 100.0;
-  UV = UVindex;
-  pressure = bmp.readPressure();
 }
 
-void loop() {
+void loop() {  
  if (rf69.available()) {
     uint8_t buf[RH_RF69_MAX_MESSAGE_LEN];
     uint8_t len = sizeof(buf);
@@ -150,10 +170,22 @@ void loop() {
       Serial.print("]: ");
       Serial.println((char*)buf);
       Serial.print("RSSI: ");
+      
       Serial.println(rf69.lastRssi(), DEC);
-      if (strstr((char *)buf, "data")) {
-        getSensorData();
-        String message = String(temperature) + ";" + String(humidity) + ";0;0;" + String(visible) + ";" + String(UV) + ";" + String(IR) + ";" + String(light) + ";" + String(pressure) + ";";
+      if (strstr((char *)buf, "data_1")) {
+        getSensorData_1();
+        String message = String(temperature) + ";" + String(humidity) + ";" + String(co2) + ";" + String(voc) + ";" + String(visible) + ";";
+        Serial.println(message);
+        uint8_t data[message.length()];
+        message.getBytes(data, message.length());
+        rf69.send(data, sizeof(data));
+        rf69.waitPacketSent();
+        Blink(LED, 40, 3);
+      }
+      
+      if (strstr((char *)buf, "data_2")) {
+        getSensorData_2();
+        String message = String(light) + ";" + String(UV) + ";" + String(IR) + ";" + String(pressure) + ";";
         Serial.println(message);
         uint8_t data[message.length()];
         message.getBytes(data, message.length());

@@ -8,6 +8,9 @@
 
 #include "WiFiManager.h" 
 
+#include <WebSocketsClient.h>
+WebSocketsClient webSocket;
+
 #define RF69_FREQ 915.0
 #define RFM69_CS      2    
 #define RFM69_IRQ     15   
@@ -29,7 +32,7 @@ double IR = 0;
 double light = 0;
 double pressure = 0;
 
-// Setups up the Arduino Wifi 
+// Setups up the Arduino Wifi
 //const char* ssid     = "";
 //const char* password = "";
 // The WiFi Host and PostURL
@@ -43,6 +46,20 @@ void tick()
 {
   int state = digitalRead(0);  // get the current state of GPIO1 pin
   digitalWrite(LED, !state);     // set pin to the opposite state
+}
+
+void webSocketEvent(WStype_t type, uint8_t * payload, size_t length) {
+  switch(type) {
+    case WStype_DISCONNECTED:
+      break;
+    case WStype_CONNECTED: 
+      break;
+    case WStype_TEXT:
+      break;
+    case WStype_BIN:
+      hexdump(payload, length);
+      break;
+  }
 }
 
 void configModeCallback (WiFiManager *myWiFiManager) {
@@ -119,13 +136,20 @@ void setup()
   // Prints out the final details
   Serial.print("RFM69 Radio @");  Serial.print((int)RF69_FREQ);  Serial.println(" MHz");
   Serial.println();
+
+  //webSocket.begin("192.168.50.52", 8888, "/");
+  //webSocket.onEvent(webSocketEvent);
+  //webSocket.setAuthorization("user", "Password");
+  //webSocket.setReconnectInterval(5000);
+
 }
 
-void send(String payload,int size) {
+void parse(String payload,int size,String command) {
   // Creates the JSON object and POST it to the web server
-  Serial.println("[Send Start]");
+  Serial.print("[Parse Start] Body Size: ");
+  Serial.println(size);
   Serial.print("Radio Response: ");
-  Serial.print(payload);
+  Serial.println(payload);
   // Creates the sized char for the paylaod
   char sz[size];
   payload.toCharArray(sz, size);
@@ -133,17 +157,26 @@ void send(String payload,int size) {
   char *str;
   int index = 0;
   while ((str = strtok_r(p, ";", &p)) != NULL) {
-    if (index == 0) { temperature = strtod(str,NULL); }
-    if (index == 1) { humidity = strtod(str,NULL); }
-    if (index == 2) { co2 = strtod(str,NULL); }
-    if (index == 3) { voc = strtod(str,NULL); }
-    if (index == 4) { visible = strtod(str,NULL); }
-    if (index == 5) { light = strtod(str,NULL); }
-    if (index == 6) { UV = strtod(str,NULL); }
-    if (index == 7) { IR = strtod(str,NULL); }
-    if (index == 8) { pressure = strtod(str,NULL); }
+    if (command == "data_1") {
+      if (index == 0) { temperature = strtod(str,NULL); }
+      if (index == 1) { humidity = strtod(str,NULL); }
+      if (index == 2) { co2 = strtod(str,NULL); }
+      if (index == 3) { voc = strtod(str,NULL); }
+      if (index == 4) { visible = strtod(str,NULL); } 
+    }
+    if (command == "data_2") {
+      if (index == 0) { light = strtod(str,NULL); }
+      if (index == 1) { UV = strtod(str,NULL); }
+      if (index == 2) { IR = strtod(str,NULL); }
+      if (index == 3) { pressure = strtod(str,NULL); }
+    }
     index++;
   }
+  Serial.println("[Parse End]");
+}
+
+void send() {
+  Serial.println("[Send Start]");
   DynamicJsonBuffer jsonBuffer;
   JsonObject& root = jsonBuffer.createObject();
   root["temperature"] = temperature;
@@ -184,6 +217,7 @@ String transmit(String name) {
   name.toCharArray(radiopacket, 20); 
   //itoa(packetnum++, radiopacket+13, 10);
   Serial.print("Sending - Command Data: ");
+  Serial.println(name);
   rf69.send((uint8_t *)radiopacket, strlen(radiopacket));
   rf69.waitPacketSent();
   uint8_t buf[RH_RF69_MAX_MESSAGE_LEN];
@@ -205,19 +239,25 @@ String transmit(String name) {
 }
 
 void loop() {
+  // Loops the websocket for the client 
+  // webSocket.loop();
   // Gets the current timestamp in millis()
   unsigned long currentMillis = millis();
   // Check the time pasted to see if match interval
   if(currentMillis - previousMillis > interval) {
     previousMillis = currentMillis;
     
-    String data = transmit("data");
-    if (data != "") {
-      Serial.print(data);
-      Serial.println();  
-      send(data,data.length());
+    String data_1 = transmit("data_1");
+    if (data_1 != "") {  
+      parse(data_1,data_1.length(),"data_1");
     }
-   
+    
+    String data_2 = transmit("data_2");
+    if (data_2 != "") {
+      parse(data_2,data_2.length(),"data_2");
+    }
+ 
+    send();
   }
   
 }

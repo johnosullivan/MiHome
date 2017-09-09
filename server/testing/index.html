@@ -179,7 +179,7 @@ function create(dx) {
   // Configure the data
   for (i = 0; i < dx.length; i++) {
     var current = dx[i];
-    data.push({ date:new Date(current.datetime), value:current.pressure  });
+    data.push({ date:new Date(current.datetime), value:current.temperature  });
   }
 
   var margin = {top: 10, right: 10, bottom: 100, left: 40},
@@ -353,7 +353,7 @@ var bearerXMLHttpRequest = (function (jwtoken) {
 })(token);
 
 function load() {
-  var xmlHttpRequest = bearerXMLHttpRequest('GET','http://localhost:8888/api/data?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1vZ2lsc2thIiwiaWF0IjoxNTA0NjE5MTc1LCJleHAiOjE1MDQ2MjI3NzV9.dbrkRjY0U_egue_tN5bayS0-Up1xc4oRQgYHYClkJXE',true);
+  var xmlHttpRequest = bearerXMLHttpRequest('GET','http://localhost:8888/api/data?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1vZ2lsc2thIiwiaWF0IjoxNTA0NjI1Mjk2LCJleHAiOjE1MDcyNTMyOTZ9.3eJu3_hfrWZEeu-wfG-6Z2egOfUgEtS8-nwILdlwUHY',true);
   xmlHttpRequest.send();
   xmlHttpRequest.onreadystatechange = function() {
       if (xmlHttpRequest.readyState == XMLHttpRequest.DONE) {

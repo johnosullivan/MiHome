@@ -9,6 +9,12 @@ var User = require('../models/user');
 
 var router = express.Router();
 
+router.get('/setup/:hub/:node/:command', function(req, res){
+  var socket = req.app.get('io');
+  socket.emit(req.params.hub, {'command':req.params.command,'payload':req.params.node });
+  res.json({});
+});
+
 router.post('/register', function createUser(request, response) {
   User.findOne({
     username: request.body.username
@@ -19,7 +25,6 @@ router.post('/register', function createUser(request, response) {
         success: false,
         message: 'Internal server error'
       });
-
       return;
     }
 

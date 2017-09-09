@@ -5,12 +5,9 @@
 #include <RH_RF69.h>
 #include <ArduinoJson.h>
 #include <Ticker.h>
-
+// WiFi AP Mode library for setup on on the hub
 #include "WiFiManager.h" 
-
-#include <WebSocketsClient.h>
-WebSocketsClient webSocket;
-
+// Radio Configs
 #define RF69_FREQ 915.0
 #define RFM69_CS      2    
 #define RFM69_IRQ     15   
@@ -18,9 +15,11 @@ WebSocketsClient webSocket;
 #define LED           0
 #define FREQUENCY RF69_915MHZ
 RH_RF69 rf69(RFM69_CS, RFM69_IRQ);
-
+// For the blinking light on setup
 Ticker ticker;
-
+// Socket.IO library for the node setup process
+#include "SocketIoClient.h"
+SocketIoClient webSocket;
 // The data points
 double temperature = 0;
 double humidity = 0;
@@ -31,40 +30,53 @@ double UV = 0;
 double IR = 0;
 double light = 0;
 double pressure = 0;
-
+// Debugging tool
+bool isSending = 0;
 // Setups up the Arduino Wifi
 //const char* ssid     = "";
 //const char* password = "";
+
 // The WiFi Host and PostURL
 const char* postURI = "http://pacific-springs-32410.herokuapp.com/api/data"; 
 const char* nodeID = "00000012340987011";
 
+// 
+const char* socketHost = "192.168.50.52";
+const int socketPort = 8888;
+const char* socketPath = "/socket.io/?transport=websocket";
+
 long previousMillis = 0;        
 long interval = 60000;
+
+int setup_status = 0;
  
 void tick()
 {
-  int state = digitalRead(0);  // get the current state of GPIO1 pin
-  digitalWrite(LED, !state);     // set pin to the opposite state
-}
-
-void webSocketEvent(WStype_t type, uint8_t * payload, size_t length) {
-  switch(type) {
-    case WStype_DISCONNECTED:
-      break;
-    case WStype_CONNECTED: 
-      break;
-    case WStype_TEXT:
-      break;
-    case WStype_BIN:
-      hexdump(payload, length);
-      break;
-  }
+  int state = digitalRead(0);  
+  digitalWrite(LED, !state);
 }
 
 void configModeCallback (WiFiManager *myWiFiManager) {
   ticker.attach(0.5, tick);
 }
+
+void webSocketDeviceCallBack(const char * payload, size_t length) {
+  Serial.println(payload);
+  DynamicJsonBuffer jsonBuffer;
+  JsonObject& root = jsonBuffer.parseObject(payload);
+  const char* command = root["command"];
+  const char* data_payload = root["payload"];
+  Serial.println(command);
+  Serial.println(data_payload);
+  String setup_data = transmit(command);
+  if (setup_data != "") {  
+    Serial.println(setup_data);
+  } else {
+      
+  }
+  webSocket.emit("back", "\"ok\"");   
+}
+void webSocketConnect(const char * payload, size_t length) { }
 
 void setup() 
 {
@@ -137,12 +149,12 @@ void setup()
   Serial.print("RFM69 Radio @");  Serial.print((int)RF69_FREQ);  Serial.println(" MHz");
   Serial.println();
 
-  //webSocket.begin("192.168.50.52", 8888, "/");
-  //webSocket.onEvent(webSocketEvent);
-  //webSocket.setAuthorization("user", "Password");
-  //webSocket.setReconnectInterval(5000);
+  webSocket.on("connect", webSocketConnect);
+  webSocket.on(nodeID, webSocketDeviceCallBack);
+  webSocket.begin(socketHost, socketPort, socketPath); 
 
-}
+  //webSocket.emit("setup", "");
+} 
 
 void parse(String payload,int size,String command) {
   // Creates the JSON object and POST it to the web server
@@ -176,39 +188,41 @@ void parse(String payload,int size,String command) {
 }
 
 void send() {
-  Serial.println("[Send Start]");
-  DynamicJsonBuffer jsonBuffer;
-  JsonObject& root = jsonBuffer.createObject();
-  root["temperature"] = temperature;
-  root["humidity"] = humidity;
-  root["co2"] = co2;
-  root["voc"] = voc;
-  root["visible"] = visible;
-  root["light"] = light;
-  root["UV"] = UV;
-  root["IR"] = IR;
-  root["pressure"] = pressure;
-  root["nodeID"] = nodeID;
-  char cbuf[256];
-  root.printTo(cbuf,sizeof(cbuf));
-  Serial.print("Post Payload: ");
-  Serial.println(cbuf);
+  if (isSending) {
+    Serial.println("[Send Start]");
+    DynamicJsonBuffer jsonBuffer;
+    JsonObject& root = jsonBuffer.createObject();
+    root["temperature"] = temperature;
+    root["humidity"] = humidity;
+    root["co2"] = co2;
+    root["voc"] = voc;
+    root["visible"] = visible;
+    root["light"] = light;
+    root["UV"] = UV;
+    root["IR"] = IR;
+    root["pressure"] = pressure;
+    root["nodeID"] = nodeID;
+    char cbuf[256];
+    root.printTo(cbuf,sizeof(cbuf));
+    Serial.print("Post Payload: ");
+    Serial.println(cbuf);
   
-  String content = cbuf;
-  HTTPClient http;
-  http.begin(postURI);
-  http.addHeader("Content-Type", "application/json");
-  int httpCode = http.POST(content);
-  Serial.print("HTTP-Status-Code: ");
-  Serial.println(httpCode);
-  if(httpCode == 200) {
+    String content = cbuf;
+    HTTPClient http;
+    http.begin(postURI);
+    http.addHeader("Content-Type", "application/json");
+    int httpCode = http.POST(content);
+    Serial.print("HTTP-Status-Code: ");
+    Serial.println(httpCode);
+    if(httpCode == 200) {
      String res = http.getString();
      Serial.print("Response: ");
      Serial.println(res);
+    }
+    http.end();
+    Blink(LED, 100, 5); 
+    Serial.println("[Send End]");
   }
-  http.end();
-  Blink(LED, 100, 5); 
-  Serial.println("[Send End]");
 }
 
 String transmit(String name) {
@@ -225,8 +239,8 @@ String transmit(String name) {
   String res = "";
   if (rf69.waitAvailableTimeout(2000))  { 
     if (rf69.recv(buf, &len)) {
-      //Serial.print("Response: ");
-      //Serial.println((char*)buf);
+      Serial.print("Response: ");
+      Serial.println((char*)buf);
       res = (char*)buf;
       Blink(LED, 200, 3); 
     } else { }
@@ -240,7 +254,18 @@ String transmit(String name) {
 
 void loop() {
   // Loops the websocket for the client 
-  // webSocket.loop();
+  webSocket.loop();
+
+  /*if (setup_status) {
+    String setup_data = transmit("setup");
+    if (setup_data != "") {  
+      Serial.println(setup_data);
+    } else {
+      
+    }
+    setup_status = 0;
+  }*/
+  
   // Gets the current timestamp in millis()
   unsigned long currentMillis = millis();
   // Check the time pasted to see if match interval

@@ -31,7 +31,7 @@ double IR = 0;
 double light = 0;
 double pressure = 0;
 // Debugging tool
-bool isSending = 0;
+bool isSending = 1;
 // Setups up the Arduino Wifi
 //const char* ssid     = "";
 //const char* password = "";
@@ -40,7 +40,6 @@ bool isSending = 0;
 const char* postURI = "http://pacific-springs-32410.herokuapp.com/api/data"; 
 const char* nodeID = "00000012340987011";
 
-// 
 const char* socketHost = "192.168.50.52";
 const int socketPort = 8888;
 const char* socketPath = "/socket.io/?transport=websocket";
@@ -152,8 +151,6 @@ void setup()
   webSocket.on("connect", webSocketConnect);
   webSocket.on(nodeID, webSocketDeviceCallBack);
   webSocket.begin(socketHost, socketPort, socketPath); 
-
-  //webSocket.emit("setup", "");
 } 
 
 void parse(String payload,int size,String command) {

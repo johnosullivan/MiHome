@@ -57,6 +57,17 @@ void lightCallback(){
   }
 }
 
+void setupMode() {
+  
+}
+
+void errorMode() {
+  
+}
+
+void runningMode() {
+  
+}
 
 void setup()
 {

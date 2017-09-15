@@ -1,0 +1,8 @@
+{
+  "name": "MiHome",
+  "app_id": "d8ee77a9",
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
+}

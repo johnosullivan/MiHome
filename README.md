@@ -30,3 +30,7 @@ MiHome is a open source environmental sensors platform. It was design to provide
 - Bread board or soiderable bread board.
 - 2 hours of time.
 - Good understanding of I2C and SPI protocol.
+
+## Setups
+
+Pick your poison?

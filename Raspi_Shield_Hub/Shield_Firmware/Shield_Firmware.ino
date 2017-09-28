@@ -110,7 +110,7 @@ void set() {
     root.printTo(data,sizeof(data));
     index = 0;
     String payload = data;
-    datas = payload.length();
+    datalen = payload.length();
     Serial.println(payload);
     Serial.println("[Set End]");
 }

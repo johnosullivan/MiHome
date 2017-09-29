@@ -1,12 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the LoginPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
+import { UserServiceProvider } from '../../providers/user-service/user-service';
 
 @IonicPage()
 @Component({
@@ -15,15 +10,30 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class LoginPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  creds:any;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams,public authServiceProvider:AuthServiceProvider,public userServiceProvider:UserServiceProvider) {
+    this.creds = {};
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad LoginPage');
-  }
+  ionViewDidLoad() { }
 
-  closeModal() {
-        this.navCtrl.pop();
-    }
+  closeModal() { this.navCtrl.pop(); }
+
+  login() {
+    console.log(this.creds);
+    this.authServiceProvider.login(this.creds).subscribe(
+      data => {
+        if (data.success) {
+          this.userServiceProvider.saveToken(data.token);
+          this.navCtrl.pop();
+        } else {
+
+        }
+      },
+      err => console.log(err),
+      () => console.log('Logging in....')
+    );
+  }
 
 }

@@ -26,11 +26,11 @@
      <ion-list inset>
 
        <ion-item>
-         <ion-input type="text" placeholder="Username" name="username"  required></ion-input>
+         <ion-input type="text" [(ngModel)]="creds.username" placeholder="Username" name="username"  required></ion-input>
        </ion-item>
 
        <ion-item>
-         <ion-input type="password" placeholder="Password" name="password"  required></ion-input>
+         <ion-input type="password" [(ngModel)]="creds.password" placeholder="Password" name="password"  required></ion-input>
        </ion-item>
 
      </ion-list>
@@ -40,7 +40,7 @@
 <div padding>
  <ion-row>
    <ion-col class="signup-col">
-     <button ion-button class="submit-btn" full type="submit" color="menutheme">Login</button>
+     <button ion-button class="submit-btn" full type="submit" color="menutheme" (click)="login()">Login</button>
    </ion-col>
  </ion-row>
 </div>

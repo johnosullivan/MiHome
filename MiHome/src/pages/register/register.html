@@ -1,0 +1,58 @@
+<ion-header>
+
+  <ion-navbar color="themenav">
+    <ion-title>MiHome Register</ion-title>
+    <ion-buttons end>
+                <button ion-button icon-only (click)="closeModal()">
+                    <ion-icon item-right name="ios-close-outline"></ion-icon>
+                </button>
+            </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+
+
+  <ion-row>
+   <ion-col>
+     <ion-list inset>
+
+       <ion-item>
+         <ion-input type="password" placeholder="First Name" name="first name"  required></ion-input>
+       </ion-item>
+
+       <ion-item>
+         <ion-input type="password" placeholder="Last Name" name="last name"  required></ion-input>
+       </ion-item>
+
+       <ion-item>
+         <ion-input type="text" placeholder="Username" name="username"  required></ion-input>
+       </ion-item>
+
+       <ion-item>
+         <ion-input type="password" placeholder="Password" name="password"  required></ion-input>
+       </ion-item>
+
+       <ion-item>
+         <ion-input type="password" placeholder="Re-enter Password" name="password"  required></ion-input>
+       </ion-item>
+
+       <ion-item>
+         <ion-input type="password" placeholder="Email" name="email"  required></ion-input>
+       </ion-item>
+
+     </ion-list>
+   </ion-col>
+ </ion-row>
+
+<div padding>
+ <ion-row>
+   <ion-col class="signup-col">
+     <button ion-button class="submit-btn" full type="submit" color="menutheme">Register</button>
+   </ion-col>
+ </ion-row>
+</div>
+
+</ion-content>

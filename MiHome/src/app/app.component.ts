@@ -7,6 +7,10 @@ import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 import { LoginPage } from '../pages/login/login';
 import { ModalController, NavParams } from 'ionic-angular';
+import { RegisterPage } from '../pages/register/register';
+import { AboutPage } from '../pages/about/about';
+import { DashboardPage } from '../pages/dashboard/dashboard';
+import { ProfilePage } from '../pages/profile/profile';
 
 @Component({
   templateUrl: 'app.html'
@@ -25,7 +29,12 @@ export class MyApp {
     this.statusBar.backgroundColorByHexString('red');
 
     this.pages = [
-      { title: 'Home', component: HomePage }
+      { title: 'Home', component: HomePage },
+      { title: 'Login', component: LoginPage },
+      { title: 'Register', component: RegisterPage },
+      { title: 'About', component: AboutPage },
+      { title: 'Dashboard', component: DashboardPage },
+      { title: 'My Profile', component: ProfilePage }
     ];
 
   }
@@ -44,10 +53,19 @@ export class MyApp {
   }
 
   openPage(page) {
+
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
-    //this.nav.setRoot(page.component);
-    let profileModal = this.modalCtrl.create(LoginPage, { userId: 8675309 });
-    profileModal.present();
+    if (page.title == "Login") {
+      let profileModal = this.modalCtrl.create(page.component, { userId: 8675309 });
+      profileModal.present();
+    } else if (page.title == "Register") {
+      let profileModal = this.modalCtrl.create(page.component, { userId: 8675309 });
+      profileModal.present();
+    } else {
+      this.nav.setRoot(page.component);
+    }
+
+
   }
 }

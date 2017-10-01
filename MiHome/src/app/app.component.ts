@@ -11,6 +11,7 @@ import { RegisterPage } from '../pages/register/register';
 import { AboutPage } from '../pages/about/about';
 import { DashboardPage } from '../pages/dashboard/dashboard';
 import { ProfilePage } from '../pages/profile/profile';
+import { AuthServiceProvider } from '../providers/auth-service/auth-service';
 
 @Component({
   templateUrl: 'app.html'
@@ -21,8 +22,9 @@ export class MyApp {
   rootPage: any = HomePage;
 
   pages: Array<{title: string, component: any}>;
+  authpages: Array<{title: string, component: any}>;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,public modalCtrl: ModalController) {
+  constructor(public authServiceProvider:AuthServiceProvider,public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,public modalCtrl: ModalController) {
     this.initializeApp();
 
     // used for an example of ngFor and navigation
@@ -31,7 +33,10 @@ export class MyApp {
     this.pages = [
       { title: 'Home', component: HomePage },
       { title: 'Login', component: LoginPage },
-      { title: 'Register', component: RegisterPage },
+      { title: 'Register', component: RegisterPage }
+    ];
+
+    this.authpages = [
       { title: 'About', component: AboutPage },
       { title: 'Dashboard', component: DashboardPage },
       { title: 'My Profile', component: ProfilePage }
@@ -58,6 +63,11 @@ export class MyApp {
     // we wouldn't want the back button to show in this scenario
     if (page.title == "Login") {
       let profileModal = this.modalCtrl.create(page.component, { userId: 8675309 });
+      profileModal.onDidDismiss(status => {
+      if (status) {
+        this.nav.setRoot(DashboardPage);
+      }
+      });
       profileModal.present();
     } else if (page.title == "Register") {
       let profileModal = this.modalCtrl.create(page.component, { userId: 8675309 });

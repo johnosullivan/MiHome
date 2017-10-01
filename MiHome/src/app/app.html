@@ -6,11 +6,21 @@
   </ion-header>
 
   <ion-content>
+    <div *ngIf="!authServiceProvider.isLogin">
     <ion-list>
       <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
         {{p.title}}
       </button>
     </ion-list>
+    </div>
+    <div *ngIf="authServiceProvider.isLogin">
+    <ion-list>
+      <button menuClose ion-item *ngFor="let p of authpages" (click)="openPage(p)">
+        {{p.title}}
+      </button>
+    </ion-list>
+    </div>
+
   </ion-content>
 
 </ion-menu>

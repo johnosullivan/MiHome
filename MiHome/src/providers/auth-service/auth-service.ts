@@ -5,10 +5,14 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class AuthServiceProvider {
 
+  isLogin:boolean;
+
   constructor(public http: Http) {
+    this.isLogin = false;
+  }
 
-
-
+  setAuth(status) {
+    this.isLogin = status;
   }
 
   login(params) {

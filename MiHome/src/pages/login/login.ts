@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 import { UserServiceProvider } from '../../providers/user-service/user-service';
 
-@IonicPage()
+//@IonicPage()
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html',
@@ -12,7 +12,7 @@ export class LoginPage {
 
   creds:any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,public authServiceProvider:AuthServiceProvider,public userServiceProvider:UserServiceProvider) {
+  constructor(public viewController:ViewController,public navCtrl: NavController, public navParams: NavParams,public authServiceProvider:AuthServiceProvider,public userServiceProvider:UserServiceProvider) {
     this.creds = {};
   }
 
@@ -22,7 +22,7 @@ export class LoginPage {
 
   login() {
     console.log(this.creds);
-    this.authServiceProvider.login(this.creds).subscribe(
+    /*this.authServiceProvider.login(this.creds).subscribe(
       data => {
         if (data.success) {
           this.userServiceProvider.saveToken(data.token);
@@ -33,7 +33,10 @@ export class LoginPage {
       },
       err => console.log(err),
       () => console.log('Logging in....')
-    );
+    );*/
+    //this.navCtrl.pop();
+    this.viewController.dismiss(true);
+    this.authServiceProvider.setAuth(true);
   }
 
 }

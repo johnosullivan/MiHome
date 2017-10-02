@@ -8,8 +8,47 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
+<!--<div padding>
+  <button ion-button class="submit-btn" full type="submit" color="menutheme" (click)="showCalendar()">Show Calendar</button>
+</div>-->
 
-    <button ion-button class="submit-btn" full type="submit" color="menutheme" (click)="test()">Test</button>
+    <ion-card>
+      <ion-card-header>
+        <h3>Temperature / Humidity</h3>
+      </ion-card-header>
+      <ion-card-content>
+        <canvas #temphun></canvas>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <h3>CO2 / VOC</h3>
+      </ion-card-header>
+      <ion-card-content>
+        <canvas #co2voc></canvas>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <h3>Pressure / UV</h3>
+      </ion-card-header>
+      <ion-card-content>
+        <canvas #pressureUV></canvas>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card>
+      <ion-card-header>
+        <h3>IR / Light</h3>
+      </ion-card-header>
+      <ion-card-content>
+        <canvas #IRlight></canvas>
+      </ion-card-content>
+    </ion-card>
+
+
 
 </ion-content>

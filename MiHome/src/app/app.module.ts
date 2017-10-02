@@ -18,6 +18,9 @@ import { DashboardPage } from '../pages/dashboard/dashboard';
 import { ProfilePage } from '../pages/profile/profile';
 import { AuthServiceProvider } from '../providers/auth-service/auth-service';
 import { UserServiceProvider } from '../providers/user-service/user-service';
+import { DatePicker } from 'ionic2-date-picker';
+
+import { CalendarModule } from "ion2-calendar";
 
 @NgModule({
   declarations: [
@@ -28,13 +31,15 @@ import { UserServiceProvider } from '../providers/user-service/user-service';
     RegisterPage,
     AboutPage,
     DashboardPage,
-    ProfilePage
+    ProfilePage,
+    DatePicker
   ],
   imports: [
     BrowserModule,
     HttpModule,
     IonicModule.forRoot(MyApp),
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
+    CalendarModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -45,14 +50,16 @@ import { UserServiceProvider } from '../providers/user-service/user-service';
     RegisterPage,
     AboutPage,
     DashboardPage,
-    ProfilePage
+    ProfilePage,
+    DatePicker
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthServiceProvider,
-    UserServiceProvider
+    UserServiceProvider,
+    DatePicker
   ]
 })
 export class AppModule {}

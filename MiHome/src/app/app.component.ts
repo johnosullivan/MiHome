@@ -12,6 +12,7 @@ import { AboutPage } from '../pages/about/about';
 import { DashboardPage } from '../pages/dashboard/dashboard';
 import { ProfilePage } from '../pages/profile/profile';
 import { AuthServiceProvider } from '../providers/auth-service/auth-service';
+import { DatePicker } from 'ionic2-date-picker';
 
 @Component({
   templateUrl: 'app.html'
@@ -19,7 +20,7 @@ import { AuthServiceProvider } from '../providers/auth-service/auth-service';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = HomePage;
+  rootPage: any = DashboardPage;
 
   pages: Array<{title: string, component: any}>;
   authpages: Array<{title: string, component: any}>;
@@ -33,7 +34,8 @@ export class MyApp {
     this.pages = [
       { title: 'Home', component: HomePage },
       { title: 'Login', component: LoginPage },
-      { title: 'Register', component: RegisterPage }
+      { title: 'Register', component: RegisterPage },
+      { title: 'Dashboard', component: DashboardPage }
     ];
 
     this.authpages = [

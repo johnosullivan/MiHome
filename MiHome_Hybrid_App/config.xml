@@ -3,7 +3,7 @@
     <name>MyApp</name>
     <description>An awesome Ionic/Cordova app.</description>
     <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
-    <content src="index.html" />
+    <content original-src="index.html" src="http://10.39.20.50:8100" />
     <access origin="*" />
     <allow-navigation href="http://ionic.local/*" />
     <allow-intent href="http://*/*" />
@@ -77,8 +77,11 @@
         <splash height="960" src="resources/ios/splash/Default@2x~iphone.png" width="640" />
         <splash height="480" src="resources/ios/splash/Default~iphone.png" width="320" />
     </platform>
+    <allow-navigation href="http://10.39.20.50:8100" />
     <engine name="ios" spec="^4.4.0" />
+    <plugin name="cordova-plugin-actionsheet" spec="^2.3.3" />
     <plugin name="cordova-plugin-console" spec="^1.0.5" />
+    <plugin name="cordova-plugin-datepicker" spec="^0.9.3" />
     <plugin name="cordova-plugin-device" spec="^1.1.4" />
     <plugin name="cordova-plugin-splashscreen" spec="^4.0.3" />
     <plugin name="cordova-plugin-statusbar" spec="^2.2.2" />

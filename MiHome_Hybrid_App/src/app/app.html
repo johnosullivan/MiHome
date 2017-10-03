@@ -1,7 +1,7 @@
 <ion-menu [content]="content">
   <ion-header>
     <ion-toolbar color="menutheme">
-      <ion-title>MiHome</ion-title>
+      <ion-title>Mi Home</ion-title>
     </ion-toolbar>
   </ion-header>
 
@@ -9,6 +9,7 @@
     <div *ngIf="!authServiceProvider.isLogin">
     <ion-list>
       <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
+        <ion-icon item-left name={{p.icon}}></ion-icon>
         {{p.title}}
       </button>
     </ion-list>
@@ -16,6 +17,7 @@
     <div *ngIf="authServiceProvider.isLogin">
     <ion-list>
       <button menuClose ion-item *ngFor="let p of authpages" (click)="openPage(p)">
+        <ion-icon item-left name={{p.icon}}></ion-icon>
         {{p.title}}
       </button>
     </ion-list>

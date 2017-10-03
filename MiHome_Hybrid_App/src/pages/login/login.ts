@@ -26,7 +26,9 @@ export class LoginPage {
       data => {
         if (data.success) {
           this.userServiceProvider.saveToken(data.token);
-          this.navCtrl.pop();
+          //this.navCtrl.pop();
+          this.viewController.dismiss(true);
+          this.authServiceProvider.setAuth(true);
         } else {
 
         }

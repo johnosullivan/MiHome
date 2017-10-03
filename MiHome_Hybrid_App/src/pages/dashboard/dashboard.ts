@@ -2,8 +2,9 @@ import { Component ,ViewChild, ElementRef } from '@angular/core';
 import { IonicPage, NavController, NavParams,ViewController,ModalController } from 'ionic-angular';
 import { UserServiceProvider } from '../../providers/user-service/user-service';
 import { Chart } from 'chart.js';
-import { DatePicker } from 'ionic2-date-picker';
-//declare var Chart: any;
+//import { DatePicker } from 'ionic2-date-picker';
+import { DatePicker } from '@ionic-native/date-picker';
+import { AlertController } from 'ionic-angular';
 
 //@IonicPage()
 @Component({
@@ -25,15 +26,85 @@ export class DashboardPage {
   @ViewChild('IRlight') IRlightCanvas;
   IRlight: any;
 
-  constructor(public viewController:ViewController,public modalCtrl: ModalController,public navCtrl: NavController, public navParams: NavParams,public userServiceProvider:UserServiceProvider,public datePicker: DatePicker) {
+  constructor(public alertCtrl: AlertController,private datePicker: DatePicker,public viewController:ViewController,public modalCtrl: ModalController,public navCtrl: NavController, public navParams: NavParams,public userServiceProvider:UserServiceProvider) {
 
-    this.datePicker = new DatePicker(<any>this.modalCtrl, <any>this.viewController);
-    this.datePicker.onDateSelected.subscribe((date) => { console.log(date); });
+    //this.datePicker = new DatePicker(<any>this.modalCtrl, <any>this.viewController);
+    //this.datePicker.onDateSelected.subscribe((date) => { console.log(date); });
 
   }
 
-  showCalendar() {
-    this.datePicker.showCalendar();
+  clock() {
+    //this.datePicker.showCalendar();
+/*
+    let confirm = this.alertCtrl.create({
+    title: 'Use this lightsaber?',
+    message: 'Do you agree to use this lightsaber to do good across the intergalactic galaxy?',
+    buttons: [
+      {
+        text: 'Disagree',
+        handler: () => {
+          console.log('Disagree clicked');
+        }
+      },
+      {
+        text: 'Agree',
+        handler: () => {
+          this.datePicker.show({
+              date: new Date(),
+              mode: 'datetime',
+              titleText:'dsags',
+              androidTheme: this.datePicker.ANDROID_THEMES.THEME_HOLO_DARK
+            }).then(
+              date => {
+                console.log('Got date: ', date)
+
+                let confirm = this.alertCtrl.create({
+      title: 'Use this lightsaber?',
+      message: 'Do you agree to use this lightsaber to do good across the intergalactic galaxy?',
+      buttons: [
+        {
+          text: 'Disagree',
+          handler: () => {
+            console.log('Disagree clicked');
+          }
+        },
+        {
+          text: 'Agree',
+          handler: () => {
+            this.datePicker.show({
+                date: new Date(),
+                mode: 'datetime',
+                titleText:'dsags',
+                androidTheme: this.datePicker.ANDROID_THEMES.THEME_HOLO_DARK
+              }).then(
+                date => {
+                },
+                err => console.log('Error occurred while getting date: ', err)
+              );
+          }
+        }
+      ]
+    });
+    confirm.present();
+
+              },
+              err => console.log('Error occurred while getting date: ', err)
+            );
+        }
+      }
+    ]
+  });
+  confirm.present();
+*/
+  /*  this.datePicker.show({
+      date: new Date(),
+      mode: 'datetime',
+      titleText:'dsags',
+      androidTheme: this.datePicker.ANDROID_THEMES.THEME_HOLO_DARK
+    }).then(
+      date => console.log('Got date: ', date),
+      err => console.log('Error occurred while getting date: ', err)
+    );*/
   }
 
   ionViewDidLoad() {

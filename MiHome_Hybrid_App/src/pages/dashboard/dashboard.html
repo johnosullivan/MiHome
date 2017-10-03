@@ -4,18 +4,20 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Dashboard</ion-title>
+    <ion-buttons end>
+     <button ion-button icon-only (click)="clock()">
+       <ion-icon name="clock"></ion-icon>
+     </button>
+   </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 
-<ion-content>
-<!--<div padding>
-  <button ion-button class="submit-btn" full type="submit" color="menutheme" (click)="showCalendar()">Show Calendar</button>
-</div>-->
+<ion-content style="background-color: #eee;">
 
     <ion-card>
       <ion-card-header>
-        <h3>Temperature / Humidity</h3>
+        <h4><b>Temperature / Humidity</b></h4>
       </ion-card-header>
       <ion-card-content>
         <canvas #temphun></canvas>
@@ -24,7 +26,7 @@
 
     <ion-card>
       <ion-card-header>
-        <h3>CO2 / VOC</h3>
+        <h4><b>CO2 / VOC</b></h4>
       </ion-card-header>
       <ion-card-content>
         <canvas #co2voc></canvas>
@@ -33,7 +35,7 @@
 
     <ion-card>
       <ion-card-header>
-        <h3>Pressure / UV</h3>
+        <h4><b>Pressure / UV</b></h4>
       </ion-card-header>
       <ion-card-content>
         <canvas #pressureUV></canvas>
@@ -42,7 +44,7 @@
 
     <ion-card>
       <ion-card-header>
-        <h3>IR / Light</h3>
+        <h4><b>IR / Light</b></h4>
       </ion-card-header>
       <ion-card-content>
         <canvas #IRlight></canvas>

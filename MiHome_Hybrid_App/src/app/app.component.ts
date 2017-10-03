@@ -20,28 +20,27 @@ import { DatePicker } from 'ionic2-date-picker';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = DashboardPage;
+  rootPage: any = HomePage;
 
-  pages: Array<{title: string, component: any}>;
-  authpages: Array<{title: string, component: any}>;
+  pages: Array<{title: string, icon:string, component: any}>;
+  authpages: Array<{title: string, icon:string, component: any}>;
 
   constructor(public authServiceProvider:AuthServiceProvider,public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,public modalCtrl: ModalController) {
     this.initializeApp();
-
+    // { title: 'Dashboard', icon:'desktop', component: DashboardPage }
     // used for an example of ngFor and navigation
-    this.statusBar.backgroundColorByHexString('red');
+    //this.statusBar.backgroundColorByHexString('#222111');
 
     this.pages = [
-      { title: 'Home', component: HomePage },
-      { title: 'Login', component: LoginPage },
-      { title: 'Register', component: RegisterPage },
-      { title: 'Dashboard', component: DashboardPage }
+      { title: 'Home', icon:'home', component: HomePage },
+      { title: 'Login', icon:'log-in', component: LoginPage },
+      { title: 'Register', icon:'person-add', component: RegisterPage }
     ];
 
     this.authpages = [
-      { title: 'About', component: AboutPage },
-      { title: 'Dashboard', component: DashboardPage },
-      { title: 'My Profile', component: ProfilePage }
+      { title: 'About', icon:'information-circle', component: AboutPage },
+      { title: 'Dashboard', icon:'desktop',component: DashboardPage },
+      { title: 'My Profile', icon:'person', component: ProfilePage }
     ];
 
   }
@@ -54,7 +53,10 @@ export class MyApp {
     this.platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
-      this.statusBar.styleDefault();
+      this.statusBar.overlaysWebView(false);
+
+        // set status bar to white
+      this.statusBar.backgroundColorByHexString('#69b5c6');
       this.splashScreen.hide();
     });
   }

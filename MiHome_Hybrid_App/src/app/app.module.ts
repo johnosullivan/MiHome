@@ -37,7 +37,13 @@ import { CalendarModule } from "ion2-calendar";
   imports: [
     BrowserModule,
     HttpModule,
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(MyApp, {
+      platforms: {
+        ios: {
+          statusbarPadding: false
+        }
+      }
+    }),
     IonicStorageModule.forRoot(),
     CalendarModule
   ],

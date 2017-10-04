@@ -5,6 +5,7 @@ import { Chart } from 'chart.js';
 //import { DatePicker } from 'ionic2-date-picker';
 import { DatePicker } from '@ionic-native/date-picker';
 import { AlertController } from 'ionic-angular';
+import { ToastController } from 'ionic-angular';
 
 //@IonicPage()
 @Component({
@@ -26,85 +27,61 @@ export class DashboardPage {
   @ViewChild('IRlight') IRlightCanvas;
   IRlight: any;
 
-  constructor(public alertCtrl: AlertController,private datePicker: DatePicker,public viewController:ViewController,public modalCtrl: ModalController,public navCtrl: NavController, public navParams: NavParams,public userServiceProvider:UserServiceProvider) {
+  start:Date;
+  end:Date;
+
+  constructor(public toastCtrl: ToastController,public alertCtrl: AlertController,private datePicker: DatePicker,public viewController:ViewController,public modalCtrl: ModalController,public navCtrl: NavController, public navParams: NavParams,public userServiceProvider:UserServiceProvider) {
 
     //this.datePicker = new DatePicker(<any>this.modalCtrl, <any>this.viewController);
     //this.datePicker.onDateSelected.subscribe((date) => { console.log(date); });
 
   }
 
-  clock() {
-    //this.datePicker.showCalendar();
-/*
-    let confirm = this.alertCtrl.create({
-    title: 'Use this lightsaber?',
-    message: 'Do you agree to use this lightsaber to do good across the intergalactic galaxy?',
-    buttons: [
-      {
-        text: 'Disagree',
-        handler: () => {
-          console.log('Disagree clicked');
-        }
-      },
-      {
-        text: 'Agree',
-        handler: () => {
-          this.datePicker.show({
-              date: new Date(),
-              mode: 'datetime',
-              titleText:'dsags',
-              androidTheme: this.datePicker.ANDROID_THEMES.THEME_HOLO_DARK
-            }).then(
-              date => {
-                console.log('Got date: ', date)
+  getData() {
+    console.log(this.start);
+    console.log(this.end)
+  }
 
-                let confirm = this.alertCtrl.create({
-      title: 'Use this lightsaber?',
-      message: 'Do you agree to use this lightsaber to do good across the intergalactic galaxy?',
-      buttons: [
-        {
-          text: 'Disagree',
-          handler: () => {
-            console.log('Disagree clicked');
-          }
-        },
-        {
-          text: 'Agree',
-          handler: () => {
-            this.datePicker.show({
+  clock() {
+
+    let toaststart = this.toastCtrl.create({
+      message: 'Please select start date/time', position: 'middle'
+    });
+    toaststart.present();
+    // Start date and time
+    this.datePicker.show({
+        date: new Date(),
+        mode: 'datetime',
+        androidTheme: this.datePicker.ANDROID_THEMES.THEME_HOLO_DARK
+    }).then(
+        date => {
+          toaststart.dismiss();
+          this.start = date;
+          var self = this;
+          setTimeout(function() {
+            let toastend = self.toastCtrl.create({
+              message: 'Please select end date/time',position: 'middle'
+            });
+            toastend.present();
+            // End date and time
+            self.datePicker.show({
                 date: new Date(),
                 mode: 'datetime',
-                titleText:'dsags',
                 androidTheme: this.datePicker.ANDROID_THEMES.THEME_HOLO_DARK
-              }).then(
+            }).then(
                 date => {
+                  toastend.dismiss();
+                  self.end = date;
+                  self.getData();
                 },
-                err => console.log('Error occurred while getting date: ', err)
-              );
-          }
-        }
-      ]
-    });
-    confirm.present();
-
-              },
-              err => console.log('Error occurred while getting date: ', err)
+                err => console.log('', err)
             );
-        }
-      }
-    ]
-  });
-  confirm.present();
-*/
-  /*  this.datePicker.show({
-      date: new Date(),
-      mode: 'datetime',
-      titleText:'dsags',
-      androidTheme: this.datePicker.ANDROID_THEMES.THEME_HOLO_DARK
-    }).then(
-      date => console.log('Got date: ', date),
-      err => console.log('Error occurred while getting date: ', err)
-    );*/
+          }, 1000)
+        },
+        err => console.log('', err)
+    );
+
+
   }
 
   ionViewDidLoad() {

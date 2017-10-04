@@ -21,6 +21,8 @@ import { UserServiceProvider } from '../providers/user-service/user-service';
 import { DatePicker } from 'ionic2-date-picker';
 
 import { CalendarModule } from "ion2-calendar";
+import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
+import { Camera } from '@ionic-native/camera';
 
 @NgModule({
   declarations: [
@@ -65,7 +67,9 @@ import { CalendarModule } from "ion2-calendar";
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AuthServiceProvider,
     UserServiceProvider,
-    DatePicker
+    DatePicker,
+    QRScanner,
+    Camera
   ]
 })
 export class AppModule {}

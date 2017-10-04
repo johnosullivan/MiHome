@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
 import { UserServiceProvider } from '../../providers/user-service/user-service';
-
+import { AlertController } from 'ionic-angular';
 //@IonicPage()
 @Component({
   selector: 'page-login',
@@ -12,7 +12,7 @@ export class LoginPage {
 
   creds:any;
 
-  constructor(public viewController:ViewController,public navCtrl: NavController, public navParams: NavParams,public authServiceProvider:AuthServiceProvider,public userServiceProvider:UserServiceProvider) {
+  constructor(public alertCtrl: AlertController,public viewController:ViewController,public navCtrl: NavController, public navParams: NavParams,public authServiceProvider:AuthServiceProvider,public userServiceProvider:UserServiceProvider) {
     this.creds = {};
   }
 
@@ -39,6 +39,12 @@ export class LoginPage {
     //this.navCtrl.pop();
     this.viewController.dismiss(true);
     this.authServiceProvider.setAuth(true);
+    /*const alert = this.alertCtrl.create({
+   title: 'Authentication Failed!',
+   subTitle: 'Please check your credentials and try again.',
+   buttons: ['Dismiss']
+ });
+ alert.present();*/
   }
 
 }

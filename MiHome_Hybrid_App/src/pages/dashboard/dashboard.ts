@@ -1,12 +1,12 @@
 import { Component ,ViewChild, ElementRef } from '@angular/core';
-import { IonicPage, NavController, NavParams,ViewController,ModalController } from 'ionic-angular';
+import { Nav, IonicPage, NavController, NavParams,ViewController,ModalController } from 'ionic-angular';
 import { UserServiceProvider } from '../../providers/user-service/user-service';
 import { Chart } from 'chart.js';
 //import { DatePicker } from 'ionic2-date-picker';
 import { DatePicker } from '@ionic-native/date-picker';
 import { AlertController } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
-
+import { SetupPage } from '../setup/setup';
 //@IonicPage()
 @Component({
   selector: 'page-dashboard',
@@ -14,6 +14,7 @@ import { ToastController } from 'ionic-angular';
   providers:[ DatePicker ]
 })
 export class DashboardPage {
+  @ViewChild(Nav) nav: Nav;
 
   @ViewChild('temphun') temphunCanvas;
   temphun: any;
@@ -34,7 +35,13 @@ export class DashboardPage {
 
     //this.datePicker = new DatePicker(<any>this.modalCtrl, <any>this.viewController);
     //this.datePicker.onDateSelected.subscribe((date) => { console.log(date); });
-
+    let toaststart = this.toastCtrl.create({
+      message: 'WARNING: Some of your sensors went offline :/ You can still access historical data, but you will like to contiune to receive the most current data, please go to settings and reconfigure your nodes. Please tap settings to resolve this issue.',
+      showCloseButton: true,
+      closeButtonText: 'Setup'
+    });
+    toaststart.onDidDismiss(this.dismissHandler);
+    toaststart.present();
   }
 
   getData() {
@@ -42,12 +49,17 @@ export class DashboardPage {
     console.log(this.end)
   }
 
+  dismissHandler() {
+    console.info('Toast onDidDismiss()');
+    //this.nav.setRoot(SetupPage);
+  }
+
   clock() {
 
     let toaststart = this.toastCtrl.create({
       message: 'Please select start date/time', position: 'middle'
     });
-    toaststart.present();
+    //toaststart.present();
     // Start date and time
     this.datePicker.show({
         date: new Date(),
@@ -55,14 +67,14 @@ export class DashboardPage {
         androidTheme: this.datePicker.ANDROID_THEMES.THEME_HOLO_DARK
     }).then(
         date => {
-          toaststart.dismiss();
+          //toaststart.dismiss();
           this.start = date;
           var self = this;
           setTimeout(function() {
             let toastend = self.toastCtrl.create({
               message: 'Please select end date/time',position: 'middle'
             });
-            toastend.present();
+            //toastend.present();
             // End date and time
             self.datePicker.show({
                 date: new Date(),
@@ -70,7 +82,7 @@ export class DashboardPage {
                 androidTheme: this.datePicker.ANDROID_THEMES.THEME_HOLO_DARK
             }).then(
                 date => {
-                  toastend.dismiss();
+                  //toastend.dismiss();
                   self.end = date;
                   self.getData();
                 },

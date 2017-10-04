@@ -11,6 +11,7 @@ import { AboutPage } from '../pages/about/about';
 import { DashboardPage } from '../pages/dashboard/dashboard';
 import { ProfilePage } from '../pages/profile/profile';
 import { AuthServiceProvider } from '../providers/auth-service/auth-service';
+import { SetupPage } from '../pages/setup/setup';
 
 @Component({
   templateUrl: 'app.html'
@@ -18,7 +19,7 @@ import { AuthServiceProvider } from '../providers/auth-service/auth-service';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = AboutPage;
+  rootPage: any = SetupPage;
 
   pages: Array<{title: string, icon:string, component: any}>;
   authpages: Array<{title: string, icon:string, component: any}>;

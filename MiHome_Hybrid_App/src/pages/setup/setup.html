@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-navbar color="themenav">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Setup</ion-title>
+    <ion-buttons end>
+     <button ion-button icon-only (click)="clock()">
+       <ion-icon name="information-circle"></ion-icon>
+     </button>
+   </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content style="background-color: #eee;">
+
+  <ion-card>
+    <ion-card-header>
+    Add SAND
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list no-lines>
+      <ion-item>
+        <ion-input type="text" placeholder="Enter name for this node."></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input type="text" placeholder="Enter node ID or scan it."></ion-input>
+      </ion-item>
+      <ion-item>
+        <button ion-button full color="menutheme" (click)="qr()">Scan Node QR Code</button>
+      </ion-item>
+      </ion-list>
+      <button ion-button full type="submit" color="themenav" (click)="qr()">Configure Node</button>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

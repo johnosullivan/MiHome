@@ -19,6 +19,7 @@ import { ProfilePage } from '../pages/profile/profile';
 import { AuthServiceProvider } from '../providers/auth-service/auth-service';
 import { UserServiceProvider } from '../providers/user-service/user-service';
 import { DatePicker } from 'ionic2-date-picker';
+import { SetupPage } from '../pages/setup/setup';
 
 import { CalendarModule } from "ion2-calendar";
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
@@ -34,7 +35,8 @@ import { Camera } from '@ionic-native/camera';
     AboutPage,
     DashboardPage,
     ProfilePage,
-    DatePicker
+    DatePicker,
+    SetupPage
   ],
   imports: [
     BrowserModule,
@@ -59,7 +61,8 @@ import { Camera } from '@ionic-native/camera';
     AboutPage,
     DashboardPage,
     ProfilePage,
-    DatePicker
+    DatePicker,
+    SetupPage
   ],
   providers: [
     StatusBar,

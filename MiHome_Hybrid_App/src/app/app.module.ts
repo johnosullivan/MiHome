@@ -24,6 +24,7 @@ import { SetupPage } from '../pages/setup/setup';
 import { CalendarModule } from "ion2-calendar";
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
 import { Camera } from '@ionic-native/camera';
+import { DataProvider } from '../providers/data-service/data-service';
 
 @NgModule({
   declarations: [
@@ -72,7 +73,8 @@ import { Camera } from '@ionic-native/camera';
     UserServiceProvider,
     DatePicker,
     QRScanner,
-    Camera
+    Camera,
+    DataProvider
   ]
 })
 export class AppModule {}

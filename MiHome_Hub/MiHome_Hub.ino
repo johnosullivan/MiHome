@@ -91,6 +91,7 @@ void setup()
   pinMode(0, OUTPUT);
   //Connecting to the WiFi network
   WiFiManager wifiManager;
+  //wifiManager.resetSettings();
   wifiManager.setDebugOutput(false);
   Serial.println();
   Serial.print("Connecting... ");

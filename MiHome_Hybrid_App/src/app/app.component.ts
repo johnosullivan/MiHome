@@ -11,6 +11,7 @@ import { AboutPage } from '../pages/about/about';
 import { DashboardPage } from '../pages/dashboard/dashboard';
 import { ProfilePage } from '../pages/profile/profile';
 import { AuthServiceProvider } from '../providers/auth-service/auth-service';
+import { UserServiceProvider } from '../providers/user-service/user-service';
 import { SetupPage } from '../pages/setup/setup';
 
 @Component({
@@ -19,12 +20,12 @@ import { SetupPage } from '../pages/setup/setup';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = SetupPage;
+  rootPage: any = HomePage;
 
   pages: Array<{title: string, icon:string, component: any}>;
   authpages: Array<{title: string, icon:string, component: any}>;
 
-  constructor(public authServiceProvider:AuthServiceProvider,public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,public modalCtrl: ModalController) {
+  constructor(public userServiceProvider:UserServiceProvider,public authServiceProvider:AuthServiceProvider,public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,public modalCtrl: ModalController) {
     this.initializeApp();
     // { title: 'Dashboard', icon:'desktop', component: DashboardPage }
     // used for an example of ngFor and navigation
@@ -41,6 +42,16 @@ export class MyApp {
       { title: 'Dashboard', icon:'desktop',component: DashboardPage },
       { title: 'My Profile', icon:'person', component: ProfilePage }
     ];
+
+    var self = this;
+    this.userServiceProvider.getToken().then(function(token){
+        console.log(token);
+        if (token === null) {
+          self.authServiceProvider.setAuth(false);
+        } else {
+          self.authServiceProvider.setAuth(true);
+        }
+    });
 
   }
 

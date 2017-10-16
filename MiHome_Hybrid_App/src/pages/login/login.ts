@@ -22,7 +22,7 @@ export class LoginPage {
 
   login() {
     console.log(this.creds);
-    /*this.authServiceProvider.login(this.creds).subscribe(
+    this.authServiceProvider.login(this.creds).subscribe(
       data => {
         if (data.success) {
           this.userServiceProvider.saveToken(data.token);
@@ -35,10 +35,11 @@ export class LoginPage {
       },
       err => console.log(err),
       () => console.log('Logging in....')
-    );*/
+    );
     //this.navCtrl.pop();
-    this.viewController.dismiss(true);
-    this.authServiceProvider.setAuth(true);
+    //this.viewController.dismiss(true);
+    //this.authServiceProvider.setAuth(true);
+    //this.userServiceProvider.saveToken('data.token');
     /*const alert = this.alertCtrl.create({
    title: 'Authentication Failed!',
    subTitle: 'Please check your credentials and try again.',

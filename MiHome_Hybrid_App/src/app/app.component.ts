@@ -40,6 +40,7 @@ export class MyApp {
     this.authpages = [
       { title: 'About', icon:'information-circle', component: AboutPage },
       { title: 'Dashboard', icon:'desktop',component: DashboardPage },
+      { title: 'Setup', icon:'hammer', component: SetupPage },
       { title: 'My Profile', icon:'person', component: ProfilePage }
     ];
 

@@ -19,7 +19,7 @@ export class DataProvider {
     };
     let body = JSON.stringify(payload);
     let head = new Headers({ 'Content-Type': 'application/json' });
-    return this.http.post("http://localhost:8888/api/data/find", body, { headers : head }).map(res =>  res.json());
+    return this.http.post("http://pacific-springs-32410.herokuapp.com/api/data/find", body, { headers : head }).map(res =>  res.json());
   }
 
 

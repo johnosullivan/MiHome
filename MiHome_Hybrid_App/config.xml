@@ -79,6 +79,9 @@
     </platform>
     <allow-navigation href="http://10.39.20.50:8100" />
     <allow-navigation href="http://192.168.50.51:8100" />
+    <allow-navigation href="http://10.24.116.181:8100" />
+    <allow-navigation href="http://10.24.60.16:8100" />
+    <allow-navigation href="http://10.24.171.3:8100" />
     <engine name="ios" spec="^4.4.0" />
     <plugin name="cordova-plugin-actionsheet" spec="^2.3.3" />
     <plugin name="cordova-plugin-camera" spec="^2.4.1">
@@ -96,7 +99,4 @@
     <plugin name="phonegap-plugin-barcodescanner" spec="^6.0.8">
         <variable name="CAMERA_USAGE_DESCRIPTION" value=" " />
     </plugin>
-    <allow-navigation href="http://10.24.116.181:8100" />
-    <allow-navigation href="http://10.24.60.16:8100" />
-    <allow-navigation href="http://10.24.171.3:8100" />
 </widget>

@@ -63,29 +63,26 @@ export class DashboardPage {
       message: 'Please select start date/time', position: 'middle'
     });
     //toaststart.present();
-    // Start date and time
+
+
+
+    // Start date and time selector
     this.datePicker.show({
         date: new Date(),
         mode: 'datetime',
         androidTheme: this.datePicker.ANDROID_THEMES.THEME_HOLO_DARK
     }).then(
         date => {
-          //toaststart.dismiss();
           this.start = date;
           var self = this;
           setTimeout(function() {
-            let toastend = self.toastCtrl.create({
-              message: 'Please select end date/time',position: 'middle'
-            });
-            //toastend.present();
-            // End date and time
+            // End date and time selector
             self.datePicker.show({
                 date: new Date(),
                 mode: 'datetime',
                 androidTheme: this.datePicker.ANDROID_THEMES.THEME_HOLO_DARK
             }).then(
                 date => {
-                  //toastend.dismiss();
                   self.end = date;
                   self.getData();
                 },
@@ -95,6 +92,7 @@ export class DashboardPage {
         },
         err => console.log('', err)
     );
+
 
 
   }

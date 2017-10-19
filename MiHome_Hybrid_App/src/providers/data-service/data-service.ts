@@ -11,7 +11,6 @@ export class DataProvider {
   }
 
   chartdata(start,end) {
-
     var payload = {
 	     "nodeID":"",
        "start": "2017-10-14T02:12:16.546Z",

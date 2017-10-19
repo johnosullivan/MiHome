@@ -4,28 +4,23 @@
       <ion-title>Mi Home</ion-title>
     </ion-toolbar>
   </ion-header>
-
   <ion-content>
     <div *ngIf="!authServiceProvider.isLogin">
-    <ion-list>
-      <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
-        <ion-icon item-left name={{p.icon}}></ion-icon>
-        {{p.title}}
-      </button>
-    </ion-list>
+      <ion-list>
+        <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
+          <ion-icon item-left name={{p.icon}}></ion-icon> {{p.title}}
+        </button>
+      </ion-list>
     </div>
     <div *ngIf="authServiceProvider.isLogin">
-    <ion-list>
+      <ion-list>
       <button menuClose ion-item *ngFor="let p of authpages" (click)="openPage(p)">
-        <ion-icon item-left name={{p.icon}}></ion-icon>
-        {{p.title}}
+        <ion-icon item-left name={{p.icon}}></ion-icon> {{p.title}}
       </button>
-    </ion-list>
+      </ion-list>
     </div>
+</ion-content>
 
-  </ion-content>
+  </ion-menu>
 
-</ion-menu>
-
-<!-- Disable swipe-to-go-back because it's poor UX to combine STGB with side menus -->
 <ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>

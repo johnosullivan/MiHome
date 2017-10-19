@@ -24,12 +24,16 @@ export class AboutPage {
   }
 
   qr() {
+
+
+
     this.barcodeScanner.scan().then((barcodeData) => {
- // Success! Barcode data is here
- console.log(barcodeData);
-}, (err) => {
-    // An error occurred
-});
+      console.log(barcodeData);
+    }, (err) => {
+
+    });
+
+
 
   }
 }

@@ -20,19 +20,19 @@
      <ion-list inset>
 
        <ion-item>
-         <ion-input type="password" placeholder="First Name" name="first name"  required></ion-input>
+         <ion-input type="text" [(ngModel)]="regs.firstname" placeholder="First Name" name="first name"  required></ion-input>
        </ion-item>
 
        <ion-item>
-         <ion-input type="password" placeholder="Last Name" name="last name"  required></ion-input>
+         <ion-input type="text" [(ngModel)]="regs.lastname" placeholder="Last Name" name="last name"  required></ion-input>
        </ion-item>
 
        <ion-item>
-         <ion-input type="text" placeholder="Username" name="username"  required></ion-input>
+         <ion-input type="text" [(ngModel)]="regs.username" placeholder="Username" name="username"  required></ion-input>
        </ion-item>
 
        <ion-item>
-         <ion-input type="password" placeholder="Password" name="password"  required></ion-input>
+         <ion-input type="password" [(ngModel)]="regs.password" placeholder="Password" name="password"  required></ion-input>
        </ion-item>
 
        <ion-item>
@@ -40,7 +40,7 @@
        </ion-item>
 
        <ion-item>
-         <ion-input type="password" placeholder="Email" name="email"  required></ion-input>
+         <ion-input type="email" [(ngModel)]="regs.email" placeholder="Email" name="email"  required></ion-input>
        </ion-item>
 
      </ion-list>
@@ -50,7 +50,7 @@
 <div padding>
  <ion-row>
    <ion-col class="signup-col">
-     <button ion-button class="submit-btn" full type="submit" color="menutheme">Register</button>
+     <button ion-button class="submit-btn" full type="submit" color="menutheme" (click)="register()">Register</button>
    </ion-col>
  </ion-row>
 </div>

@@ -15,7 +15,9 @@ export class SetupPage {
   optionsRange: CalendarComponentOptions = {
     pickMode: 'range'
   };
+  nodeid:any;
   constructor(private barcodeScanner: BarcodeScanner,private qrScanner: QRScanner,public navCtrl: NavController, public navParams: NavParams) {
+    this.nodeid = '';
   }
 
   ionViewDidLoad() {
@@ -25,9 +27,10 @@ export class SetupPage {
   qr() {
 
 
-
+    var self = this;
     this.barcodeScanner.scan().then((barcodeData) => {
       console.log(barcodeData);
+      self.nodeid = barcodeData.text;
     }, (err) => {
 
     });

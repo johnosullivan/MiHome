@@ -49,6 +49,9 @@ long interval = 60000;
 
 int setup_status = 0;
 
+int resetState = 0; 
+const int resetPin = 12; 
+
 void tick()
 {
   int state = digitalRead(0);
@@ -82,6 +85,7 @@ void setup()
   Wire.begin();
   Serial.begin(9600);
   // Default setup led blinking
+  pinMode(resetPin, INPUT);
   pinMode(LED, OUTPUT);
   Blink(LED, 1000, 2);
   Blink(LED, 100, 5);
@@ -93,6 +97,10 @@ void setup()
   WiFiManager wifiManager;
   //wifiManager.resetSettings();
   wifiManager.setDebugOutput(false);
+  resetState = digitalRead(resetPin);
+  if (resetState == HIGH) {
+    wifiManager.resetSettings();
+  }
   Serial.println();
   Serial.print("Connecting... ");
   Serial.println(WiFi.macAddress());
@@ -129,7 +137,6 @@ void setup()
     int status = 1;
     while (1) {
       if (status) {
-        wifiManager.resetSettings();
         status = 0;
       }
       delay(5000);

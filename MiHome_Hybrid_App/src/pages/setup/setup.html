@@ -24,7 +24,7 @@
         <ion-input type="text" placeholder="Enter name for this node."></ion-input>
       </ion-item>
       <ion-item>
-        <ion-input type="text" placeholder="Enter node ID or scan it."></ion-input>
+        <ion-input type="text" [(ngModel)]="nodeid" placeholder="Enter node ID or scan it."></ion-input>
       </ion-item>
       <ion-item>
         <button ion-button full color="menutheme" (click)="qr()">Scan Node QR Code</button>

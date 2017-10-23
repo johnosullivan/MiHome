@@ -30,14 +30,14 @@
         "@ionic-native/status-bar": "3.12.1",
         "@ionic/storage": "^2.0.1",
         "chart.js": "^2.7.0",
+        "cordova-android": "^6.2.3",
         "cordova-ios": "^4.4.0",
         "cordova-plugin-actionsheet": "^2.3.3",
         "cordova-plugin-camera": "^2.4.1",
-        "cordova-plugin-compat": "^1.2.0",
+        "cordova-plugin-compat": "^1.1.0",
         "cordova-plugin-console": "^1.0.5",
         "cordova-plugin-datepicker": "^0.9.3",
         "cordova-plugin-device": "^1.1.4",
-        "cordova-plugin-qrscanner": "^2.5.0",
         "cordova-plugin-splashscreen": "^4.0.3",
         "cordova-plugin-statusbar": "^2.2.2",
         "cordova-plugin-swift-support": "^3.1.1",
@@ -72,12 +72,12 @@
                 "CAMERA_USAGE_DESCRIPTION": " ",
                 "PHOTOLIBRARY_USAGE_DESCRIPTION": " "
             },
-            "cordova-plugin-qrscanner": {},
             "phonegap-plugin-barcodescanner": {
                 "CAMERA_USAGE_DESCRIPTION": " "
             }
         },
         "platforms": [
+            "android",
             "ios"
         ]
     }

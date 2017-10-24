@@ -5,6 +5,7 @@
     </ion-toolbar>
   </ion-header>
   <ion-content>
+    //list the pages in side bar
     <div *ngIf="!authServiceProvider.isLogin">
       <ion-list>
         <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">

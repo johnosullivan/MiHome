@@ -71,7 +71,6 @@ import { DataProvider } from '../providers/data-service/data-service';
     AuthServiceProvider,
     UserServiceProvider,
     DatePicker,
-    QRScanner,
     Camera,
     DataProvider
   ]

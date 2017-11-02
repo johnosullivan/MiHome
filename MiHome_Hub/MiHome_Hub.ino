@@ -31,7 +31,7 @@ double IR = 0;
 double light = 0;
 double pressure = 0;
 // Debugging tool
-bool isSending = 1;
+bool isSending = 0;
 // Setups up the Arduino Wifi
 //const char* ssid     = "";
 //const char* password = "";
@@ -70,12 +70,12 @@ void webSocketDeviceCallBack(const char * payload, size_t length) {
   const char* data_payload = root["payload"];
   Serial.println(command);
   Serial.println(data_payload);
-  String setup_data = transmit(command);
+  /*String setup_data = transmit(command);
   if (setup_data != "") {
     Serial.println(setup_data);
   } else {
 
-  }
+  }*/
   webSocket.emit("back", "\"ok\"");
 }
 void webSocketConnect(const char * payload, size_t length) { }

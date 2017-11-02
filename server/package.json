@@ -18,6 +18,7 @@
     "cors": "^2.8.4",
     "express": "^4.15.4",
     "express-socket.io": "^1.0.3",
+    "influxdb-nodejs": "^2.7.4",
     "jsonwebtoken": "^7.4.3",
     "mongoose": "^4.10.8",
     "shortid": "^2.2.8",

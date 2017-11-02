@@ -9,78 +9,49 @@ var User = require('../models/user');
 
 var router = express.Router();
 
-router.get('/setup/:hub/:node/:command', function(req, res){
+/*router.get('/setup/:hub/:node/:command', function(req, res){
   var socket = req.app.get('io');
   socket.emit(req.params.hub, {'command':req.params.command,'payload':req.params.node });
   res.json({});
-});
+});*/
 
 router.post('/register', function createUser(request, response) {
-  User.findOne({
-    username: request.body.username
-  }, function handleQuery(error, user) {
-
+  //console.log("Registing");
+  User.findOne({ username: request.body.username }, function handleQuery(error, user) {
     if (error) {
-      response.status(500).json({
-        success: false,
-        message: 'Internal server error'
-      });
+      response.status(500).json({ success: false, message: 'Internal server error' });
       return;
     }
-
     if (user) {
-      response.status(409).json({
-        success: false,
-        message: 'User with the username \'' + request.body.username + '\' already exists.'
-      });
-
+      response.status(409).json({ success: false, message: 'Username \'' + request.body.username + '\' already exists.' });
       return;
     }
-
+    //console.log("bcrypt 1");
     bcrypt.genSalt(10, function (error, salt) {
-
       if (error) {
-        response.status(500).json({
-          success: false,
-          message: 'Internal server error'
-        });
-
+        response.status(500).json({ success: false, message: 'Internal server error' });
         throw error;
       }
-
+      //console.log("bcrypt 2");
       bcrypt.hash(request.body.password, salt, function (error, hash) {
-
-        if (error) {
-          response.status(500).json({
-            success: false,
-            message: 'Internal server error'
-          });
-
+        if (error) { response.status(500).json({ success: false, message: 'Internal server error' });
           throw error;
         }
-
         var user = new User({
           username: request.body.username,
           password: hash,
           firstName: request.body.firstName,
-          lastName: request.body.lastName
+          lastName: request.body.lastName,
+          email: request.body.email
         });
-
+        //console.log("Saving");
+        //console.log(user);
         user.save(function (error) {
-
           if (error) {
-            response.status(500).json({
-              success: false,
-              message: 'Internal server error'
-            });
-
+            response.status(500).json({ success: false, message: 'Internal server error' });
             throw error;
           }
-
-          response.json({
-            success: true,
-            user: user
-          });
+          response.json({ success: true, user: { username:user.username, firstName:user.firstName, lastName:user.lastName, id:user.id, email:user.email } });
         });
       });
     });
@@ -88,62 +59,29 @@ router.post('/register', function createUser(request, response) {
 });
 
 router.post('/authenticate', function authenticateUser(request, response) {
-  User.findOne({
-    username: request.body.username
-  }, function handleQuery(error, user) {
-
+  User.findOne({ username: request.body.username }, function handleQuery(error, user) {
     if (error) {
-      response.status(500).json({
-        success: false,
-        message: 'Internal server error'
-      });
-
+      response.status(500).json({ success: false, message: 'Internal server error' });
       throw error;
     }
-
-    if (! user) {
-
-      response.status(401).json({
-        success: false,
-        message: 'Authentication failed. User not found.'
-      });
-
+    if (!user) {
+      response.status(401).json({ success: false, message: 'Authentication Failed.' });
       return;
     }
-
     bcrypt.compare(request.body.password, user.password, function (error, result) {
-
       if (error) {
-        response.status(500).json({
-          success: false,
-          message: 'Internal server error'
-        });
-
+        response.status(500).json({ success: false, message: 'Internal server error' });
         throw error;
       }
-
-      if (! result) {
-
-        response.status(401).json({
-          success: false,
-          message: 'Authentication failed. Wrong password.'
+      if (!result) {
+        response.status(401).json({ success: false, message: 'Authentication failed.'
         });
-
         return;
       }
-
-      // if user is found and password is right
-      // create a token
       var token = jsonwebtoken.sign({ username: user.username }, TOKEN_SECRET, {
         expiresIn: TOKEN_EXPIRES
       });
-
-      // return the information including token as JSON
-      response.json({
-        success: true,
-        token: token
-      });
-
+      response.json({ success: true, token: token, user: { username:user.username, firstName:user.firstName, lastName:user.lastName, id:user.id, email:user.email } });
     });
   });
 });

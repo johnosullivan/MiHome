@@ -8,9 +8,6 @@ var cors = require('cors')
 var CONFIG = require('./config.json');
 var WebSocketServer = require('ws').Server;
 
-
-
-
 mongoose.Promise = global.Promise;
 mongoose.connect(CONFIG.database.address, { useMongoClient: true, promiseLibrary: global.Promise });
 

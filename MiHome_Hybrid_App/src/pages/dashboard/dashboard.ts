@@ -159,7 +159,13 @@ export class DashboardPage {
 
             });
 
-
+            //map method, first arg is var d and second method is what
+            //you want to get back
+            /* From above:
+            var d = data['data'];
+            var t = _.map(d, 'temperature');
+            var h = _.map(d, 'humidity');
+            */
             var c = _.map(d, 'co2');
             var v = _.map(d, 'voc');
 

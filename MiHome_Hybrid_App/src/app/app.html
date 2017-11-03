@@ -6,14 +6,15 @@
   </ion-header>
   <ion-content>
     <!--list the pages in side bar-->
-    <div *ngIf="!authServiceProvider.isLogin">
+  <!--  <div *ngIf="!authServiceProvider.isLogin"> I currently have no login
       <ion-list>
         <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
           <ion-icon item-left name={{p.icon}}></ion-icon> {{p.title}}
         </button>
       </ion-list>
-    </div>
-    <div *ngIf="authServiceProvider.isLogin">
+   </div> -->
+<!--    <div *ngIf="authServiceProvider.isLogin"> -->
+<div>
       <ion-list>
       <button menuClose ion-item *ngFor="let p of authpages" (click)="openPage(p)">
         <ion-icon item-left name={{p.icon}}></ion-icon> {{p.title}}

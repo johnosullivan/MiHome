@@ -4,6 +4,7 @@
 #include <Adafruit_BMP085.h>
 #include <Adafruit_Sensor.h>
 #include <Thread.h>
+#include <Wire.h>
 
 // Sensors import
 #include "TSL2561.h"
@@ -72,24 +73,69 @@ void runningMode() {
 void setup()
 {
   Serial.begin(9600);
+  Serial.println("Starting...");
   pinMode(RFM69_RST, OUTPUT);
   digitalWrite(RFM69_RST, LOW);
 
   pinMode(SETUP_LCD, OUTPUT);
 
+  Wire.begin();
+
+  pinMode(A4, INPUT);      // define as input for now, will get redifined by I2C functions
+  pinMode(A5, INPUT);      // define as input for now, will get redifined by I2C functions
+
+
+   byte error, address;
+  int devices;
+ 
+  Serial.println("Scanning...");
+ 
+  devices = 0;
+  for(address = 1; address < 127; address++ ) 
+  {
+    Wire.beginTransmission(address);
+    error = Wire.endTransmission();
+ 
+    if (error == 0)
+    {
+      Serial.print("I2C device found at address | 0x");
+      if (address<16) 
+        Serial.print("0");
+      Serial.print(address,HEX);
+      Serial.println("  !");
+ 
+      devices++;
+    }
+    else if (error==4) 
+    {
+      Serial.print("Unknow error at address | 0x");
+      if (address<16) 
+        Serial.print("0");
+      Serial.println(address,HEX);
+    }    
+  }
+  if (devices == 0)
+    Serial.println("No I2C devices found\n");
+  else
+    Serial.println("done\n");
+
   //if(!ccs811.begin(uint8_t(CCS811_ADDR), uint8_t(CCS811_WAKE_PIN))) {
   //  Serial.println("CCS811 Initialization Failed!");
   //}
-  ccs811.begin();
+  //ccs811.begin();
 
   //Setups the pressure sensor
   if (!bmp.begin()) {
     Serial.println("BMP085 Initialization Failed!");
     //while (1) {}
+  } else {
+    Serial.println("BMP085 Initialization Good!");
   }
   if (!sht31.begin(0x44)) {
     Serial.println("SHT31 Initialization Failed!");
     //while (1) delay(2000);
+  } else {
+    Serial.println("SHT31 Initialization Good!");
   }
   // Setups the light sensor
   tsl.enableAutoRange(true);
@@ -98,11 +144,15 @@ void setup()
   if (!sht31.begin(0x44)) {
     Serial.println("SHT31 Initialization Failed!");
     //while (1) delay(2000);
+  } else {
+    Serial.println("SHT31 Initialization Good!");
   }
   // Setups the UV sensor
   if (!uv.begin()) {
     Serial.println("SI114 Initialization Failed!");
     //while (1) delay(2000);
+  } else {
+    Serial.println("SI114 Initialization Good!");
   }
 
   Serial.println("RFM69 RX Test!");

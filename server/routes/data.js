@@ -1,5 +1,5 @@
 var express = require('express');
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcrypt-nodejs');
 var jsonwebtoken = require('jsonwebtoken');
 var CONFIG = require('../config.json');
 var TOKEN_SECRET = CONFIG.token.secret;

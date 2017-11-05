@@ -1,5 +1,5 @@
 var express = require('express');
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcrypt-nodejs');
 var jsonwebtoken = require('jsonwebtoken');
 var CONFIG = require('../config.json');
 var TOKEN_SECRET = CONFIG.token.secret;
@@ -33,7 +33,7 @@ router.post('/register', function createUser(request, response) {
         throw error;
       }
       //console.log("bcrypt 2");
-      bcrypt.hash(request.body.password, salt, function (error, hash) {
+      bcrypt.hash(request.body.password, salt,null, function (error, hash) {
         if (error) { response.status(500).json({ success: false, message: 'Internal server error' });
           throw error;
         }

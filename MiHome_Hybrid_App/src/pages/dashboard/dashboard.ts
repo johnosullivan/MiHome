@@ -7,6 +7,7 @@ import { DatePicker } from '@ionic-native/date-picker';
 import { AlertController } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
 import { SetupPage } from '../setup/setup';
+import d3 from 'd3';
 
 import { DataProvider } from '../../providers/data-service/data-service';
 import * as _ from 'lodash';
@@ -215,13 +216,24 @@ export class DashboardPage {
 
 
 
-
-
-
-
-        
         var d = fakeData['data'];
         var t = _.map(d, 'temperature');
+        //this doesn't track the time!
+        var data_times = _.map(d, 'datetime');
+        console.log(t);
+        console.log("Temperature values");
+        console.log(data_times);
+        var parsed_date = [];
+        for(let i = 0; i < data_times.length; i++){
+            var date = new Date(data_times[i]);
+            var year = date.getFullYear();
+            var month = date.getMonth()+1; //why does it parse one month less?!
+            var day = date.getDate();
+            //formatted as YY/MM/DD
+            var parsed = (year + '-' + month + '-' + day);
+            console.log(parsed); 
+            parsed_date.push(parsed);
+        }
         var h = _.map(d, 'humidity');
         self.temphun = new Chart(self.temphunCanvas.nativeElement, {
 //CHART 1
@@ -234,7 +246,7 @@ export class DashboardPage {
                         {
                             label: "Temperature",
                             fill: false,
-                            lineTension: 0.1,
+                            lineTension: 0.3,
                             backgroundColor: "#6977c6",
                             borderColor: "#6977c6",
                             borderCapStyle: 'butt',
@@ -413,62 +425,7 @@ export class DashboardPage {
                     var ir = _.map(d, 'IR');
                     var light = _.map(d, 'light');
 
-                    self.IRlight = new Chart(self.IRlightCanvas.nativeElement, {
-//CHART 4
-                            type: 'line',
-                            data: {
-                              labels: ["January", "February", "March", "April",
-                              "May", "June", "July", "Auguest", "September", "October",
-                            "November", "December"],
-                                datasets: [
-                                    {
-                                        label: "Light",
-                                        fill: false,
-                                        lineTension: 0.1,
-                                        backgroundColor: "#6977c6",
-                                        borderColor: "#6977c6",
-                                        borderCapStyle: 'butt',
-                                        borderDash: [],
-                                        borderDashOffset: 0.0,
-                                        borderJoinStyle: 'miter',
-                                        pointBorderColor: "#6977c6",
-                                        pointBackgroundColor: "#fff",
-                                        pointBorderWidth: 1,
-                                        pointHoverRadius: 5,
-                                        pointHoverBackgroundColor: "rgba(75,192,192,1)",
-                                        pointHoverBorderColor: "rgba(220,220,220,1)",
-                                        pointHoverBorderWidth: 2,
-                                        pointRadius: 1,
-                                        pointHitRadius: 10,
-                                        data: light,
-                                        spanGaps: false,
-                                    },
-                                    {
-                                        label: "IR",
-                                        fill: false,
-                                        lineTension: 0.1,
-                                        backgroundColor: "rgba(75,192,192,1)",
-                                        borderColor: "rgba(75,192,192,1)",
-                                        borderCapStyle: 'butt',
-                                        borderDash: [],
-                                        borderDashOffset: 0.0,
-                                        borderJoinStyle: 'miter',
-                                        pointBorderColor: "rgba(75,192,192,1)",
-                                        pointBackgroundColor: "#fff",
-                                        pointBorderWidth: 1,
-                                        pointHoverRadius: 5,
-                                        pointHoverBackgroundColor: "rgba(75,192,192,1)",
-                                        pointHoverBorderColor: "rgba(220,220,220,1)",
-                                        pointHoverBorderWidth: 2,
-                                        pointRadius: 1,
-                                        pointHitRadius: 10,
-                                        data: ir,
-                                        spanGaps: false,
-                                    }
-                                ]
-                            }
-
-                        });
+               //DELETED CHARTS
       },
       err => console.log(err),
       () => console.log('')

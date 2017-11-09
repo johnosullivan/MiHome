@@ -220,18 +220,15 @@ export class DashboardPage {
         var t = _.map(d, 'temperature');
         //this doesn't track the time!
         var data_times = _.map(d, 'datetime');
-        console.log(t);
-        console.log("Temperature values");
-        console.log(data_times);
         var parsed_date = [];
         for(let i = 0; i < data_times.length; i++){
             var date = new Date(data_times[i]);
             var year = date.getFullYear();
-            var month = date.getMonth()+1; //why does it parse one month less?!
             var day = date.getDate();
             //formatted as YY/MM/DD
-            var parsed = (year + '-' + month + '-' + day);
-            console.log(parsed); 
+            var locale = 'en-us';
+            var month = date.toLocaleString(locale, { month : "short" })
+            var parsed = (day + ' ' + month + ' ' + year);
             parsed_date.push(parsed);
         }
         var h = _.map(d, 'humidity');
@@ -239,9 +236,7 @@ export class DashboardPage {
 //CHART 1
                 type: 'line',
                 data: {
-                  labels: ["January", "February", "March", "April",
-                  "May", "June", "July", "Auguest", "September", "October",
-                "November", "December"],
+                  labels: parsed_date,
                     datasets: [
                         {
                             label: "Temperature",
@@ -268,7 +263,7 @@ export class DashboardPage {
                         {
                             label: "Humidity",
                             fill: false,
-                            lineTension: 0.1,
+                            lineTension: 0.3,
                             backgroundColor: "rgba(75,192,192,1)",
                             borderColor: "rgba(75,192,192,1)",
                             borderCapStyle: 'butt',
@@ -308,14 +303,12 @@ export class DashboardPage {
 
                     type: 'line',
                     data: {
-                        labels: ["January", "February", "March", "April",
-                        "May", "June", "July", "Auguest", "September", "October",
-                      "November", "December"],
+                        labels: parsed_date,
                         datasets: [
                             {
                                 label: "CO2",
                                 fill: false,
-                                lineTension: 0.1,
+                                lineTension: 0.3,
                                 backgroundColor: "#6977c6",
                                 borderColor: "#6977c6",
                                 borderCapStyle: 'butt',
@@ -337,7 +330,7 @@ export class DashboardPage {
                             {
                                 label: "VOC",
                                 fill: false,
-                                lineTension: 0.1,
+                                lineTension: 0.3,
                                 backgroundColor: "rgba(75,192,192,1)",
                                 borderColor: "rgba(75,192,192,1)",
                                 borderCapStyle: 'butt',
@@ -369,14 +362,12 @@ export class DashboardPage {
 //CHART 3
                         type: 'line',
                         data: {
-                          labels: ["January", "February", "March", "April",
-                          "May", "June", "July", "Auguest", "September", "October",
-                        "November", "December"],
+                          labels: parsed_date,
                             datasets: [
                                 {
                                     label: "Pressure",
                                     fill: false,
-                                    lineTension: 0.1,
+                                    lineTension: 0.3,
                                     backgroundColor: "#6977c6",
                                     borderColor: "#6977c6",
                                     borderCapStyle: 'butt',
@@ -398,7 +389,7 @@ export class DashboardPage {
                                 {
                                     label: "UV",
                                     fill: false,
-                                    lineTension: 0.1,
+                                    lineTension: 0.3,
                                     backgroundColor: "rgba(75,192,192,1)",
                                     borderColor: "rgba(75,192,192,1)",
                                     borderCapStyle: 'butt',

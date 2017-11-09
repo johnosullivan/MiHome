@@ -11,7 +11,6 @@ import d3 from 'd3';
 
 import { DataProvider } from '../../providers/data-service/data-service';
 import * as _ from 'lodash';
-//@IonicPage()
 @Component({
   selector: 'page-dashboard',
   templateUrl: 'dashboard.html',
@@ -37,15 +36,11 @@ export class DashboardPage {
 
   constructor(public dataProvider:DataProvider,public toastCtrl: ToastController,public alertCtrl: AlertController,private datePicker: DatePicker,public viewController:ViewController,public modalCtrl: ModalController,public navCtrl: NavController, public navParams: NavParams,public userServiceProvider:UserServiceProvider) {
 
-    //this.datePicker = new DatePicker(<any>this.modalCtrl, <any>this.viewController);
-    //this.datePicker.onDateSelected.subscribe((date) => { console.log(date); });
     let toaststart = this.toastCtrl.create({
       message: 'WARNING: Some of your sensors went offline :/ You can still access historical data, but you will like to contiune to receive the most current data, please go to settings and reconfigure your nodes. Please tap settings to resolve this issue.',
       showCloseButton: true,
       closeButtonText: 'Setup'
     });
-    //toaststart.onDidDismiss(this.dismissHandler);
-    //toaststart.present();
   }
 
 //hardcoded start/end data

@@ -75,4 +75,6 @@ import { DataProvider } from '../providers/data-service/data-service';
     DataProvider
   ]
 })
+
+
 export class AppModule {}

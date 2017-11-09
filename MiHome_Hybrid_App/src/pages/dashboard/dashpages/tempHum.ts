@@ -7,17 +7,18 @@ import { AlertController } from 'ionic-angular';
 })
 export class TempHumidityPage {
 
-  constructor(public alertCtrl: AlertController,public viewController:ViewController,
-    public navCtrl: NavController, public navParams: NavParams,) {
-    //stuff
+  constructor(
+      public alertCtrl: AlertController,
+      public viewController:ViewController,
+        public navCtrl: NavController, 
+        public navParams: NavParams, 
+        public sensorData: Storage) {
+    //what to do here?
   }
 
   ionViewDidLoad() { }
 
   closeModal() { this.navCtrl.pop(); }
 
-  login() {
-      //stuff
-  }
 
 }

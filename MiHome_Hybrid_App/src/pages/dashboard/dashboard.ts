@@ -1,5 +1,5 @@
 import { Component ,ViewChild, ElementRef } from '@angular/core';
-import { Nav, IonicPage, NavController, NavParams,ViewController,ModalController } from 'ionic-angular';
+import { Nav, IonicPage, NavController, NavParams,ViewController,ModalController, Platform } from 'ionic-angular';
 import { UserServiceProvider } from '../../providers/user-service/user-service';
 import { Chart } from 'chart.js';
 //import { DatePicker } from 'ionic2-date-picker';
@@ -29,6 +29,10 @@ export class DashboardPage {
 
   start:Date;
   end:Date;
+  rootPage: any = DashboardPage;
+
+  dashpages: Array<{title: string, icon:string, component: any}>;
+
 
   constructor(public dataProvider:DataProvider,
     public toastCtrl: ToastController,
@@ -39,7 +43,8 @@ export class DashboardPage {
     public navCtrl: NavController, 
     public navParams: NavParams,
     public userServiceProvider:UserServiceProvider,
-    public sensorData: Storage
+    public sensorData: Storage,
+    public platform: Platform, 
 ) {
 
     let toaststart = this.toastCtrl.create({
@@ -47,6 +52,12 @@ export class DashboardPage {
       showCloseButton: true,
       closeButtonText: 'Setup'
     });
+
+    this.dashpages = [
+        { title: 'Temperate & Humidty', icon:'thermometer', component: TempHumidityPage },
+        { title: 'Carbon Dioxide & VOCs', icon:'alert-circled',component: CO2VOCPage },
+        { title: 'Dashboard', icon:'desktop',component: DashboardPage },
+      ];
   }
 
 //hardcoded start/end data
@@ -60,15 +71,11 @@ export class DashboardPage {
     //this.nav.setRoot(SetupPage);
   }
 
-  goToTempHum() {
-    let tempHumModal = this.modalCtrl.create(TempHumidityPage);
-    tempHumModal.present();
-  }
 
-  goToCO2VOC(){
-    let co2vocModal = this.modalCtrl.create(CO2VOCPage);
-    co2vocModal.present();
-  }
+  openPage(page) {
+   this.navCtrl.push(page.component);
+   //push pages cause you want to go back to dash from them
+    }
 
   storeSensorData(){
       //store sensor data locally so can be referenced by other pages
@@ -159,19 +166,9 @@ export class DashboardPage {
                        }
                     ]
                    }
-                  // console.log(fakeData);
+                  // store the data
                    this.sensorData.set("lastcall", fakeData);
-                   this.sensorData.get('lastcall').then((fakeData) => {
-                  //  console.log('Your json is', fakeData);
-                  //  var d = fakeData['data'];
-                  //  var t = _.map(d, 'temperature');
-                 //   console.log("Temperatures being stored!");
-                 //   console.log(t);
-                  });
-                   
                 })
-            
-            
             };
 
 

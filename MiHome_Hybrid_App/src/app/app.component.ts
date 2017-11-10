@@ -27,7 +27,13 @@ export class MyApp {
   pages: Array<{title: string, icon:string, component: any}>;
   authpages: Array<{title: string, icon:string, component: any}>;
 
-  constructor(public userServiceProvider:UserServiceProvider,public authServiceProvider:AuthServiceProvider,public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,public modalCtrl: ModalController) {
+  constructor(
+    public userServiceProvider:UserServiceProvider,
+    public authServiceProvider:AuthServiceProvider,
+    public platform: Platform, 
+    public statusBar: StatusBar, 
+    public splashScreen: SplashScreen,
+    public modalCtrl: ModalController) {
     this.initializeApp();
     // { title: 'Dashboard', icon:'desktop', component: DashboardPage }
     // used for an example of ngFor and navigation

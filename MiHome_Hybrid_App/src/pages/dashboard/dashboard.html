@@ -22,11 +22,11 @@
 </ion-row>
 </ion-grid>-->
 
-
+<!--
 <ion-row>
   <ion-col>
     <button ion-button class="submit-btn" full type="submit" color="#37d6c6" 
-    (click)="goToTempHum()">Temperature & Humidity</button>
+    (click)="openPage()">Temperature & Humidity</button>
   </ion-col>
 </ion-row>
 <ion-row>
@@ -35,6 +35,13 @@
     (click)="goToCO2VOC()">Carbon Dioxide & Volatile Organic Compounds</button>
   </ion-col>
 </ion-row>
+-->
+
+<ion-list>
+  <button menuClose ion-item *ngFor="let p of dashpages" (click)="openPage(p)">
+    <ion-icon item-left name={{p.icon}}></ion-icon> {{p.title}}
+  </button>
+  </ion-list>
 
     <ion-card>
       <ion-card-header>

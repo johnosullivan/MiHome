@@ -10,6 +10,8 @@ import { RegisterPage } from '../pages/register/register';
 import { AboutPage } from '../pages/about/about';
 import { TempHumidityPage } from '../pages/dashboard/dashpages/tempHum';
 import { CO2VOCPage } from '../pages/dashboard/dashpages/co2voc';
+import { PressureUVPage } from '../pages/dashboard/dashpages/pressureUV';
+import { IRLightPage } from '../pages/dashboard/dashpages/IRLight';
 import { IonicStorageModule } from '@ionic/storage';
 
 
@@ -40,7 +42,9 @@ import { DataProvider } from '../providers/data-service/data-service';
     DatePicker,
     SetupPage,
     TempHumidityPage,
-    CO2VOCPage
+    CO2VOCPage,
+    PressureUVPage,
+    IRLightPage
   ],
   imports: [
     BrowserModule,
@@ -68,7 +72,9 @@ import { DataProvider } from '../providers/data-service/data-service';
     DatePicker,
     SetupPage,
     TempHumidityPage,
-    CO2VOCPage
+    CO2VOCPage,
+    PressureUVPage,
+    IRLightPage
   ],
   providers: [
     StatusBar,

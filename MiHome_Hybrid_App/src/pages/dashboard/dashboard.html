@@ -22,20 +22,6 @@
 </ion-row>
 </ion-grid>-->
 
-<!--
-<ion-row>
-  <ion-col>
-    <button ion-button class="submit-btn" full type="submit" color="#37d6c6" 
-    (click)="openPage()">Temperature & Humidity</button>
-  </ion-col>
-</ion-row>
-<ion-row>
-  <ion-col>
-    <button ion-button class="submit-btn" full type="submit" color="#37d6c6" 
-    (click)="goToCO2VOC()">Carbon Dioxide & Volatile Organic Compounds</button>
-  </ion-col>
-</ion-row>
--->
 
 <ion-list>
   <button menuClose ion-item *ngFor="let p of dashpages" (click)="openPage(p)">
@@ -43,23 +29,6 @@
   </button>
   </ion-list>
 
-    <ion-card>
-      <ion-card-header>
-        <h4><b>Pressure / UV</b></h4>
-      </ion-card-header>
-      <ion-card-content>
-        <canvas #pressureUV></canvas>
-      </ion-card-content>
-    </ion-card>
-
-    <ion-card>
-      <ion-card-header>
-        <h4><b>IR / Light</b></h4>
-      </ion-card-header>
-      <ion-card-content>
-        <canvas #IRlight></canvas>
-      </ion-card-content>
-    </ion-card>
 
     <!--<ion-fab bottom right >
   <button ion-fab>Share</button>

@@ -1,0 +1,31 @@
+ <ion-header>
+    
+      <ion-navbar color="themenav">
+        <ion-title>Carbon Dioxide & VOCs</ion-title>
+                <ion-buttons end>
+                 <button ion-button icon-only (click)="closeModal()">
+                   <ion-icon name="close"></ion-icon>
+                 </button>
+               </ion-buttons>
+      </ion-navbar>
+    
+    </ion-header>
+    
+    
+    <ion-content style="background-color: #eee;">
+    
+        <ion-card>
+            <ion-card-header>
+              <h4><b>CO2 / VOC</b></h4>
+            </ion-card-header>
+            <ion-card-content>
+              <canvas #co2voc></canvas>
+            </ion-card-content>
+          </ion-card>
+    
+    <div padding>
+    </div>
+    
+    
+    </ion-content>
+    

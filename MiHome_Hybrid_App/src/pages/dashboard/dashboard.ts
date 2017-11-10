@@ -9,6 +9,7 @@ import { ToastController } from 'ionic-angular';
 import { SetupPage } from '../setup/setup';
 import { Storage } from '@ionic/storage';
 import { TempHumidityPage } from './dashpages/tempHum';
+import { CO2VOCPage } from './dashpages/co2voc';
 
 import { DataProvider } from '../../providers/data-service/data-service';
 import * as _ from 'lodash';
@@ -19,11 +20,6 @@ import * as _ from 'lodash';
 })
 export class DashboardPage {
   @ViewChild(Nav) nav: Nav;
-
-
-
-  @ViewChild('co2voc') co2vocCanvas;
-  co2voc: any;
 
   @ViewChild('pressureUV') pressureUVCanvas;
   pressureUV: any;
@@ -67,6 +63,11 @@ export class DashboardPage {
   goToTempHum() {
     let tempHumModal = this.modalCtrl.create(TempHumidityPage);
     tempHumModal.present();
+  }
+
+  goToCO2VOC(){
+    let co2vocModal = this.modalCtrl.create(CO2VOCPage);
+    co2vocModal.present();
   }
 
   storeSensorData(){
@@ -355,63 +356,7 @@ export class DashboardPage {
             var t = _.map(d, 'temperature');
             var h = _.map(d, 'humidity');
             */
-            var c = _.map(d, 'co2');
-            var v = _.map(d, 'voc');
-//CHART 2
-            self.co2voc = new Chart(self.co2vocCanvas.nativeElement, {
 
-                    type: 'line',
-                    data: {
-                        labels: parsed_date,
-                        datasets: [
-                            {
-                                label: "CO2",
-                                fill: false,
-                                lineTension: 0.3,
-                                backgroundColor: "#6977c6",
-                                borderColor: "#6977c6",
-                                borderCapStyle: 'butt',
-                                borderDash: [],
-                                borderDashOffset: 0.0,
-                                borderJoinStyle: 'miter',
-                                pointBorderColor: "#6977c6",
-                                pointBackgroundColor: "#fff",
-                                pointBorderWidth: 1,
-                                pointHoverRadius: 5,
-                                pointHoverBackgroundColor: "rgba(75,192,192,1)",
-                                pointHoverBorderColor: "rgba(220,220,220,1)",
-                                pointHoverBorderWidth: 2,
-                                pointRadius: 1,
-                                pointHitRadius: 10,
-                                data: c,
-                                spanGaps: false,
-                            },
-                            {
-                                label: "VOC",
-                                fill: false,
-                                lineTension: 0.3,
-                                backgroundColor: "rgba(75,192,192,1)",
-                                borderColor: "rgba(75,192,192,1)",
-                                borderCapStyle: 'butt',
-                                borderDash: [],
-                                borderDashOffset: 0.0,
-                                borderJoinStyle: 'miter',
-                                pointBorderColor: "rgba(75,192,192,1)",
-                                pointBackgroundColor: "#fff",
-                                pointBorderWidth: 1,
-                                pointHoverRadius: 5,
-                                pointHoverBackgroundColor: "rgba(75,192,192,1)",
-                                pointHoverBorderColor: "rgba(220,220,220,1)",
-                                pointHoverBorderWidth: 2,
-                                pointRadius: 1,
-                                pointHitRadius: 10,
-                                data: v,
-                                spanGaps: false,
-                            }
-                        ]
-                    }
-
-                });
 
                 var p = _.map(d, 'pressure');
                 var UV = _.map(d, 'UV');

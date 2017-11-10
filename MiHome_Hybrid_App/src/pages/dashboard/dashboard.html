@@ -25,18 +25,16 @@
 
 <ion-row>
   <ion-col>
-    <button ion-button class="submit-btn" full type="submit" color="#37d6c6" (click)="goToTempHum()">Temperature & Humidity</button>
+    <button ion-button class="submit-btn" full type="submit" color="#37d6c6" 
+    (click)="goToTempHum()">Temperature & Humidity</button>
   </ion-col>
 </ion-row>
-
-    <ion-card>
-      <ion-card-header>
-        <h4><b>CO2 / VOC</b></h4>
-      </ion-card-header>
-      <ion-card-content>
-        <canvas #co2voc></canvas>
-      </ion-card-content>
-    </ion-card>
+<ion-row>
+  <ion-col>
+    <button ion-button class="submit-btn" full type="submit" color="#37d6c6" 
+    (click)="goToCO2VOC()">Carbon Dioxide & Volatile Organic Compounds</button>
+  </ion-col>
+</ion-row>
 
     <ion-card>
       <ion-card-header>

@@ -9,6 +9,7 @@ import { LoginPage } from '../pages/login/login';
 import { RegisterPage } from '../pages/register/register';
 import { AboutPage } from '../pages/about/about';
 import { TempHumidityPage } from '../pages/dashboard/dashpages/tempHum';
+import { CO2VOCPage } from '../pages/dashboard/dashpages/co2voc';
 import { IonicStorageModule } from '@ionic/storage';
 
 
@@ -38,7 +39,8 @@ import { DataProvider } from '../providers/data-service/data-service';
     ProfilePage,
     DatePicker,
     SetupPage,
-    TempHumidityPage
+    TempHumidityPage,
+    CO2VOCPage
   ],
   imports: [
     BrowserModule,
@@ -65,7 +67,8 @@ import { DataProvider } from '../providers/data-service/data-service';
     ProfilePage,
     DatePicker,
     SetupPage,
-    TempHumidityPage
+    TempHumidityPage,
+    CO2VOCPage
   ],
   providers: [
     StatusBar,

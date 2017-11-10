@@ -22,11 +22,21 @@
 </ion-row>
 </ion-grid>-->
 
-<div *ngFor="let p of dashpages" >
+<div id="btndiv" *ngFor="let p of dashpages" >
   <button id="dashbutton" ion-button large round (click)="openPage(p)">
     <ion-icon id="btn-icon" item-left name={{p.icon}}></ion-icon> {{p.title}}
   </button>
 </div>
+
+<ion-card>
+    <ion-card-header>
+      <h4><b>Dashboard Overview</b></h4>
+    </ion-card-header>
+    <ion-card-content>
+      <canvas #dashover></canvas>
+    </ion-card-content>
+  </ion-card>
+
 
     <!--<ion-fab bottom right >
   <button ion-fab>Share</button>

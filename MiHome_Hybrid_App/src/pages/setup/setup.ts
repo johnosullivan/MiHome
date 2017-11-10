@@ -16,12 +16,24 @@ export class SetupPage {
     pickMode: 'range'
   };
   nodeid:any;
+  name:any;
+  isSpinner:boolean;
   constructor(private barcodeScanner: BarcodeScanner,private qrScanner: QRScanner,public navCtrl: NavController, public navParams: NavParams) {
     this.nodeid = '';
+    this.name = '';
+    this.isSpinner = false;
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad AboutPage');
+  }
+
+  configs() {
+    this.isSpinner = true;
+    var self = this;
+    setTimeout(function() {
+      self.isSpinner = false;
+    }, 3000);
   }
 
   qr() {

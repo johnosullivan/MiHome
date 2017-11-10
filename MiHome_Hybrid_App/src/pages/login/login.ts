@@ -11,9 +11,12 @@ import { AlertController } from 'ionic-angular';
 export class LoginPage {
 
   creds:any;
-
+  error:string;
+  isSpinner:boolean;
   constructor(public alertCtrl: AlertController,public viewController:ViewController,public navCtrl: NavController, public navParams: NavParams,public authServiceProvider:AuthServiceProvider,public userServiceProvider:UserServiceProvider) {
-    this.creds = {};
+    this.creds = {password:'',username:''};
+    this.error = '';
+    this.isSpinner = false;
   }
 
   ionViewDidLoad() { }
@@ -22,18 +25,24 @@ export class LoginPage {
 
   login() {
     console.log(this.creds);
+    this.isSpinner = true;
     this.authServiceProvider.login(this.creds).subscribe(
       data => {
         if (data.success) {
           this.userServiceProvider.saveToken(data.token);
-          //this.navCtrl.pop();
+          this.authServiceProvider.setAuth(true);
+          this.isSpinner = true;
           this.viewController.dismiss(true);
           this.authServiceProvider.setAuth(true);
         } else {
 
         }
       },
-      err => console.log(err),
+      err => {
+        this.error = JSON.parse(err._body).message;
+        this.isSpinner = false;
+        this.creds['password'] = '';
+      },
       () => console.log('Logging in....')
     );
     //this.navCtrl.pop();

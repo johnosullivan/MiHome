@@ -31,18 +31,18 @@ double IR = 0;
 double light = 0;
 double pressure = 0;
 // Debugging tool
-bool isSending = 1;
+bool isSending = 0;
 // Setups up the Arduino Wifi
 //const char* ssid     = "";
 //const char* password = "";
 
 // The WiFi Host and PostURL
 const char* postURI = "http://pacific-springs-32410.herokuapp.com/api/data";
+
 const char* nodeID = "00000012340987011";
+const char* nodeID_RES = "00000012340987011_RES_HUB";
 
-const char* nodeID_RES = "00000012340987011_RES";
-
-const char* socketHost = "192.168.50.52";
+const char* socketHost = "10.24.172.223";
 const int socketPort = 8888;
 const char* socketPath = "/socket.io/?transport=websocket";
 
@@ -108,6 +108,7 @@ void setup()
   Serial.print("Connecting... ");
   Serial.println(WiFi.macAddress());
   wifiManager.setAPCallback(configModeCallback);
+  //wifiManager.connectWifi("loyola","");
   wifiManager.autoConnect("MiHome");
   // Prints details to the serial ports
   Serial.println();

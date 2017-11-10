@@ -16,21 +16,16 @@
 
   <ion-card>
     <ion-card-header>
-    Add SAND
+    <b>Sensor Array Network Device</b>
     </ion-card-header>
     <ion-card-content>
-      <ion-list no-lines>
-      <ion-item>
-        <ion-input type="text" placeholder="Enter name for this node."></ion-input>
-      </ion-item>
-      <ion-item>
+        <ion-input type="text" [(ngModel)]="name" placeholder="Enter name for this node."></ion-input>
+      <br>
         <ion-input type="text" [(ngModel)]="nodeid" placeholder="Enter node ID or scan it."></ion-input>
-      </ion-item>
-      <ion-item>
-        <button ion-button full color="menutheme" (click)="qr()">Scan Node QR Code</button>
-      </ion-item>
-      </ion-list>
-      <button ion-button full type="submit" color="themenav" (click)="qr()">Configure Node</button>
+      <br>
+      <button ion-button full color="menutheme" (click)="qr()">Scan Node QR Code</button>
+      <br>
+      <button ion-button full type="submit" color="themenav" (click)="configs()">Configure<ion-spinner name="bubbles" *ngIf="isSpinner"></ion-spinner></button>
     </ion-card-content>
   </ion-card>
 

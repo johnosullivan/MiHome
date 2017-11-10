@@ -14,8 +14,6 @@
 
 
 <ion-content style="background-color: #eee;">
-
-
   <ion-row>
    <ion-col>
      <ion-list inset>
@@ -31,11 +29,13 @@
      </ion-list>
    </ion-col>
  </ion-row>
-
+ <div style="text-align:center">
+ <span style="color:red;">{{error}}</span>
+ </div>
 <div padding>
  <ion-row>
    <ion-col class="signup-col">
-     <button ion-button class="submit-btn" full type="submit" color="menutheme" (click)="login()">Login</button>
+     <button ion-button color="menutheme" (click)="login()" full>Login<ion-spinner name="bubbles" *ngIf="isSpinner"></ion-spinner></button>
    </ion-col>
  </ion-row>
 </div>

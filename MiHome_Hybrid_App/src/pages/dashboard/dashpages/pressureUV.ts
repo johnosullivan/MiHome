@@ -46,6 +46,8 @@ export class PressureUVPage {
         }
         var pressure = _.map(d, 'pressure');
         var UV = _.map(d, 'UV');
+        var avg_pressure = _.meanBy(d, 'pressure');
+        var avg_uv = _.meanBy(d, 'UV');
 
         self.pressureUV = new Chart(self.pressureUVCanvas.nativeElement, {
                 type: 'line',
@@ -61,7 +63,7 @@ export class PressureUVPage {
                             borderCapStyle: 'butt',
                             borderDash: [],
                             borderDashOffset: 0.0,
-                            borderJoinStyle: 'miter',
+                            borderJoinStyle: 'bevel',
                             pointBorderColor: "#5285dd",
                             pointBackgroundColor: "#fff",
                             pointBorderWidth: 1,
@@ -69,7 +71,7 @@ export class PressureUVPage {
                             pointHoverBackgroundColor: "rgba(75,192,192,1)",
                             pointHoverBorderColor: "rgba(220,220,220,1)",
                             pointHoverBorderWidth: 2,
-                            pointRadius: 1,
+                            pointRadius: 3,
                             pointHitRadius: 10,
                             data: pressure,
                             spanGaps: false,
@@ -83,7 +85,7 @@ export class PressureUVPage {
                             borderCapStyle: 'butt',
                             borderDash: [],
                             borderDashOffset: 0.0,
-                            borderJoinStyle: 'miter',
+                            borderJoinStyle: 'bevel',
                             pointBorderColor: "#37d6c6",
                             pointBackgroundColor: "#fff",
                             pointBorderWidth: 1,
@@ -91,7 +93,7 @@ export class PressureUVPage {
                             pointHoverBackgroundColor: "rgba(75,192,192,1)",
                             pointHoverBorderColor: "rgba(220,220,220,1)",
                             pointHoverBorderWidth: 2,
-                            pointRadius: 1,
+                            pointRadius: 3,
                             pointHitRadius: 10,
                             data: UV,
                             spanGaps: false,

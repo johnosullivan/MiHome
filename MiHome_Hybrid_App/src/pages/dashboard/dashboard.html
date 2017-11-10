@@ -23,11 +23,9 @@
 </ion-grid>-->
 
 
-<ion-list>
-  <button menuClose ion-item *ngFor="let p of dashpages" (click)="openPage(p)">
+  <button ion-item *ngFor="let p of dashpages" (click)="openPage(p)">
     <ion-icon item-left name={{p.icon}}></ion-icon> {{p.title}}
   </button>
-  </ion-list>
 
 
     <!--<ion-fab bottom right >

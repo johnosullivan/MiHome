@@ -50,7 +50,7 @@ export class DashboardPage {
     });
 
     this.dashpages = [
-        { title: 'Temperate & Humidity', icon:'thermometer', component: TempHumidityPage },
+        { title: 'Temperature & Humidity', icon:'thermometer', component: TempHumidityPage },
         { title: 'Carbon Dioxide & VOCs', icon:'warning',component: CO2VOCPage },
         { title: 'Pressure & UV', icon: 'sunny', component: PressureUVPage},
         { title: 'IR & Light', icon:'contrast',component: IRLightPage },

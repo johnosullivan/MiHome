@@ -45,6 +45,8 @@ export class CO2VOCPage {
         }
         var co2 = _.map(d, 'co2');
         var voc = _.map(d, 'voc');
+        var avg_co2 = _.meanBy(d, 'co2');
+        var avg_voc = _.meanBy(d, 'voc');
         self.co2voc = new Chart(self.co2vocCanvas.nativeElement, {
                 type: 'line',
                 data: {
@@ -59,7 +61,7 @@ export class CO2VOCPage {
                             borderCapStyle: 'butt',
                             borderDash: [],
                             borderDashOffset: 0.0,
-                            borderJoinStyle: 'miter',
+                            borderJoinStyle: 'bevel',
                             pointBorderColor: "#5285dd",
                             pointBackgroundColor: "#fff",
                             pointBorderWidth: 1,
@@ -67,7 +69,7 @@ export class CO2VOCPage {
                             pointHoverBackgroundColor: "rgba(75,192,192,1)",
                             pointHoverBorderColor: "rgba(220,220,220,1)",
                             pointHoverBorderWidth: 2,
-                            pointRadius: 1,
+                            pointRadius: 3,
                             pointHitRadius: 10,
                             data: co2,
                             spanGaps: false,
@@ -81,7 +83,7 @@ export class CO2VOCPage {
                             borderCapStyle: 'butt',
                             borderDash: [],
                             borderDashOffset: 0.0,
-                            borderJoinStyle: 'miter',
+                            borderJoinStyle: 'bevel',
                             pointBorderColor: "#37d6c6",
                             pointBackgroundColor: "#fff",
                             pointBorderWidth: 1,
@@ -89,7 +91,7 @@ export class CO2VOCPage {
                             pointHoverBackgroundColor: "rgba(75,192,192,1)",
                             pointHoverBorderColor: "rgba(220,220,220,1)",
                             pointHoverBorderWidth: 2,
-                            pointRadius: 1,
+                            pointRadius: 3,
                             pointHitRadius: 10,
                             data: voc,
                             spanGaps: false,

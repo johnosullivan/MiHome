@@ -23,6 +23,20 @@
               <canvas #temphum></canvas>
             </ion-card-content>
           </ion-card>
+          <ion-card>
+            <ion-fab left>
+              <ion-label>{{averages[0].title}}</ion-label>
+            <button ion-fab>
+               {{averages[0].avg}}
+               </button>
+            </ion-fab>
+            <ion-fab right>
+                <ion-label>{{averages[1].title}}</ion-label>
+              <button ion-fab>
+                 {{averages[1].avg}}
+                 </button>
+              </ion-fab>
+          </ion-card>
     
     <div padding>
     </div>

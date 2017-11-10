@@ -46,6 +46,8 @@ export class IRLightPage {
         }
         var IR = _.map(d, 'IR');
         var Light = _.map(d, 'light');
+        var avg_ir = _.meanBy(d, 'IR');
+        var avg_light = _.meanBy(d, 'light');
 
         self.IRLight = new Chart(self.IRLightCanvas.nativeElement, {
                 type: 'line',
@@ -61,7 +63,7 @@ export class IRLightPage {
                             borderCapStyle: 'butt',
                             borderDash: [],
                             borderDashOffset: 0.0,
-                            borderJoinStyle: 'miter',
+                            borderJoinStyle: 'bevel',
                             pointBorderColor: "#5285dd",
                             pointBackgroundColor: "#fff",
                             pointBorderWidth: 1,
@@ -69,7 +71,7 @@ export class IRLightPage {
                             pointHoverBackgroundColor: "rgba(75,192,192,1)",
                             pointHoverBorderColor: "rgba(220,220,220,1)",
                             pointHoverBorderWidth: 2,
-                            pointRadius: 1,
+                            pointRadius: 3,
                             pointHitRadius: 10,
                             data: IR,
                             spanGaps: false,
@@ -83,7 +85,7 @@ export class IRLightPage {
                             borderCapStyle: 'butt',
                             borderDash: [],
                             borderDashOffset: 0.0,
-                            borderJoinStyle: 'miter',
+                            borderJoinStyle: 'bevel',
                             pointBorderColor: "#37d6c6",
                             pointBackgroundColor: "#fff",
                             pointBorderWidth: 1,
@@ -91,7 +93,7 @@ export class IRLightPage {
                             pointHoverBackgroundColor: "rgba(75,192,192,1)",
                             pointHoverBorderColor: "rgba(220,220,220,1)",
                             pointHoverBorderWidth: 2,
-                            pointRadius: 1,
+                            pointRadius: 3,
                             pointHitRadius: 10,
                             data: Light,
                             spanGaps: false,

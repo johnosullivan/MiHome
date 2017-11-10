@@ -13,6 +13,7 @@ import { ProfilePage } from '../pages/profile/profile';
 import { AuthServiceProvider } from '../providers/auth-service/auth-service';
 import { UserServiceProvider } from '../providers/user-service/user-service';
 import { SetupPage } from '../pages/setup/setup';
+import { TempHumidityPage } from '../pages/dashboard/dashpages/tempHum';
 
 @Component({
   templateUrl: 'app.html'

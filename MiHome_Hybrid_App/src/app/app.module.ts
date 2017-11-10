@@ -8,6 +8,7 @@ import { ListPage } from '../pages/list/list';
 import { LoginPage } from '../pages/login/login';
 import { RegisterPage } from '../pages/register/register';
 import { AboutPage } from '../pages/about/about';
+import { TempHumidityPage } from '../pages/dashboard/dashpages/tempHum';
 import { IonicStorageModule } from '@ionic/storage';
 
 
@@ -36,7 +37,8 @@ import { DataProvider } from '../providers/data-service/data-service';
     DashboardPage,
     ProfilePage,
     DatePicker,
-    SetupPage
+    SetupPage,
+    TempHumidityPage
   ],
   imports: [
     BrowserModule,
@@ -62,7 +64,8 @@ import { DataProvider } from '../providers/data-service/data-service';
     DashboardPage,
     ProfilePage,
     DatePicker,
-    SetupPage
+    SetupPage,
+    TempHumidityPage
   ],
   providers: [
     StatusBar,

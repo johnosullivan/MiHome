@@ -8,6 +8,7 @@ import { AlertController } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
 import { SetupPage } from '../setup/setup';
 import { Storage } from '@ionic/storage';
+import { TempHumidityPage } from './dashpages/tempHum';
 
 import { DataProvider } from '../../providers/data-service/data-service';
 import * as _ from 'lodash';
@@ -19,8 +20,7 @@ import * as _ from 'lodash';
 export class DashboardPage {
   @ViewChild(Nav) nav: Nav;
 
-  @ViewChild('temphun') temphunCanvas;
-  temphun: any;
+
 
   @ViewChild('co2voc') co2vocCanvas;
   co2voc: any;
@@ -62,6 +62,11 @@ export class DashboardPage {
   dismissHandler() {
     console.info('Toast onDidDismiss()');
     //this.nav.setRoot(SetupPage);
+  }
+
+  goToTempHum() {
+    let tempHumModal = this.modalCtrl.create(TempHumidityPage);
+    tempHumModal.present();
   }
 
   storeSensorData(){
@@ -153,14 +158,14 @@ export class DashboardPage {
                        }
                     ]
                    }
-                   console.log(fakeData);
+                  // console.log(fakeData);
                    this.sensorData.set("lastcall", fakeData);
                    this.sensorData.get('lastcall').then((fakeData) => {
-                    console.log('Your json is', fakeData);
-                    var d = fakeData['data'];
-                    var t = _.map(d, 'temperature');
-                    console.log("Temperatures being stored!");
-                    console.log(t);
+                  //  console.log('Your json is', fakeData);
+                  //  var d = fakeData['data'];
+                  //  var t = _.map(d, 'temperature');
+                 //   console.log("Temperatures being stored!");
+                 //   console.log(t);
                   });
                    
                 })
@@ -342,61 +347,6 @@ export class DashboardPage {
             var parsed = (day + ' ' + month + ' ' + year);
             parsed_date.push(parsed);
         }
-        var h = _.map(d, 'humidity');
-        self.temphun = new Chart(self.temphunCanvas.nativeElement, {
-//CHART 1
-                type: 'line',
-                data: {
-                  labels: parsed_date,
-                    datasets: [
-                        {
-                            label: "Temperature",
-                            fill: false,
-                            lineTension: 0.3,
-                            backgroundColor: "#6977c6",
-                            borderColor: "#6977c6",
-                            borderCapStyle: 'butt',
-                            borderDash: [],
-                            borderDashOffset: 0.0,
-                            borderJoinStyle: 'miter',
-                            pointBorderColor: "#6977c6",
-                            pointBackgroundColor: "#fff",
-                            pointBorderWidth: 1,
-                            pointHoverRadius: 5,
-                            pointHoverBackgroundColor: "rgba(75,192,192,1)",
-                            pointHoverBorderColor: "rgba(220,220,220,1)",
-                            pointHoverBorderWidth: 2,
-                            pointRadius: 1,
-                            pointHitRadius: 10,
-                            data: t,
-                            spanGaps: false,
-                        },
-                        {
-                            label: "Humidity",
-                            fill: false,
-                            lineTension: 0.3,
-                            backgroundColor: "rgba(75,192,192,1)",
-                            borderColor: "rgba(75,192,192,1)",
-                            borderCapStyle: 'butt',
-                            borderDash: [],
-                            borderDashOffset: 0.0,
-                            borderJoinStyle: 'miter',
-                            pointBorderColor: "rgba(75,192,192,1)",
-                            pointBackgroundColor: "#fff",
-                            pointBorderWidth: 1,
-                            pointHoverRadius: 5,
-                            pointHoverBackgroundColor: "rgba(75,192,192,1)",
-                            pointHoverBorderColor: "rgba(220,220,220,1)",
-                            pointHoverBorderWidth: 2,
-                            pointRadius: 1,
-                            pointHitRadius: 10,
-                            data: h,
-                            spanGaps: false,
-                        }
-                    ]
-                }
-
-            });
 
             //map method, first arg is var d (data) and second method is what
             //you want to get back

@@ -22,11 +22,11 @@
 </ion-row>
 </ion-grid>-->
 
-
-  <button ion-item *ngFor="let p of dashpages" (click)="openPage(p)">
-    <ion-icon item-left name={{p.icon}}></ion-icon> {{p.title}}
+<div *ngFor="let p of dashpages" >
+  <button id="dashbutton" ion-button large round (click)="openPage(p)">
+    <ion-icon id="btn-icon" item-left name={{p.icon}}></ion-icon> {{p.title}}
   </button>
-
+</div>
 
     <!--<ion-fab bottom right >
   <button ion-fab>Share</button>

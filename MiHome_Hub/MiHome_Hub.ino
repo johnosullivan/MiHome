@@ -42,8 +42,8 @@ const char* postURI = "http://pacific-springs-32410.herokuapp.com/api/data";
 const char* nodeID = "00000012340987011";
 const char* nodeID_RES = "00000012340987011_RES_HUB";
 
-const char* socketHost = "10.24.172.223";
-const int socketPort = 8888;
+const char* socketHost = "pacific-springs-32410.herokuapp.com";
+const int socketPort = 80;
 const char* socketPath = "/socket.io/?transport=websocket";
 
 long previousMillis = 0;
@@ -51,10 +51,10 @@ long interval = 60000;
 
 int setup_status = 0;
 
-int resetState = 0; 
-const int resetPin = 12; 
+int resetState = 0;
+const int resetPin = 12;
 
-void tick()
+void tick()`
 {
   int state = digitalRead(0);
   digitalWrite(LED, !state);
@@ -78,8 +78,8 @@ void webSocketDeviceCallBack(const char * payload, size_t length) {
   } else {
 
   }*/
-  
-  webSocket.emit(nodeID_RES, "\"ok\"");
+
+  webSocket.emit("send", "{\"emit\":\"00000012340987011_RES_HUB\",\"payload\": { } }");
 }
 void webSocketConnect(const char * payload, size_t length) { }
 

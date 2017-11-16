@@ -1,15 +1,13 @@
+// Mirror
+//var socket = require('socket.io-client')('http://localhost:8888');
 
-var io = require('socket.io-client');
-var socket = io.connect('http://pacific-springs-32410.herokuapp.com/', {reconnect: true});
+var io = require('socket.io-client')
+var socket = io.connect('https://pacific-springs-32410.herokuapp.com/', {reconnect: true});
 
-socket.on('connect', function (socket) {
-    console.log('Connected!');
+socket.on('connect', function(){
+  console.log(socket.id);
+  socket.on('00000012340987011_RES_HUB', function(data){
+    console.log("00000012340987011_RES_HUB");
+  });
+  socket.emit('send',{ 'emit':'00000012340987011', 'payload': {'a':'b'} });
 });
-
-
-socket.on('CH01', function(d){
-
-  console.log(d);
-
-});
-socket.emit('00000012340987011', 'me', 'test msg');

@@ -44,7 +44,7 @@ export class DashboardPage {
       closeButtonText: 'Setup'
     });
     //toaststart.onDidDismiss(this.dismissHandler);
-    //toaststart.present();
+    //toaststart.present();  
   }
 
   getData() {

@@ -12,7 +12,9 @@ import { DashboardPage } from '../pages/dashboard/dashboard';
 import { ProfilePage } from '../pages/profile/profile';
 import { AuthServiceProvider } from '../providers/auth-service/auth-service';
 import { UserServiceProvider } from '../providers/user-service/user-service';
+import { DataProvider } from '../providers/data-service/data-service';
 import { SetupPage } from '../pages/setup/setup';
+import { DevicesPage } from '../pages/devices/devices';
 
 @Component({
   templateUrl: 'app.html'
@@ -20,16 +22,13 @@ import { SetupPage } from '../pages/setup/setup';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = SetupPage;
+  rootPage: any = DevicesPage;
 
   pages: Array<{title: string, icon:string, component: any}>;
   authpages: Array<{title: string, icon:string, component: any}>;
 
-  constructor(public userServiceProvider:UserServiceProvider,public authServiceProvider:AuthServiceProvider,public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,public modalCtrl: ModalController) {
+  constructor(public dataProvider:DataProvider, public userServiceProvider:UserServiceProvider,public authServiceProvider:AuthServiceProvider,public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,public modalCtrl: ModalController) {
     this.initializeApp();
-    // { title: 'Dashboard', icon:'desktop', component: DashboardPage }
-    // used for an example of ngFor and navigation
-    //this.statusBar.backgroundColorByHexString('#222111');
 
     this.pages = [
       { title: 'Home', icon:'home', component: HomePage },
@@ -46,7 +45,6 @@ export class MyApp {
 
     var self = this;
     this.userServiceProvider.getToken().then(function(token){
-        console.log(token);
         if (token === null) {
           self.authServiceProvider.setAuth(false);
         } else {
@@ -70,23 +68,34 @@ export class MyApp {
 
   openPage(page) {
 
-    // Reset the content nav to have just this page
-    // we wouldn't want the back button to show in this scenario
     if (page.title == "Login") {
-      let profileModal = this.modalCtrl.create(page.component, { userId: 8675309 });
-      profileModal.onDidDismiss(status => {
-      if (status) {
-        this.nav.setRoot(DashboardPage);
+
+      let profileModal = this.modalCtrl.create(page.component, { });
+      profileModal.onDidDismiss(obj => {
+      if (obj.status) {
+        this.dataProvider.devices(obj.user.id,obj.token).subscribe(
+          data => {
+            if (data['data'].length != 0) {
+              this.nav.setRoot(DashboardPage);
+            } else {
+              this.nav.setRoot(SetupPage);
+            }
+          },
+          err => {
+
+          }
+        );
+
       }
       });
       profileModal.present();
+
     } else if (page.title == "Register") {
       let profileModal = this.modalCtrl.create(page.component, { userId: 8675309 });
       profileModal.present();
     } else {
       this.nav.setRoot(page.component);
     }
-
 
   }
 }

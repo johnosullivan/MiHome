@@ -21,8 +21,6 @@
     <ion-card-content>
         <ion-input type="text" [(ngModel)]="name" placeholder="Enter name for this node."></ion-input>
       <br>
-        <ion-input type="text" [(ngModel)]="nodeid" placeholder="Enter node ID or scan it."></ion-input>
-      <br>
       <button ion-button full color="menutheme" (click)="qr()">Scan Node QR Code</button>
       <br>
       <button ion-button full type="submit" color="themenav" (click)="configs()">Configure<ion-spinner name="bubbles" *ngIf="isSpinner"></ion-spinner></button>

@@ -6,7 +6,8 @@ var hubSchema = new Schema({
   firmware:String,
   encrypted:Boolean,
   connected:Boolean,
-  nodeID:String
+  hubID:String,
+  userID:String
 });
 
 var hub = mongoose.model('Hub', hubSchema);

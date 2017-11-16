@@ -24,15 +24,16 @@ export class LoginPage {
   closeModal() { this.navCtrl.pop(); }
 
   login() {
-    console.log(this.creds);
     this.isSpinner = true;
     this.authServiceProvider.login(this.creds).subscribe(
       data => {
         if (data.success) {
+          console.log(data);
           this.userServiceProvider.saveToken(data.token);
+          this.userServiceProvider.saveUser(data.user);
           this.authServiceProvider.setAuth(true);
           this.isSpinner = true;
-          this.viewController.dismiss(true);
+          this.viewController.dismiss({status:true,user:data.user,token:data.token});
           this.authServiceProvider.setAuth(true);
         } else {
 

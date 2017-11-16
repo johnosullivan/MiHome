@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-navbar color="themenav">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>My Hubs</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-list>
+    <ion-item-sliding>
+      <ion-item>
+        <ion-avatar item-start>
+          <img src="https://maxcdn.icons8.com/Share/icon/Logos//arduino1600.png">
+        </ion-avatar>
+        <ion-avatar item-end>
+          <img src="http://www.clker.com/cliparts/j/Q/v/f/l/A/small-green-dot.svg.med.png">
+        </ion-avatar>
+        <h2><b>Mi Home Hub</b></h2>
+        <h6>HID: 00000012340987011</h6>
+        <small>Firmware v0.2.1 # of SAND: 1</small>
+      </ion-item>
+      <ion-item-options side="left">
+        <button ion-button color="primary">
+          <ion-icon name="hammer"></ion-icon>
+          Re-Config
+        </button>
+        <button ion-button color="danger">
+          <ion-icon name="trash"></ion-icon>
+          Delete
+        </button>
+      </ion-item-options>
+      <ion-item-options side="right">
+        <button ion-button color="menutheme">
+          <ion-icon name="arrow-round-down"></ion-icon>
+          Ping
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+</ion-content>

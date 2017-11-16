@@ -9,11 +9,11 @@ var User = require('../models/user');
 
 var router = express.Router();
 
-/*router.get('/setup/:hub/:node/:command', function(req, res){
+router.get('/setup/:hub', function(req, res){
   var socket = req.app.get('io');
-  socket.emit(req.params.hub, {'command':req.params.command,'payload':req.params.node });
+  socket.emit(req.params.hub, {'command':'req.params.command','payload':'req.params.node' });
   res.json({});
-});*/
+});
 
 router.post('/register', function createUser(request, response) {
   //console.log("Registing");

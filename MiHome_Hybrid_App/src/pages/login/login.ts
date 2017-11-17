@@ -40,6 +40,7 @@ export class LoginPage {
         }
       },
       err => {
+        console.log(JSON.stringify(err._body));
         this.error = JSON.parse(err._body).message;
         this.isSpinner = false;
         this.creds['password'] = '';

@@ -22,7 +22,7 @@ import { DevicesPage } from '../pages/devices/devices';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = DevicesPage;
+  rootPage: any = HomePage;
 
   pages: Array<{title: string, icon:string, component: any}>;
   authpages: Array<{title: string, icon:string, component: any}>;
@@ -72,6 +72,7 @@ export class MyApp {
 
       let profileModal = this.modalCtrl.create(page.component, { });
       profileModal.onDidDismiss(obj => {
+        console.log(JSON.stringify(obj));
       if (obj.status) {
         this.dataProvider.devices(obj.user.id,obj.token).subscribe(
           data => {

@@ -39,8 +39,8 @@ bool isSending = 0;
 // The WiFi Host and PostURL
 const char* postURI = "http://pacific-springs-32410.herokuapp.com/api/data";
 
-const char* nodeID = "00000012340987011";
-const char* nodeID_RES = "00000012340987011_RES_HUB";
+const char* hubID = "00000012340987011";
+const char* hubID_RES = "00000012340987011_RES_HUB";
 
 const char* socketHost = "pacific-springs-32410.herokuapp.com";
 const int socketPort = 80;
@@ -51,10 +51,12 @@ long interval = 60000;
 
 int setup_status = 0;
 
+const char* firmware = "1.0.2";
+
 int resetState = 0;
 const int resetPin = 12;
 
-void tick()`
+void tick()
 {
   int state = digitalRead(0);
   digitalWrite(LED, !state);
@@ -70,16 +72,26 @@ void webSocketDeviceCallBack(const char * payload, size_t length) {
   JsonObject& root = jsonBuffer.parseObject(payload);
   const char* command = root["command"];
   const char* data_payload = root["payload"];
-  Serial.println(command);
-  Serial.println(data_payload);
-  /*String setup_data = transmit(command);
-  if (setup_data != "") {
-    Serial.println(setup_data);
-  } else {
+  //Serial.println(command);
+  
+  if (strcmp(command, "info") == 0) {
+    JsonObject& rootinfo = jsonBuffer.createObject();
+    rootinfo["emit"] = hubID_RES;
+    JsonObject& infopayload = rootinfo.createNestedObject("payload");    
+    infopayload["macaddress"] = WiFi.macAddress();
+    infopayload["firmware"] = firmware;
+    infopayload["hubID"] = hubID;
+    infopayload["type"] = "info";
+    char cbuf[200];
+    rootinfo.printTo(cbuf,sizeof(cbuf));    
+    webSocket.emit("send", cbuf);
+  }
 
-  }*/
+  if (strcmp(command, "ping") == 0) {
+    Serial.println("ping....");
+  }
+  
 
-  webSocket.emit("send", "{\"emit\":\"00000012340987011_RES_HUB\",\"payload\": { } }");
 }
 void webSocketConnect(const char * payload, size_t length) { }
 
@@ -113,7 +125,7 @@ void setup()
   // Prints details to the serial ports
   Serial.println();
   Serial.println("-----------------------------------------");
-  Serial.println("ESP8266 (WiFi): RFM69 TX/RX Hub");
+  Serial.println("MiHome Hub ESP8266 (WiFi): RFM69 TX/RX Hub");
   Serial.println("-----------------------------------------");
   Serial.println("WiFi Connected => Details: ");
   Serial.println("IP address: ");
@@ -161,7 +173,7 @@ void setup()
   Serial.println();
 
   webSocket.on("connect", webSocketConnect);
-  webSocket.on(nodeID, webSocketDeviceCallBack);
+  webSocket.on(hubID, webSocketDeviceCallBack);
   webSocket.begin(socketHost, socketPort, socketPath);
 }
 
@@ -210,7 +222,7 @@ void send() {
     root["UV"] = UV;
     root["IR"] = IR;
     root["pressure"] = pressure;
-    root["nodeID"] = nodeID;
+    root["nodeID"] = hubID;
     char cbuf[256];
     root.printTo(cbuf,sizeof(cbuf));
     Serial.print("Post Payload: ");

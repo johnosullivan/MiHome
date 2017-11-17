@@ -15,16 +15,30 @@
 <ion-content style="background-color: #eee;">
 
   <ion-card>
-    <ion-card-header>
-    <b>Sensor Array Network Device</b>
-    </ion-card-header>
+
+    <ion-card-header><b>Linking MiHome Hub</b></ion-card-header>
+
     <ion-card-content>
-        <ion-input type="text" [(ngModel)]="name" placeholder="Enter name for this node."></ion-input>
-      <br>
-      <button ion-button full color="menutheme" (click)="qr()">Scan Node QR Code</button>
-      <br>
-      <button ion-button full type="submit" color="themenav" (click)="configs()">Configure<ion-spinner name="bubbles" *ngIf="isSpinner"></ion-spinner></button>
+      <div *ngIf="state.stage_one">
+        <h5>If your MiHome Hub is bright green you are ready to proceed. If not, please tap the help icon at the top right to troublshoot your hardware. Linking is as easy as 1,2,3. To start off please scan your MiHome Hub QR Code.</h5>
+        <button ion-button full color="menutheme" (click)="qr()" [(disabled)]="state.stage_one_qr">Scan Hub QR Code</button>
+      </div>
+      <div *ngIf="state.stage_two">
+        <h6>Now, please enter a location name to link this MiHome Hub.</h6>
+        <ion-list>
+          <ion-input type="text" [(ngModel)]="name" placeholder="Enter location name."></ion-input>
+        </ion-list>
+        <span><b>MAC Address:</b> {{hub.macaddress}}</span>
+        <br>
+        <span><b>Firmware:</b> {{hub.firmware}}</span>
+        <br>
+        <span><b>Unique HID:</b> {{hub.hubID}}</span>
+        <button ion-button full type="submit" color="themenav" (click)="configs()"><b>Link</b><ion-spinner name="bubbles" *ngIf="isSpinner"></ion-spinner></button>
+      </div>
     </ion-card-content>
+
+
+
   </ion-card>
 
 </ion-content>

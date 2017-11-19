@@ -4,12 +4,16 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>My Hubs</ion-title>
+    <ion-buttons end>
+     <button ion-button icon-only (click)="add()">
+       <ion-icon name="add"></ion-icon>
+     </button>
+   </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content style="background-color: #eee;">
-
-  <ion-list>
+  <ion-list *ngFor="let device of devices">
     <ion-item-sliding>
       <ion-item>
         <ion-avatar item-start>
@@ -17,9 +21,9 @@
         </ion-avatar>
         <ion-avatar item-end>
         </ion-avatar>
-        <h2><b>Mi Home Hub</b></h2>
-        <h6>HID: 00000012340987011</h6>
-        <small>Firmware v0.2.1 # of SAND: 1</small>
+        <h2><b>{{device.name}}</b></h2>
+        <h6>HID: {{device.hubID}}</h6>
+        <small>Firmware v{{device.firmware}} # of SAND: 1</small>
       </ion-item>
       <ion-item-options side="left">
         <button ion-button color="primary">

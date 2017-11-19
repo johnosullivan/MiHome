@@ -58,7 +58,8 @@ export class SetupPage {
           data => {
             self.isSpinner = false;
             this.socket.emit("send", { 'emit':this.nodeid, 'payload': {'command':'linked'} });
-            self.navCtrl.setRoot(DevicesPage);
+            //self.navCtrl.setRoot(DevicesPage);
+            self.navCtrl.pop();
           },
           err => {
             console.log(JSON.stringify(err));

@@ -39,7 +39,7 @@ export class MyApp {
     this.authpages = [
       { title: 'About', icon:'information-circle', component: AboutPage },
       { title: 'Dashboard', icon:'desktop',component: DashboardPage },
-      { title: 'Setup', icon:'hammer', component: SetupPage },
+      { title: 'My Hubs', icon:'hammer', component: DevicesPage },
       { title: 'My Profile', icon:'person', component: ProfilePage }
     ];
 
@@ -79,7 +79,7 @@ export class MyApp {
             if (data['data'].length != 0) {
               this.nav.setRoot(DashboardPage);
             } else {
-              this.nav.setRoot(SetupPage);
+              this.nav.setRoot(DevicesPage);
             }
           },
           err => {

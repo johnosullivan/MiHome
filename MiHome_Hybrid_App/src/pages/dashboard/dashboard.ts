@@ -23,14 +23,18 @@ import * as _ from 'lodash';
 export class DashboardPage {
   @ViewChild(Nav) nav: Nav;
 
-  @ViewChild('dashover') dashCanvas;
-  dashover: any;
+  @ViewChild('rightnow') rightNowCard;
+  rightnow: any;
 
   start:Date;
   end:Date;
   rootPage: any = DashboardPage;
 
   dashpages: Array<{title: string, icon:string, component: any}>;
+
+  public averages;
+  public dates;
+  public sensordata;
 
 
   constructor(public dataProvider:DataProvider,
@@ -73,7 +77,11 @@ export class DashboardPage {
 
 
   openPage(page) {
-   this.navCtrl.push(page.component);
+   this.navCtrl.push(page.component, {
+     averages: this.averages,
+     dates: this.dates,
+     sensor: this.sensordata
+    });
    //push pages cause you want to go back to dash from them
     }
 
@@ -83,7 +91,7 @@ export class DashboardPage {
      this.dataProvider.chartdata("","").subscribe(
         
               data => {
-                var fakeData = 
+                let fakeData = 
         
                 {
                     "success": true,
@@ -189,7 +197,7 @@ export class DashboardPage {
     }).then(
         date => {
           this.start = date;
-          var self = this;
+          let self = this;
           setTimeout(function() {
             // End date and time selector
             self.datePicker.show({
@@ -240,16 +248,60 @@ export class DashboardPage {
   ionViewDidLoad() {
     this.storeSensorData();
     console.log("Data refreshed");
-    var self = this;
+    let self = this;
     //store data when dash loads
+    this.sensorData.get('lastcall').then((fakeData) => {
+    let d = fakeData['data'];
+
+    //get averages
+    let avg_temp = _.meanBy(d, 'temperature');
+    let avg_humidity = _.meanBy(d, 'humidity');
+    let avg_co2 = _.meanBy(d, 'co2');
+    let avg_voc = _.meanBy(d, 'voc');
+    let avg_ir = _.meanBy(d, 'IR');
+    let avg_light = _.meanBy(d, 'light');
+    let avg_pressure = _.meanBy(d, 'pressure');
+    let avg_uv = _.meanBy(d, 'UV');
+    let avged_data = [avg_temp, avg_humidity, avg_co2, avg_voc, avg_ir,
+    avg_light, avg_pressure, avg_uv];
+    this.averages = avged_data; 
+
+    //fix times
+    let data_times = _.map(d, 'datetime');
+    let parsed_date = [];
+    for(let i = 0; i < data_times.length; i++){
+        let date = new Date(data_times[i]);
+        let year = date.getFullYear();
+        let day = date.getDate();
+        //formatted as YY/MM/DD
+        let locale = 'en-us';
+        let month = date.toLocaleString(locale, { month : "short" })
+        let parsed = (day + ' ' + month + ' ' + year);
+        parsed_date.push(parsed);
+    }
+    this.dates = parsed_date;
+    //map sensor data raw values
+    let temp = _.map(d, 'temperature');
+    let humid = _.map(d, 'humidity');
+    let co2 = _.map(d, 'co2');
+    let voc = _.map(d, 'voc');
+    let ir = _.map(d, 'IR');
+    let light = _.map(d, 'light');
+    let pressure = _.map(d, 'pressure');
+    let uv = _.map(d, 'UV');
+    let mappedsensordata = [temp, humid, co2, voc, ir, light, pressure, uv];
+    this.sensordata = mappedsensordata;
+
+
+   // this.rightnow = avg_temp;
+    /*
     this.dashover = new Chart(this.dashCanvas.nativeElement, {
       
-                 type: 'doughnut',
+                 type: 'bar',
                  data: {
-                     labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+                     labels: ["Temperature", "Humidity", "CO2", "VOCs", ],
                      datasets: [{
-                         label: '# of Votes',
-                         data: [12, 19, 3, 5, 2, 3],
+                         data: [avg_temp,  avg_humidity, avg_co2, avg_voc, avg_uv, avg_ir, avg_light],
                          backgroundColor: [
                              'rgba(255, 99, 132, 0.2)',
                              'rgba(54, 162, 235, 0.2)',
@@ -265,16 +317,24 @@ export class DashboardPage {
                              "#FF6384",
                              "#36A2EB",
                              "#FFCE56"
-                         ]
+                         ],
+                         scales: {
+                          xAxes: [{
+                              stacked: true,
+                          }],
+                          yAxes: [{
+                              stacked: true
+                          }]
+                      }
                      }]
                  }
       
-             });
-      
+             }) */
+    }); 
   }
 
   test() {
-    var token = this.userServiceProvider.getToken().then((token) => {
+    let token = this.userServiceProvider.getToken().then((token) => {
       console.log(token);
     });
   }

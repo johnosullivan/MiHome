@@ -12,6 +12,9 @@ import * as _ from 'lodash';
 export class TempHumidityPage {
 
 averages: Array<{title: string, avg: any}>;
+public parsed_date;
+public avged_data;
+public sensordata;
 
   constructor(
       public alertCtrl: AlertController,
@@ -19,7 +22,9 @@ averages: Array<{title: string, avg: any}>;
         public navCtrl: NavController, 
         public navParams: NavParams, 
         public sensorData: Storage) {
-
+        this.parsed_date = navParams.get("dates");
+        this.avged_data = navParams.get("averages");
+        this.sensordata = navParams.get("sensor")
         this.averages = [
                 { title: 'Average Temp', avg: null },
                 { title: 'Average Humidity', avg: null },
@@ -33,36 +38,16 @@ averages: Array<{title: string, avg: any}>;
   ionViewDidLoad() {
     var self = this;
     //chardata(start, end)
-    this.sensorData.get('lastcall').then((fakeData) => {
-          var d = fakeData['data'];
-          var t = _.map(d, 'temperature');
-        
-        var data_times = _.map(d, 'datetime');
-        var parsed_date = [];
-        for(let i = 0; i < data_times.length; i++){
-            var date = new Date(data_times[i]);
-            var year = date.getFullYear();
-            var day = date.getDate();
-            //formatted as YY/MM/DD
-            var locale = 'en-us';
-            var month = date.toLocaleString(locale, { month : "short" })
-            var parsed = (day + ' ' + month + ' ' + year);
-            parsed_date.push(parsed);
-        }
-        var t = _.map(d, 'temperature');
-        var h = _.map(d, 'humidity');
-        var avg_temp = _.meanBy(d, 'temperature');
-        this.averages[0].avg = avg_temp;
-        var avg_humidity = _.meanBy(d, 'humidity');
-        this.averages[1].avg = avg_humidity;
+    let t = this.sensordata[0];
+    let h = this.sensordata[1];
 
        
         
         self.temphum = new Chart(self.temphumCanvas.nativeElement, {
-//CHART 1
+//CHART 1   
                 type: 'line',
                 data: {
-                  labels: parsed_date,
+                  labels: this.parsed_date,
                     datasets: [
                         {
                             label: "Temperature",
@@ -112,9 +97,7 @@ averages: Array<{title: string, avg: any}>;
                 }
                 
             })
-            });
-            
-        }
+            };
         
 
   closeModal() { this.navCtrl.pop(); }

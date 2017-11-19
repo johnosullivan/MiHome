@@ -21,7 +21,9 @@ export class LoginPage {
 
   ionViewDidLoad() { }
 
-  closeModal() { this.navCtrl.pop(); }
+  closeModal() {
+    this.viewController.dismiss({status:false});
+  }
 
   login() {
     this.isSpinner = true;

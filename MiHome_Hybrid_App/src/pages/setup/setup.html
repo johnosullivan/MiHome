@@ -20,11 +20,12 @@
 
     <ion-card-content>
       <div *ngIf="state.stage_one">
-        <h5>If your MiHome Hub is bright green you are ready to proceed. If not, please tap the help icon at the top right to troublshoot your hardware. Linking is as easy as 1,2,3. To start off please scan your MiHome Hub QR Code.</h5>
+        <p style="line-height: 1.5em;">If your MiHome Hub is <b>bright yellow</b> you are ready to proceed. If <b>bright white</b> please power down your MiHome Hub by unplugging it and plugging it back into a power source. If either of the two situations, please tap the help icon at the top right to troublshoot your hardware. Linking is as easy as 1,2,3. To start off please scan your MiHome Hub QR Code.</p>
+        <br>
         <button ion-button full color="menutheme" (click)="qr()" [(disabled)]="state.stage_one_qr">Scan Hub QR Code</button>
       </div>
       <div *ngIf="state.stage_two">
-        <h6>Now, please enter a location name to link this MiHome Hub.</h6>
+        <p style="line-height: 1.5em;">Now, please enter a location name to link this MiHome Hub.</p>
         <ion-list>
           <ion-input type="text" [(ngModel)]="name" placeholder="Enter location name."></ion-input>
         </ion-list>

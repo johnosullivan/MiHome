@@ -27,4 +27,20 @@ router.post('/add', tokenMiddleware.verifyToken, function(req, res){
   });
 });
 
+router.post('/linked', function(req, res){
+  Hub.find({ "hubID" : req.body.hubID }, function (err, data) {
+    if (data !== undefined) {
+      if (data.length != 0) {
+        res.json({success: true });
+      } else {
+        res.json({success: false });
+      }
+    } else {
+      res.json({success: false });
+    }
+  });
+});
+
+
+
 module.exports = router;

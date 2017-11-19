@@ -29,5 +29,11 @@ export class DataProvider {
     return this.http.post("http://pacific-springs-32410.herokuapp.com/api/hardware/devices", body, { headers : head }).map(res =>  res.json());
   }
 
+  link(payload) {
+    let body = JSON.stringify(payload);
+    let head = new Headers({ 'Content-Type': 'application/json' });
+    return this.http.post("http://pacific-springs-32410.herokuapp.com/api/hardware/add", body, { headers : head }).map(res =>  res.json());
+  }
+
 
 }

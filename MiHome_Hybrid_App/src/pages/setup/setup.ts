@@ -4,6 +4,9 @@ import { CalendarComponentOptions } from 'ion2-calendar';
 import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { Socket } from 'ng-socket-io';
+import { DataProvider } from '../../providers/data-service/data-service';
+import { UserServiceProvider } from '../../providers/user-service/user-service';
+import { DevicesPage } from '../devices/devices';
 
 @Component({
   selector: 'page-setup',
@@ -22,7 +25,7 @@ export class SetupPage {
   state:any;
   hub:any;
 
-  constructor(private socket: Socket, private barcodeScanner: BarcodeScanner,private qrScanner: QRScanner,public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public userServiceProvider:UserServiceProvider,public dataProvider:DataProvider,private socket: Socket, private barcodeScanner: BarcodeScanner,private qrScanner: QRScanner,public navCtrl: NavController, public navParams: NavParams) {
     this.nodeid = '';
     this.name = '';
     this.isSpinner = false;
@@ -40,9 +43,29 @@ export class SetupPage {
   configs() {
     this.isSpinner = true;
     var self = this;
-    setTimeout(function() {
-      self.isSpinner = false;
-    }, 3000);
+    this.userServiceProvider.getUser().then((user) => {
+      this.userServiceProvider.getToken().then((token) => {
+        var payload = {
+          "hubID":this.nodeid,
+          "firmware":this.hub['firmware'],
+          "encrypted":true,
+    	    "connected":true,
+          "userID":user['id'],
+          "name":this.name,
+          "token":token
+        };
+        this.dataProvider.link(payload).subscribe(
+          data => {
+            self.isSpinner = false;
+            this.socket.emit("send", { 'emit':this.nodeid, 'payload': {'command':'linked'} });
+            self.navCtrl.setRoot(DevicesPage);
+          },
+          err => {
+            console.log(JSON.stringify(err));
+          }
+        );
+      });
+    });
   }
 
   qr() {

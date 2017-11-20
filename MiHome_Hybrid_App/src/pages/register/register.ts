@@ -21,10 +21,6 @@ export class RegisterPage {
 
   }
 
-  register(){
-    console.log(this.regs);
-  }
-
   closeModal() {
     this.navCtrl.pop();
   }

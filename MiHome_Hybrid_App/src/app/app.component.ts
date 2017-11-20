@@ -32,17 +32,7 @@ export class MyApp {
   pages: Array<{title: string, icon:string, component: any}>;
   authpages: Array<{title: string, icon:string, component: any}>;
 
-<<<<<<< HEAD
-  constructor(
-    public userServiceProvider:UserServiceProvider,
-    public authServiceProvider:AuthServiceProvider,
-    public platform: Platform, 
-    public statusBar: StatusBar, 
-    public splashScreen: SplashScreen,
-    public modalCtrl: ModalController) {
-=======
   constructor(public dataProvider:DataProvider, public userServiceProvider:UserServiceProvider,public authServiceProvider:AuthServiceProvider,public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,public modalCtrl: ModalController) {
->>>>>>> origin/master
     this.initializeApp();
 
     this.pages = [
@@ -79,12 +69,6 @@ export class MyApp {
   }
 
   openPage(page) {
-<<<<<<< HEAD
-    // Reset the content nav to have just this page
-    // we wouldn't want the back button to show in this scenario
-=======
-
->>>>>>> origin/master
     if (page.title == "Login") {
 
       let profileModal = this.modalCtrl.create(page.component, { });

@@ -47,15 +47,12 @@ const config: SocketIoConfig = { url: 'https://pacific-springs-32410.herokuapp.c
     ProfilePage,
     DatePicker,
     SetupPage,
-<<<<<<< HEAD
     TempHumidityPage,
     CO2VOCPage,
     PressurePage,
     IRPage,
-    UVLightPage
-=======
+    UVLightPage,
     DevicesPage
->>>>>>> origin/master
   ],
   imports: [
     BrowserModule,

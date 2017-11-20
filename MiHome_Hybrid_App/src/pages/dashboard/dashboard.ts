@@ -45,11 +45,11 @@ export class DashboardPage {
     private datePicker: DatePicker,
     public viewController:ViewController,
     public modalCtrl: ModalController,
-    public navCtrl: NavController, 
+    public navCtrl: NavController,
     public navParams: NavParams,
     public userServiceProvider:UserServiceProvider,
     public sensorData: Storage,
-    public platform: Platform, 
+    public platform: Platform,
 ) {
 
     let toaststart = this.toastCtrl.create({
@@ -95,13 +95,14 @@ export class DashboardPage {
       //store sensor data locally so can be referenced by other pages
       //without needing to ping again
      this.dataProvider.chartdata("","").subscribe(
-        
+
               data => {
                   // store the data
                   //if there is an error (ex: 403 Forbidden) this
                   //will not overwrite the data in last call &
-                  //the user will see charts based on older data 
+                  //the user will see charts based on older data
                   //dates will be correct
+                  console.log(data);
                    this.sensorData.set("lastcall", data);
                 })
             };
@@ -190,7 +191,7 @@ export class DashboardPage {
     let avg_uv = _.meanBy(d, 'UV');
     let avged_data = [avg_temp, avg_humidity, avg_co2, avg_voc, avg_ir,
     avg_light, avg_pressure, avg_uv];
-    this.averages = avged_data; 
+    this.averages = avged_data;
 
     //fix times
     let data_times = _.map(d, 'datetime');
@@ -222,7 +223,7 @@ export class DashboardPage {
    // this.rightnow = avg_temp;
     /*
     this.dashover = new Chart(this.dashCanvas.nativeElement, {
-      
+
                  type: 'bar',
                  data: {
                      labels: ["Temperature", "Humidity", "CO2", "VOCs", ],
@@ -254,9 +255,9 @@ export class DashboardPage {
                       }
                      }]
                  }
-      
+
              }) */
-    }); 
+    });
   }
 
   test() {

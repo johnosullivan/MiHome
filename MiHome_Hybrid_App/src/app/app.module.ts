@@ -8,6 +8,11 @@ import { ListPage } from '../pages/list/list';
 import { LoginPage } from '../pages/login/login';
 import { RegisterPage } from '../pages/register/register';
 import { AboutPage } from '../pages/about/about';
+import { TempHumidityPage } from '../pages/dashboard/dashpages/tempHum';
+import { CO2VOCPage } from '../pages/dashboard/dashpages/co2voc';
+import { PressurePage } from '../pages/dashboard/dashpages/pressure';
+import { IRPage } from '../pages/dashboard/dashpages/IR';
+import { UVLightPage } from '../pages/dashboard/dashpages/uvlight';
 import { IonicStorageModule } from '@ionic/storage';
 
 
@@ -22,7 +27,6 @@ import { DatePicker } from 'ionic2-date-picker';
 import { SetupPage } from '../pages/setup/setup';
 
 import { CalendarModule } from "ion2-calendar";
-import { QRScanner, QRScannerStatus } from '@ionic-native/qr-scanner';
 import { Camera } from '@ionic-native/camera';
 import { DataProvider } from '../providers/data-service/data-service';
 import { DevicesPage } from '../pages/devices/devices';
@@ -43,6 +47,11 @@ const config: SocketIoConfig = { url: 'https://pacific-springs-32410.herokuapp.c
     ProfilePage,
     DatePicker,
     SetupPage,
+    TempHumidityPage,
+    CO2VOCPage,
+    PressurePage,
+    IRPage,
+    UVLightPage,
     DevicesPage
   ],
   imports: [
@@ -71,6 +80,11 @@ const config: SocketIoConfig = { url: 'https://pacific-springs-32410.herokuapp.c
     ProfilePage,
     DatePicker,
     SetupPage,
+    TempHumidityPage,
+    CO2VOCPage,
+    PressurePage,
+    IRPage,
+    UVLightPage,
     DevicesPage
   ],
   providers: [
@@ -80,9 +94,10 @@ const config: SocketIoConfig = { url: 'https://pacific-springs-32410.herokuapp.c
     AuthServiceProvider,
     UserServiceProvider,
     DatePicker,
-    QRScanner,
     Camera,
     DataProvider
   ]
 })
+
+
 export class AppModule {}

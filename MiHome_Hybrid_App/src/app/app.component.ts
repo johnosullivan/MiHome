@@ -14,6 +14,11 @@ import { AuthServiceProvider } from '../providers/auth-service/auth-service';
 import { UserServiceProvider } from '../providers/user-service/user-service';
 import { DataProvider } from '../providers/data-service/data-service';
 import { SetupPage } from '../pages/setup/setup';
+import { TempHumidityPage } from '../pages/dashboard/dashpages/tempHum';
+import { CO2VOCPage } from '../pages/dashboard/dashpages/co2voc';
+import { PressurePage } from '../pages/dashboard/dashpages/pressure';
+import { UVLightPage } from '../pages/dashboard/dashpages/uvlight';
+import { IRPage } from '../pages/dashboard/dashpages/ir';
 import { DevicesPage } from '../pages/devices/devices';
 
 @Component({
@@ -54,9 +59,6 @@ export class MyApp {
 
   }
 
-  login() {
-
-  }
 
   initializeApp() {
     this.platform.ready().then(() => {
@@ -67,7 +69,6 @@ export class MyApp {
   }
 
   openPage(page) {
-
     if (page.title == "Login") {
 
       let profileModal = this.modalCtrl.create(page.component, { });

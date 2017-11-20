@@ -7,7 +7,7 @@ import { AuthServiceProvider } from '../../providers/auth-service/auth-service';
   templateUrl: 'register.html',
 })
 export class RegisterPage {
-
+  regs = {}
   payload:any;
   isSpinner:boolean;
   error:any;

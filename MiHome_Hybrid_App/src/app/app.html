@@ -1,26 +1,26 @@
 <ion-menu [content]="content">
-  <ion-header>
-    <ion-toolbar color="menutheme">
-      <ion-title>Mi Home</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  <ion-content>
-    <div *ngIf="!authServiceProvider.isLogin">
-      <ion-list>
-        <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
+    <ion-header>
+      <ion-toolbar color="menutheme">
+        <ion-title>Mi Home</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content>
+      <div *ngIf="!authServiceProvider.isLogin">
+        <ion-list>
+          <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
+            <ion-icon item-left name={{p.icon}}></ion-icon> {{p.title}}
+          </button>
+        </ion-list>
+      </div>
+      <div *ngIf="authServiceProvider.isLogin">
+        <ion-list>
+        <button menuClose ion-item *ngFor="let p of authpages" (click)="openPage(p)">
           <ion-icon item-left name={{p.icon}}></ion-icon> {{p.title}}
         </button>
-      </ion-list>
-    </div>
-    <div *ngIf="authServiceProvider.isLogin">
-      <ion-list>
-      <button menuClose ion-item *ngFor="let p of authpages" (click)="openPage(p)">
-        <ion-icon item-left name={{p.icon}}></ion-icon> {{p.title}}
-      </button>
-      </ion-list>
-    </div>
-</ion-content>
-
-  </ion-menu>
-
-<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>
+        </ion-list>
+      </div>
+  </ion-content>
+  
+    </ion-menu>
+  
+  <ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>

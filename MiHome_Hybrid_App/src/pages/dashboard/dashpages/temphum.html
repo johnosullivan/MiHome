@@ -1,0 +1,61 @@
+
+<ion-header>
+    
+      <ion-navbar color="themenav">
+        <ion-title>Temperature & Humidity</ion-title>
+
+      </ion-navbar>
+    
+    </ion-header>
+    
+    
+    <ion-content style="background-color: #eee;" class="card-background-page">
+    
+        <ion-card>
+            <ion-card-header>
+              <h4><b>Temperature / Humidity</b></h4>
+            </ion-card-header>
+            <ion-card-content>
+              <canvas #temphum></canvas>
+            </ion-card-content>
+          </ion-card>
+
+          <ion-card id="facts" text-wrap style="background: #42aabe; color: white;">
+            <ion-card-header text-center>
+                <h2 style="color: white;"><b>Ideals vs Averages</b></h2>
+              </ion-card-header>
+              <ion-card-content>
+              <div id="idealtemp">
+                  <ion-grid text-center>
+                      <ion-row>
+                        <ion-col width-50>
+                        <ion-label>{{averages[0].title}}</ion-label>
+                         {{averages[0].avg}}
+                    </ion-col>
+                      <ion-col width-50>
+                          <ion-label>{{averages[1].title}}</ion-label>
+                           {{averages[1].avg}}
+                      </ion-col>
+                      </ion-row>
+                      <ion-row>
+                        <div class="container">
+                          <b>What is ideal indoor temperature and humidity?</b><hr/>
+                          Ideally your indoor temperature should be betweenn 23°C and 25.5°C to be
+                            comfortable for most people. This works out to be between 68°F and 78°F
+                            if you are more familiar with those ranges.<hr/>
+                            Indoor humidity is best between 40-50%; in the winter a lower percentage
+                            is better as higher amounts will lead to condensation.
+                        </div>
+                      </ion-row>
+                    </ion-grid>
+              </div>     
+            </ion-card-content>
+          </ion-card>
+          
+    
+    <div padding>
+    </div>
+    
+    
+    </ion-content>
+    

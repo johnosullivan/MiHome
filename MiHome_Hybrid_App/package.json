@@ -51,6 +51,7 @@
         "ionic2-date-picker": "^1.0.7",
         "ionicons": "3.0.0",
         "moment": "^2.18.1",
+        "ng-socket-io": "^0.2.0",
         "phonegap-plugin-barcodescanner": "^6.0.8",
         "rxjs": "5.4.0",
         "sw-toolbox": "3.6.0",

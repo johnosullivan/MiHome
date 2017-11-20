@@ -5,6 +5,8 @@
 #include <RH_RF69.h>
 #include <ArduinoJson.h>
 #include <Ticker.h>
+#include <Adafruit_NeoPixel.h>
+
 // WiFi AP Mode library for setup on on the hub
 #include "WiFiManager.h"
 // Radio Configs
@@ -31,17 +33,22 @@ double IR = 0;
 double light = 0;
 double pressure = 0;
 // Debugging tool
-bool isSending = 1;
+bool isSending = 0;
 // Setups up the Arduino Wifi
 //const char* ssid     = "";
 //const char* password = "";
+#define NEOPIN 4
+#define NEOSIZE 1
+Adafruit_NeoPixel neostrip = Adafruit_NeoPixel(NEOSIZE, NEOPIN, NEO_GRB + NEO_KHZ800);
 
 // The WiFi Host and PostURL
 const char* postURI = "http://pacific-springs-32410.herokuapp.com/api/data";
-const char* nodeID = "00000012340987011";
 
-const char* socketHost = "192.168.50.52";
-const int socketPort = 8888;
+const char* hubID = "00000012340987011";
+const char* hubID_RES = "00000012340987011_RES_HUB";
+
+const char* socketHost = "pacific-springs-32410.herokuapp.com";
+const int socketPort = 80;
 const char* socketPath = "/socket.io/?transport=websocket";
 
 long previousMillis = 0;
@@ -49,10 +56,67 @@ long interval = 60000;
 
 int setup_status = 0;
 
+const char* firmware = "1.0.2";
+
+int resetState = 0;
+const int resetPin = 12;
+
+enum LED_BLINK_STATUS {
+  BLINK_CONNECTING, 
+  BLINK_CONNECTED,
+  BLINK_RADIO_CONNECTING,
+  BLINK_RADIO_CONNECTED,
+  BLINK_IDLE,
+  BLINK_SENTING,
+  BLINK_PINGING,
+  BLINK_RUNNING
+};
+
+void updateStatus(LED_BLINK_STATUS status) {
+  switch (status) {
+    case BLINK_CONNECTING: 
+    
+      break;
+    case BLINK_CONNECTED: 
+    
+      break;
+    case BLINK_RADIO_CONNECTING: 
+    
+      break;
+    case BLINK_RADIO_CONNECTED: 
+    
+      break;
+    case BLINK_IDLE: 
+    
+      break;
+    case BLINK_SENTING:
+     
+      break;
+    case BLINK_PINGING:
+     
+      break;
+    case BLINK_RUNNING: 
+    
+      break;
+    default:
+      break;
+  }
+}
+
+int tickstate = 1;
+
 void tick()
 {
-  int state = digitalRead(0);
-  digitalWrite(LED, !state);
+  //int state = digitalRead(0);
+  if (tickstate) {
+    tickstate = 0;
+    neostrip.setPixelColor(0, neostrip.Color(255, 0, 0));
+    neostrip.show();
+  } else {
+    tickstate = 1;
+    neostrip.setPixelColor(0, neostrip.Color(0, 0, 0));
+    neostrip.show();
+  }
 }
 
 void configModeCallback (WiFiManager *myWiFiManager) {
@@ -65,15 +129,32 @@ void webSocketDeviceCallBack(const char * payload, size_t length) {
   JsonObject& root = jsonBuffer.parseObject(payload);
   const char* command = root["command"];
   const char* data_payload = root["payload"];
-  Serial.println(command);
-  Serial.println(data_payload);
-  String setup_data = transmit(command);
-  if (setup_data != "") {
-    Serial.println(setup_data);
-  } else {
-
+  //Serial.println(command);
+  
+  if (strcmp(command, "info") == 0) {
+    JsonObject& rootinfo = jsonBuffer.createObject();
+    rootinfo["emit"] = hubID_RES;
+    JsonObject& infopayload = rootinfo.createNestedObject("payload");    
+    infopayload["macaddress"] = WiFi.macAddress();
+    infopayload["firmware"] = firmware;
+    infopayload["hubID"] = hubID;
+    infopayload["type"] = "info";
+    char cbuf[200];
+    rootinfo.printTo(cbuf,sizeof(cbuf));    
+    webSocket.emit("send", cbuf);
   }
-  webSocket.emit("back", "\"ok\"");
+
+  if (strcmp(command, "ping") == 0) {
+    Serial.println("ping....");
+    neostrip.setPixelColor(0, neostrip.Color(0, 255, 0));
+    neostrip.show();
+  }
+
+  if (strcmp(command, "linked") == 0) {
+    neostrip.setPixelColor(0, neostrip.Color(0, 255, 0));
+    neostrip.show();
+  }
+ 
 }
 void webSocketConnect(const char * payload, size_t length) { }
 
@@ -82,26 +163,43 @@ void setup()
   Wire.begin();
   Serial.begin(9600);
   // Default setup led blinking
+  pinMode(resetPin, INPUT);
   pinMode(LED, OUTPUT);
-  Blink(LED, 1000, 2);
-  Blink(LED, 100, 5);
-  Blink(LED, 1000, 2);
+  //Blink(LED, 1000, 2);
+  //Blink(LED, 100, 5);
+  //Blink(LED, 1000, 2);
+  // Neo Pixel
+  neostrip.begin();
+  neostrip.setBrightness(200);
+  //digitalWrite(LED, 0);
   // Settle delay
+  digitalWrite(LED, HIGH);
+  
   delay(5000);
-  pinMode(0, OUTPUT);
+  //pinMode(0, OUTPUT);
   //Connecting to the WiFi network
   WiFiManager wifiManager;
   //wifiManager.resetSettings();
   wifiManager.setDebugOutput(false);
+  resetState = digitalRead(resetPin);
+  if (resetState == HIGH) {
+    wifiManager.resetSettings();
+  }
   Serial.println();
   Serial.print("Connecting... ");
   Serial.println(WiFi.macAddress());
   wifiManager.setAPCallback(configModeCallback);
-  wifiManager.autoConnect("MiHome");
+  //wifiManager.connectWifi("loyola","");
+
+  String mihome = "MiHome " + WiFi.macAddress();
+  
+  
+  wifiManager.autoConnect(mihome.c_str());
+   
   // Prints details to the serial ports
   Serial.println();
   Serial.println("-----------------------------------------");
-  Serial.println("ESP8266 (WiFi): RFM69 TX/RX Hub");
+  Serial.println("MiHome Hub ESP8266 (WiFi): RFM69 TX/RX Hub");
   Serial.println("-----------------------------------------");
   Serial.println("WiFi Connected => Details: ");
   Serial.println("IP address: ");
@@ -114,6 +212,12 @@ void setup()
   Serial.println(WiFi.macAddress());
   Serial.println("-----------------------------------------");
   Serial.println();
+  
+
+  ticker.detach();
+  neostrip.setPixelColor(0, neostrip.Color(255, 255, 255));
+  neostrip.show();
+  
   delay(2000);
   // Setuping the pins
   pinMode(RFM69_RST, OUTPUT);
@@ -129,14 +233,12 @@ void setup()
     int status = 1;
     while (1) {
       if (status) {
-        wifiManager.resetSettings();
         status = 0;
       }
       delay(5000);
     }
   }
   Serial.println("RFM69 Radio Init Good!");
-  ticker.detach();
   if (!rf69.setFrequency(RF69_FREQ)) {
     Serial.println("Setting Frequency Failed!");
   }
@@ -148,10 +250,44 @@ void setup()
   // Prints out the final details
   Serial.print("RFM69 Radio @");  Serial.print((int)RF69_FREQ);  Serial.println(" MHz");
   Serial.println();
-
+  
   webSocket.on("connect", webSocketConnect);
-  webSocket.on(nodeID, webSocketDeviceCallBack);
+  webSocket.on(hubID, webSocketDeviceCallBack);
   webSocket.begin(socketHost, socketPort, socketPath);
+
+  checkedLinkedStatus();
+}
+
+void checkedLinkedStatus() {
+  DynamicJsonBuffer jsonBuffer;
+  JsonObject& root = jsonBuffer.createObject();
+  root["hubID"] = hubID;
+  char cbuf[256];
+  root.printTo(cbuf,sizeof(cbuf));
+  Serial.print("Link Payload: ");
+  Serial.println(cbuf);
+
+  String content = cbuf;
+  HTTPClient http;
+  http.begin("http://pacific-springs-32410.herokuapp.com/api/hardware/linked");
+  http.addHeader("Content-Type", "application/json");
+  int httpCode = http.POST(content);
+  Serial.print("HTTP-Status-Code: ");
+  Serial.println(httpCode);
+  if(httpCode == 200) {
+    String res = http.getString();
+    Serial.print("Response: ");
+    Serial.println(res);
+    JsonObject& getobj = jsonBuffer.parseObject(res);
+    boolean linked = getobj["success"];
+    if (linked) {
+      neostrip.setPixelColor(0, neostrip.Color(0, 255, 0));
+      neostrip.show();
+    } else {
+      neostrip.setPixelColor(0, neostrip.Color(255, 255, 0));
+      neostrip.show();
+    }
+  }
 }
 
 void parse(String payload,int size,String command) {
@@ -199,7 +335,7 @@ void send() {
     root["UV"] = UV;
     root["IR"] = IR;
     root["pressure"] = pressure;
-    root["nodeID"] = nodeID;
+    root["nodeID"] = hubID;
     char cbuf[256];
     root.printTo(cbuf,sizeof(cbuf));
     Serial.print("Post Payload: ");
@@ -218,13 +354,13 @@ void send() {
      Serial.println(res);
     }
     http.end();
-    Blink(LED, 100, 5);
+    //Blink(LED, 100, 5);
     Serial.println("[Send End]");
   }
 }
 
 String transmit(String name) {
-  digitalWrite(LED,HIGH);
+  //digitalWrite(LED,HIGH);
   char radiopacket[20];
   name.toCharArray(radiopacket, 20);
   //itoa(packetnum++, radiopacket+13, 10);
@@ -240,11 +376,11 @@ String transmit(String name) {
       Serial.print("Response: ");
       Serial.println((char*)buf);
       res = (char*)buf;
-      Blink(LED, 200, 3);
+      //Blink(LED, 200, 3);
     } else { }
   } else {
     Serial.print("No Response?");
-    digitalWrite(LED,LOW);
+    //digitalWrite(LED,LOW);
     Serial.println();
   }
   return res;
@@ -254,7 +390,8 @@ void loop() {
   // Loops the websocket for the client
   webSocket.loop();
 
-  /*if (setup_status) {
+ 
+  if (setup_status) {
     String setup_data = transmit("setup");
     if (setup_data != "") {
       Serial.println(setup_data);
@@ -262,7 +399,7 @@ void loop() {
 
     }
     setup_status = 0;
-  }*/
+  }
 
   // Gets the current timestamp in millis()
   unsigned long currentMillis = millis();
@@ -282,7 +419,6 @@ void loop() {
 
     send();
   }
-
 }
 void blink(){
   Serial.println("blinking");

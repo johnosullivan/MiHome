@@ -21,4 +21,10 @@ export class AuthServiceProvider {
     return this.http.post("http://pacific-springs-32410.herokuapp.com/api/user/authenticate", body, { headers : head }).map(res =>  res.json());
   }
 
+  register(params) {
+    let body = JSON.stringify(params);
+    let head = new Headers({ 'Content-Type': 'application/json' });
+    return this.http.post("http://pacific-springs-32410.herokuapp.com/api/user/register", body, { headers : head }).map(res =>  res.json());
+  }
+
 }

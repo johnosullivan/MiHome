@@ -29,6 +29,11 @@ import { SetupPage } from '../pages/setup/setup';
 import { CalendarModule } from "ion2-calendar";
 import { Camera } from '@ionic-native/camera';
 import { DataProvider } from '../providers/data-service/data-service';
+import { DevicesPage } from '../pages/devices/devices';
+
+import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
+
+const config: SocketIoConfig = { url: 'https://pacific-springs-32410.herokuapp.com/', options: {reconnect: true} };
 
 @NgModule({
   declarations: [
@@ -42,11 +47,15 @@ import { DataProvider } from '../providers/data-service/data-service';
     ProfilePage,
     DatePicker,
     SetupPage,
+<<<<<<< HEAD
     TempHumidityPage,
     CO2VOCPage,
     PressurePage,
     IRPage,
     UVLightPage
+=======
+    DevicesPage
+>>>>>>> origin/master
   ],
   imports: [
     BrowserModule,
@@ -59,7 +68,8 @@ import { DataProvider } from '../providers/data-service/data-service';
       }
     }),
     IonicStorageModule.forRoot(),
-    CalendarModule
+    CalendarModule,
+    SocketIoModule.forRoot(config)
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -77,7 +87,8 @@ import { DataProvider } from '../providers/data-service/data-service';
     CO2VOCPage,
     PressurePage,
     IRPage,
-    UVLightPage
+    UVLightPage,
+    DevicesPage
   ],
   providers: [
     StatusBar,

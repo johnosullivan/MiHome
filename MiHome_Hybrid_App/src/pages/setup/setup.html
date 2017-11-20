@@ -15,23 +15,31 @@
 <ion-content style="background-color: #eee;">
 
   <ion-card>
-    <ion-card-header>
-    Add SAND
-    </ion-card-header>
+
+    <ion-card-header><b>Linking MiHome Hub</b></ion-card-header>
+
     <ion-card-content>
-      <ion-list no-lines>
-      <ion-item>
-        <ion-input type="text" placeholder="Enter name for this node."></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-input type="text" placeholder="Enter node ID or scan it."></ion-input>
-      </ion-item>
-      <ion-item>
-        <button ion-button full color="menutheme" (click)="qr()">Scan Node QR Code</button>
-      </ion-item>
-      </ion-list>
-      <button ion-button full type="submit" color="themenav" (click)="qr()">Configure Node</button>
+      <div *ngIf="state.stage_one">
+        <p style="line-height: 1.5em;">If your MiHome Hub is <b>bright yellow</b> you are ready to proceed. If <b>bright white</b> please power down your MiHome Hub by unplugging it and plugging it back into a power source. If either of the two situations, please tap the help icon at the top right to troublshoot your hardware. Linking is as easy as 1,2,3. To start off please scan your MiHome Hub QR Code.</p>
+        <br>
+        <button ion-button full color="menutheme" (click)="qr()" [(disabled)]="state.stage_one_qr">Scan Hub QR Code</button>
+      </div>
+      <div *ngIf="state.stage_two">
+        <p style="line-height: 1.5em;">Now, please enter a location name to link this MiHome Hub.</p>
+        <ion-list>
+          <ion-input type="text" [(ngModel)]="name" placeholder="Enter location name."></ion-input>
+        </ion-list>
+        <span><b>MAC Address:</b> {{hub.macaddress}}</span>
+        <br>
+        <span><b>Firmware:</b> {{hub.firmware}}</span>
+        <br>
+        <span><b>Unique HID:</b> {{hub.hubID}}</span>
+        <button ion-button full type="submit" color="themenav" (click)="configs()"><b>Link</b><ion-spinner name="bubbles" *ngIf="isSpinner"></ion-spinner></button>
+      </div>
     </ion-card-content>
+
+
+
   </ion-card>
 
 </ion-content>

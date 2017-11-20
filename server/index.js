@@ -6,10 +6,6 @@ var http = require("http");
 var mongoose = require('mongoose');
 var cors = require('cors')
 var CONFIG = require('./config.json');
-var WebSocketServer = require('ws').Server;
-
-
-
 
 mongoose.Promise = global.Promise;
 mongoose.connect(CONFIG.database.address, { useMongoClient: true, promiseLibrary: global.Promise });
@@ -26,6 +22,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/api/user', require('./routes/users'));
 app.use('/api/data', require('./routes/data'));
+app.use('/api/hardware', require('./routes/hardware'));
 
 var server = http.createServer(app);
 
@@ -34,7 +31,14 @@ var io = require('socket.io').listen(server);
 app.set('io', io);
 
 io.on('connection', function(socket) {
-    console.log('Connected!');
+    //console.log('Connected: ' + socket.id);
+    socket.on('send', function(data) {
+      io.emit(data.emit,data.payload);
+    });
+});
+
+io.on('disconnected', function(socket) {
+    console.log('Disconnected: ' + socket.id);
 });
 
 server.listen(process.env.PORT || CONFIG.server.port, function() {

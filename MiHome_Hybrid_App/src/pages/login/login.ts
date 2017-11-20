@@ -11,29 +11,42 @@ import { AlertController } from 'ionic-angular';
 export class LoginPage {
 
   creds:any;
-
+  error:string;
+  isSpinner:boolean;
   constructor(public alertCtrl: AlertController,public viewController:ViewController,public navCtrl: NavController, public navParams: NavParams,public authServiceProvider:AuthServiceProvider,public userServiceProvider:UserServiceProvider) {
-    this.creds = {};
+    this.creds = {password:'',username:''};
+    this.error = '';
+    this.isSpinner = false;
   }
 
   ionViewDidLoad() { }
 
-  closeModal() { this.navCtrl.pop(); }
+  closeModal() {
+    this.viewController.dismiss({status:false});
+  }
 
   login() {
-    console.log(this.creds);
+    this.isSpinner = true;
     this.authServiceProvider.login(this.creds).subscribe(
       data => {
         if (data.success) {
+          console.log(data);
           this.userServiceProvider.saveToken(data.token);
-          //this.navCtrl.pop();
-          this.viewController.dismiss(true);
+          this.userServiceProvider.saveUser(data.user);
+          this.authServiceProvider.setAuth(true);
+          this.isSpinner = true;
+          this.viewController.dismiss({status:true,user:data.user,token:data.token});
           this.authServiceProvider.setAuth(true);
         } else {
 
         }
       },
-      err => console.log(err),
+      err => {
+        console.log(JSON.stringify(err._body));
+        this.error = JSON.parse(err._body).message;
+        this.isSpinner = false;
+        this.creds['password'] = '';
+      },
       () => console.log('Logging in....')
     );
     //this.navCtrl.pop();

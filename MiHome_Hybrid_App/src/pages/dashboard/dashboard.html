@@ -15,12 +15,6 @@
 
 <ion-content style="background-color: #eee;">
 
-<!--<ion-grid>
-<ion-row>
-  <ion-col col-6><button ion-button block style="background-color:red;">Block Button</button></ion-col>
-  <ion-col col-6><button ion-button block>Block Button</button></ion-col>
-</ion-row>
-</ion-grid>-->
 <div id=allbtns>
 <div id="btndiv" *ngFor="let p of dashpages" >
   <button id="dashbutton" ion-button large round (click)="openPage(p)">
@@ -30,7 +24,7 @@
 </div>
 <ion-card style="background: #42aabe;">
     <ion-card-header text-center>
-      <h4 style="color: white;"><b>Average Values</b></h4>
+      <h4 style="color: white;"><b>MiHome Dashboard</b></h4>
     </ion-card-header>
     <ion-card-content text-center>
      <p style="color: white;">Click the buttons above to view charts and information about what your MiHome sensors are learning about
@@ -39,17 +33,6 @@
     </ion-card-content>
   </ion-card>
 
-    <!--<ion-fab bottom right >
-  <button ion-fab>Share</button>
-  <ion-fab-list side="top">
-    <button ion-fab>Facebook</button>
-    <button ion-fab>Twitter</button>
-    <button ion-fab>Youtube</button>
-  </ion-fab-list>
-  <ion-fab-list side="left">
-    <button ion-fab>Vimeo</button>
-  </ion-fab-list>
-</ion-fab>-->
 
 
 </ion-content>

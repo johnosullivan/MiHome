@@ -97,91 +97,12 @@ export class DashboardPage {
      this.dataProvider.chartdata("","").subscribe(
         
               data => {
-                let fakeData = 
-        
-                {
-                    "success": true,
-                    "size": 1,
-                    "data": [
-                    {
-                     "_id": "59e171fe92f5dc00047f3dbe",
-                     "datetime": "2017-10-14T02:10:06.587Z",
-                     "temperature": 23.6,
-                     "humidity": 61.07,
-                     "co2": 679,
-                     "voc": 42,
-                     "visible": 261,
-                     "light": 3,
-                     "UV": 0.01,
-                     "IR": 255,
-                     "pressure": 99539,
-                     "nodeID": "00000012340987011",
-                     "__v": 0
-                    },
-                    {
-                        "_id": "59e171fe92f5dc00047f3dbf",
-                        "datetime": "2017-10-15T02:10:06.587Z",
-                        "temperature": 43.6,
-                        "humidity": 71.07,
-                        "co2": 879,
-                        "voc": 12,
-                        "visible": 241,
-                        "light": 2,
-                        "UV": 0.02,
-                        "IR": 245,
-                        "pressure": 99639,
-                        "nodeID": "00000012340987011",
-                        "__v": 0
-                       },
-                       {
-                        "_id": "59e171fe92f5dc00047f3dbg",
-                        "datetime": "2017-11-14T02:10:06.587Z",
-                        "temperature": 25.6,
-                        "humidity": 90.07,
-                        "co2": 779,
-                        "voc": 32,
-                        "visible": 271,
-                        "light": 3,
-                        "UV": 0.01,
-                        "IR": 155,
-                        "pressure": 89539,
-                        "nodeID": "00000012340987011",
-                        "__v": 0
-                       },
-                       {
-                        "_id": "59e171fe92f5dc00047f3dbr",
-                        "datetime": "2017-11-16T02:10:06.587Z",
-                        "temperature": 29.6,
-                        "humidity": 69.07,
-                        "co2": 629,
-                        "voc": 32,
-                        "visible": 221,
-                        "light": 2,
-                        "UV": 0.03,
-                        "IR": 285,
-                        "pressure": 98539,
-                        "nodeID": "00000012340987011",
-                        "__v": 0
-                       },
-                       {
-                        "_id": "59e171fe92f5dc00047f3dbl",
-                        "datetime": "2017-11-24T02:10:06.587Z",
-                        "temperature": 27.6,
-                        "humidity": 91.07,
-                        "co2": 779,
-                        "voc": 32,
-                        "visible": 461,
-                        "light": 2,
-                        "UV": 0.02,
-                        "IR": 290,
-                        "pressure": 99839,
-                        "nodeID": "00000012340987011",
-                        "__v": 0
-                       }
-                    ]
-                   }
                   // store the data
-                   this.sensorData.set("lastcall", fakeData);
+                  //if there is an error (ex: 403 Forbidden) this
+                  //will not overwrite the data in last call &
+                  //the user will see charts based on older data 
+                  //dates will be correct
+                   this.sensorData.set("lastcall", data);
                 })
             };
 
@@ -256,8 +177,8 @@ export class DashboardPage {
     console.log("Data refreshed");
     let self = this;
     //store data when dash loads
-    this.sensorData.get('lastcall').then((fakeData) => {
-    let d = fakeData['data'];
+    this.sensorData.get('lastcall').then((data) => {
+    let d = data['data'];
     //get averages
     let avg_temp = _.meanBy(d, 'temperature');
     let avg_humidity = _.meanBy(d, 'humidity');

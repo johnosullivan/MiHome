@@ -15,7 +15,9 @@ import { UserServiceProvider } from '../providers/user-service/user-service';
 import { SetupPage } from '../pages/setup/setup';
 import { TempHumidityPage } from '../pages/dashboard/dashpages/tempHum';
 import { CO2VOCPage } from '../pages/dashboard/dashpages/co2voc';
-import { PressureUVPage } from '../pages/dashboard/dashpages/pressureUV';
+import { PressurePage } from '../pages/dashboard/dashpages/pressure';
+import { UVLightPage } from '../pages/dashboard/dashpages/uvlight';
+import { IRPage } from '../pages/dashboard/dashpages/ir';
 
 @Component({
   templateUrl: 'app.html'

@@ -6,10 +6,15 @@ import { Storage } from '@ionic/storage';
 import * as _ from 'lodash';
 
 @Component({
-  selector: 'page-pressureUV',
-  templateUrl: 'pressureUV.html',
+  selector: 'page-uvlught',
+  templateUrl: 'uvlight.html',
 })
-export class PressureUVPage {
+export class UVLightPage {
+
+averages: Array<{title: string, avg: any}>;
+public parsed_date;
+public avged_data;
+public sensordata;
 
   constructor(
       public alertCtrl: AlertController,
@@ -17,45 +22,38 @@ export class PressureUVPage {
         public navCtrl: NavController, 
         public navParams: NavParams, 
         public sensorData: Storage) {
-    //what to do here?
+        this.parsed_date = navParams.get("dates");
+        this.avged_data = navParams.get("averages");
+        this.sensordata = navParams.get("sensor")
+        this.averages = [
+                { title: 'Your Average UV', avg: this.avged_data[7] + " nm" },
+                { title: 'Your Average Indoor Light', avg: this.avged_data[5] + " lux" },
+              ];
   }
 
-  @ViewChild('pressureUV') pressureUVCanvas;
-  pressureUV: any;
+  @ViewChild('temphum') temphumCanvas;
+  temphum: any;
+
+  @ViewChild('idealtemp') idealtempCanvas;
+  idealtemp: any;
 
 
   ionViewDidLoad() {
-    //this.storeSensorData();
-    //data stored on previous page
     var self = this;
     //chardata(start, end)
-    this.sensorData.get('lastcall').then((fakeData) => {
-        var d = fakeData['data'];
-        //this doesn't track the time!
-        var data_times = _.map(d, 'datetime');
-        var parsed_date = [];
-        for(let i = 0; i < data_times.length; i++){
-            var date = new Date(data_times[i]);
-            var year = date.getFullYear();
-            var day = date.getDate();
-            //formatted as YY/MM/DD
-            var locale = 'en-us';
-            var month = date.toLocaleString(locale, { month : "short" })
-            var parsed = (day + ' ' + month + ' ' + year);
-            parsed_date.push(parsed);
-        }
-        var pressure = _.map(d, 'pressure');
-        var UV = _.map(d, 'UV');
-        var avg_pressure = _.meanBy(d, 'pressure');
-        var avg_uv = _.meanBy(d, 'UV');
-
-        self.pressureUV = new Chart(self.pressureUVCanvas.nativeElement, {
+    let uv = this.sensordata[7];
+    let light = this.sensordata[5];
+   
+       
+        
+        self.temphum = new Chart(self.temphumCanvas.nativeElement, {
+//CHART 1   
                 type: 'line',
                 data: {
-                  labels: parsed_date,
+                  labels: this.parsed_date,
                     datasets: [
                         {
-                            label: "Pressure",
+                            label: "UV",
                             fill: false,
                             lineTension: 0.3,
                             backgroundColor: "#5285dd",
@@ -73,11 +71,11 @@ export class PressureUVPage {
                             pointHoverBorderWidth: 2,
                             pointRadius: 3,
                             pointHitRadius: 10,
-                            data: pressure,
+                            data: uv,
                             spanGaps: false,
                         },
                         {
-                            label: "UV",
+                            label: "Light",
                             fill: false,
                             lineTension: 0.3,
                             backgroundColor: "#37d6c6",
@@ -95,16 +93,15 @@ export class PressureUVPage {
                             pointHoverBorderWidth: 2,
                             pointRadius: 3,
                             pointHitRadius: 10,
-                            data: UV,
+                            data: light,
                             spanGaps: false,
                         }
                     ]
                 }
                 
             })
-            });
-            
-        }
+
+            };
         
 
   closeModal() { this.navCtrl.pop(); }

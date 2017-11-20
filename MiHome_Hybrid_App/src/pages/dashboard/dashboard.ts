@@ -10,8 +10,10 @@ import { SetupPage } from '../setup/setup';
 import { Storage } from '@ionic/storage';
 import { TempHumidityPage } from './dashpages/tempHum';
 import { CO2VOCPage } from './dashpages/co2voc';
-import { PressureUVPage } from './dashpages/pressureUV';
-import { IRLightPage } from './dashpages/IRLight';
+import { PressurePage } from './dashpages/pressure';
+import { IRPage } from './dashpages/IR';
+import { UVLightPage } from './dashpages/uvlight';
+
 
 import { DataProvider } from '../../providers/data-service/data-service';
 import * as _ from 'lodash';
@@ -59,10 +61,14 @@ export class DashboardPage {
     this.dashpages = [
         { title: 'Temperature & Humidity', icon:'thermometer', component: TempHumidityPage },
         { title: 'Carbon Dioxide & VOCs', icon:'warning',component: CO2VOCPage },
-        { title: 'Pressure & UV', icon: 'sunny', component: PressureUVPage},
-        { title: 'IR & Light', icon:'contrast',component: IRLightPage },
+        { title: 'Pressure', icon: 'cloud-circle', component: PressurePage},
+        { title: 'UV & Light', icon:'sunny',component: UVLightPage },
+        { title: 'Infrared Light', icon:'contrast',component: IRPage },
       ];
   }
+
+//        { title: 'Pressure & UV', icon: 'sunny', component: PressureUVPage},
+
 
 //hardcoded start/end data
   getData() {
@@ -252,7 +258,6 @@ export class DashboardPage {
     //store data when dash loads
     this.sensorData.get('lastcall').then((fakeData) => {
     let d = fakeData['data'];
-
     //get averages
     let avg_temp = _.meanBy(d, 'temperature');
     let avg_humidity = _.meanBy(d, 'humidity');

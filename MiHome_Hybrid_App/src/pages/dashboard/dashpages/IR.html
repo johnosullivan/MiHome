@@ -1,0 +1,49 @@
+
+<ion-header>
+    
+      <ion-navbar color="themenav">
+        <ion-title>Infrared Light</ion-title>
+      </ion-navbar>
+    
+    </ion-header>
+    
+    
+    <ion-content style="background-color: #eee;">
+    
+        <ion-card>
+            <ion-card-content>
+              <canvas #IR></canvas>
+            </ion-card-content>
+          </ion-card>
+          <ion-card id="facts" text-wrap style="background: #42aabe; color: white;">
+              <ion-card-header text-center>
+                  <h2 style="color: white; size: 4em;"><b>Info Card</b></h2>
+                </ion-card-header>
+                <ion-card-content>
+                <div id="idealtemp">
+                    <ion-grid text-center>
+                        <ion-row>
+                          <ion-col>
+                          <ion-label>{{averages[0].title}}</ion-label>
+                           {{averages[0].avg}}
+                      </ion-col>
+                        </ion-row>
+                        <ion-row>
+                          <div class="container">
+                            <b>What is infrared light?</b><hr/>
+                            Infared light is an invisible type of electromagnetic radiation. IR at most levels
+                            found in everyday enviroments is harmless. If, however, you are using industrial machinery
+                            in your home which emits high levels of IR you should wear protective IR goggles to safeguard
+                            your eyes.
+                          </div>
+                        </ion-row>
+                      </ion-grid>
+                </div>     
+              </ion-card-content>
+            </ion-card>
+    <div padding>
+    </div>
+    
+    
+    </ion-content>
+    

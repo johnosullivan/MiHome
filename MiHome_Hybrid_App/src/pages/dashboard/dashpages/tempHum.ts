@@ -4,6 +4,7 @@ import { Chart } from 'chart.js';
 import { AlertController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 import * as _ from 'lodash';
+import * as HighCharts from 'highcharts';
 
 @Component({
   selector: 'page-temphum',
@@ -26,13 +27,16 @@ public sensordata;
         this.avged_data = navParams.get("averages");
         this.sensordata = navParams.get("sensor")
         this.averages = [
-                { title: 'Average Temp', avg: null },
-                { title: 'Average Humidity', avg: null },
+                { title: 'Your Average Temp', avg: this.avged_data[0] + "°C" },
+                { title: 'Your Average Humidity', avg: this.avged_data[1] + "%" },
               ];
   }
 
   @ViewChild('temphum') temphumCanvas;
   temphum: any;
+
+  @ViewChild('idealtemp') idealtempCanvas;
+  idealtemp: any;
 
 
   ionViewDidLoad() {
@@ -40,7 +44,7 @@ public sensordata;
     //chardata(start, end)
     let t = this.sensordata[0];
     let h = this.sensordata[1];
-
+   
        
         
         self.temphum = new Chart(self.temphumCanvas.nativeElement, {
@@ -97,6 +101,7 @@ public sensordata;
                 }
                 
             })
+
             };
         
 

@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
-import { PressureUVPage } from './pressureUV';
+import { UVLightPage } from './uvlight';
 
 @NgModule({
   declarations: [
-    PressureUVPage,
+    UVLightPage,
   ],
   imports: [
-    IonicPageModule.forChild(PressureUVPage),
+    IonicPageModule.forChild(UVLightPage),
   ],
 })
-export class PressureUVModule {}
+export class TempHumPageModule {}

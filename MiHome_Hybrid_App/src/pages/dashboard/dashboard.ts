@@ -1,12 +1,9 @@
-import { Component ,ViewChild, ElementRef } from '@angular/core';
-import { Nav, IonicPage, NavController, NavParams,ViewController,ModalController, Platform } from 'ionic-angular';
+import { Component, ViewChild} from '@angular/core';
+import { Nav, NavController, NavParams, ViewController, ModalController, Platform } from 'ionic-angular';
 import { UserServiceProvider } from '../../providers/user-service/user-service';
-import { Chart } from 'chart.js';
-//import { DatePicker } from 'ionic2-date-picker';
 import { DatePicker } from '@ionic-native/date-picker';
 import { AlertController } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
-import { SetupPage } from '../setup/setup';
 import { Storage } from '@ionic/storage';
 import { TempHumidityPage } from './dashpages/tempHum';
 import { CO2VOCPage } from './dashpages/co2voc';
@@ -175,7 +172,6 @@ export class DashboardPage {
   ionViewDidLoad() {
     this.storeSensorData();
     console.log("Data refreshed");
-    let self = this;
     //store data when dash loads
     this.sensorData.get('lastcall').then((data) => {
     let d = data['data'];
@@ -217,45 +213,6 @@ export class DashboardPage {
     let uv = _.map(d, 'UV');
     let mappedsensordata = [temp, humid, co2, voc, ir, light, pressure, uv];
     this.sensordata = mappedsensordata;
-
-
-   // this.rightnow = avg_temp;
-    /*
-    this.dashover = new Chart(this.dashCanvas.nativeElement, {
-      
-                 type: 'bar',
-                 data: {
-                     labels: ["Temperature", "Humidity", "CO2", "VOCs", ],
-                     datasets: [{
-                         data: [avg_temp,  avg_humidity, avg_co2, avg_voc, avg_uv, avg_ir, avg_light],
-                         backgroundColor: [
-                             'rgba(255, 99, 132, 0.2)',
-                             'rgba(54, 162, 235, 0.2)',
-                             'rgba(255, 206, 86, 0.2)',
-                             'rgba(75, 192, 192, 0.2)',
-                             'rgba(153, 102, 255, 0.2)',
-                             'rgba(255, 159, 64, 0.2)'
-                         ],
-                         hoverBackgroundColor: [
-                             "#FF6384",
-                             "#36A2EB",
-                             "#FFCE56",
-                             "#FF6384",
-                             "#36A2EB",
-                             "#FFCE56"
-                         ],
-                         scales: {
-                          xAxes: [{
-                              stacked: true,
-                          }],
-                          yAxes: [{
-                              stacked: true
-                          }]
-                      }
-                     }]
-                 }
-      
-             }) */
     }); 
   }
 

@@ -1,9 +1,12 @@
-import { Component,ViewChild } from '@angular/core';
+import { Component} from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { ModalController } from 'ionic-angular';
 import { LoginPage } from '../login/login';
 import { RegisterPage } from '../register/register';
-//import { Chart } from 'chart.js';
+
+declare var window: any;
+//https://github.com/ionic-team/ionic-native/issues/525
+//allow custom plugin to work with Ionic
 
 @Component({
   selector: 'page-home',
@@ -27,8 +30,8 @@ export class HomePage {
      regModal.present();
    }
 
-   ionViewDidLoad() {
 
+   ionViewDidLoad() {
     //was previously a commented out chart
 
      }

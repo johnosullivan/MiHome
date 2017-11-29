@@ -74,6 +74,19 @@ export class DashboardPage {
   getData() {
     console.log(this.start);
     console.log(this.end);
+    this.userServiceProvider.getToken().then((token) => {
+      this.dataProvider.chartdata(this.start,this.end,token).subscribe(
+
+               data => {
+                   // store the data
+                   //if there is an error (ex: 403 Forbidden) this
+                   //will not overwrite the data in last call &
+                   //the user will see charts based on older data
+                   //dates will be correct
+                   console.log(data);
+                    this.sensorData.set("lastcall", data);
+                 });
+    });
   }
 
   dismissHandler() {
@@ -94,18 +107,21 @@ export class DashboardPage {
   storeSensorData(){
       //store sensor data locally so can be referenced by other pages
       //without needing to ping again
-     this.dataProvider.chartdata("","").subscribe(
 
-              data => {
-                  // store the data
-                  //if there is an error (ex: 403 Forbidden) this
-                  //will not overwrite the data in last call &
-                  //the user will see charts based on older data
-                  //dates will be correct
-                  console.log(data);
-                   this.sensorData.set("lastcall", data);
-                })
-            };
+      this.userServiceProvider.getToken().then((token) => {
+        this.dataProvider.chartdata("","",token).subscribe(
+
+                 data => {
+                     // store the data
+                     //if there is an error (ex: 403 Forbidden) this
+                     //will not overwrite the data in last call &
+                     //the user will see charts based on older data
+                     //dates will be correct
+                     console.log(data);
+                      this.sensorData.set("lastcall", data);
+                   });
+      });
+  }
 
 
   clock() {

@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { DataProvider } from '../../providers/data-service/data-service';
 import { UserServiceProvider } from '../../providers/user-service/user-service';
 import { SetupPage } from '../setup/setup';
+import { Socket } from 'ng-socket-io';
 
 @Component({
   selector: 'page-devices',
@@ -13,7 +14,7 @@ export class DevicesPage {
   date:any;
   devices:any;
 
-  constructor(public userServiceProvider:UserServiceProvider,public dataProvider:DataProvider,public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public socket:Socket,public userServiceProvider:UserServiceProvider,public dataProvider:DataProvider,public navCtrl: NavController, public navParams: NavParams) {
     this.date = Date();
     this.devices = [];
   }
@@ -38,6 +39,11 @@ export class DevicesPage {
         );
       });
     });
+  }
+
+  ping(device) {
+    console.log(device['hubID']);
+    this.socket.emit("send", { 'emit':device['hubID'], 'payload': {'command':'ping'} });
   }
 
   ionViewDidLoad() {

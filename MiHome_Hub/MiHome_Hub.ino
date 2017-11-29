@@ -123,6 +123,30 @@ void configModeCallback (WiFiManager *myWiFiManager) {
   ticker.attach(0.5, tick);
 }
 
+uint32_t Wheel(byte WheelPos) {
+  if(WheelPos < 85) {
+   return neostrip.Color(WheelPos * 3, 255 - WheelPos * 3, 0);
+  } else if(WheelPos < 170) {
+   WheelPos -= 85;
+   return neostrip.Color(255 - WheelPos * 3, 0, WheelPos * 3);
+  } else {
+   WheelPos -= 170;
+   return neostrip.Color(0, WheelPos * 3, 255 - WheelPos * 3);
+  }
+}
+
+void rainbowCycle(uint8_t wait) {
+  uint16_t i, j;
+ 
+  for(j=0; j<256*5; j++) {
+    for(i=0; i< neostrip.numPixels(); i++) {
+      neostrip.setPixelColor(i, Wheel(((i * 256 / neostrip.numPixels()) + j) & 255));
+    }
+    neostrip.show();
+    delay(wait);
+  }
+}
+
 void webSocketDeviceCallBack(const char * payload, size_t length) {
   Serial.println(payload);
   DynamicJsonBuffer jsonBuffer;
@@ -146,6 +170,7 @@ void webSocketDeviceCallBack(const char * payload, size_t length) {
 
   if (strcmp(command, "ping") == 0) {
     Serial.println("ping....");
+    rainbowCycle(5);
     neostrip.setPixelColor(0, neostrip.Color(0, 255, 0));
     neostrip.show();
   }

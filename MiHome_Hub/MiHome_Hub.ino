@@ -61,6 +61,8 @@ const char* firmware = "1.0.2";
 int resetState = 0;
 const int resetPin = 12;
 
+WiFiManager wifiManager;
+
 enum LED_BLINK_STATUS {
   BLINK_CONNECTING, 
   BLINK_CONNECTED,
@@ -105,6 +107,8 @@ void updateStatus(LED_BLINK_STATUS status) {
 
 int tickstate = 1;
 
+void(* resetFunc) (void) = 0;
+
 void tick()
 {
   //int state = digitalRead(0);
@@ -123,24 +127,23 @@ void configModeCallback (WiFiManager *myWiFiManager) {
   ticker.attach(0.5, tick);
 }
 
-uint32_t Wheel(byte WheelPos) {
-  if(WheelPos < 85) {
-   return neostrip.Color(WheelPos * 3, 255 - WheelPos * 3, 0);
-  } else if(WheelPos < 170) {
-   WheelPos -= 85;
-   return neostrip.Color(255 - WheelPos * 3, 0, WheelPos * 3);
+uint32_t colorWheel(byte pos) {
+  if(pos < 85) {
+   return neostrip.Color(pos * 3, 255 - pos * 3, 0);
+  } else if(pos < 170) {
+   pos -= 85;
+   return neostrip.Color(255 - pos * 3, 0, pos * 3);
   } else {
-   WheelPos -= 170;
-   return neostrip.Color(0, WheelPos * 3, 255 - WheelPos * 3);
+   pos -= 170;
+   return neostrip.Color(0, pos * 3, 255 - pos * 3);
   }
 }
 
-void rainbowCycle(uint8_t wait) {
+void pinging(uint8_t wait) {
   uint16_t i, j;
- 
   for(j=0; j<256*5; j++) {
     for(i=0; i< neostrip.numPixels(); i++) {
-      neostrip.setPixelColor(i, Wheel(((i * 256 / neostrip.numPixels()) + j) & 255));
+      neostrip.setPixelColor(i, colorWheel(((i * 256 / neostrip.numPixels()) + j) & 255));
     }
     neostrip.show();
     delay(wait);
@@ -169,10 +172,14 @@ void webSocketDeviceCallBack(const char * payload, size_t length) {
   }
 
   if (strcmp(command, "ping") == 0) {
-    Serial.println("ping....");
-    rainbowCycle(5);
+    pinging(5);
     neostrip.setPixelColor(0, neostrip.Color(0, 255, 0));
     neostrip.show();
+  }
+
+  if (strcmp(command, "reset") == 0) {
+    wifiManager.resetSettings();
+    resetFunc();
   }
 
   if (strcmp(command, "linked") == 0) {
@@ -203,7 +210,6 @@ void setup()
   delay(5000);
   //pinMode(0, OUTPUT);
   //Connecting to the WiFi network
-  WiFiManager wifiManager;
   //wifiManager.resetSettings();
   wifiManager.setDebugOutput(false);
   resetState = digitalRead(resetPin);

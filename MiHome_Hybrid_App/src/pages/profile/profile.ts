@@ -11,7 +11,13 @@ import { HomePage } from '../home/home';
 })
 export class ProfilePage {
 
+  user:any;
   constructor(public userServiceProvider:UserServiceProvider,public authServiceProvider:AuthServiceProvider,public navCtrl: NavController, public navParams: NavParams) {
+    this.user = {};
+    this.userServiceProvider.getUser().then((user) => {
+      this.user = user;
+    });
+
   }
 
   ionViewDidLoad() { }

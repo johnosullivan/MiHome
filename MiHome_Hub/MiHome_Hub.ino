@@ -37,6 +37,9 @@ bool isSending = 0;
 // Setups up the Arduino Wifi
 //const char* ssid     = "";
 //const char* password = "";
+
+//int Reset = 14;
+ 
 #define NEOPIN 4
 #define NEOSIZE 1
 Adafruit_NeoPixel neostrip = Adafruit_NeoPixel(NEOSIZE, NEOPIN, NEO_GRB + NEO_KHZ800);
@@ -156,7 +159,7 @@ void webSocketDeviceCallBack(const char * payload, size_t length) {
   JsonObject& root = jsonBuffer.parseObject(payload);
   const char* command = root["command"];
   const char* data_payload = root["payload"];
-  //Serial.println(command);
+  Serial.println(command);
   
   if (strcmp(command, "info") == 0) {
     JsonObject& rootinfo = jsonBuffer.createObject();
@@ -179,7 +182,7 @@ void webSocketDeviceCallBack(const char * payload, size_t length) {
 
   if (strcmp(command, "reset") == 0) {
     wifiManager.resetSettings();
-    resetFunc();
+    //soft_restart();
   }
 
   if (strcmp(command, "linked") == 0) {
@@ -206,7 +209,6 @@ void setup()
   //digitalWrite(LED, 0);
   // Settle delay
   digitalWrite(LED, HIGH);
-  
   delay(5000);
   //pinMode(0, OUTPUT);
   //Connecting to the WiFi network

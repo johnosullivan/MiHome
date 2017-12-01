@@ -28,7 +28,7 @@ export class DevicesPage {
       this.userServiceProvider.getToken().then((token) => {
         this.dataProvider.devices(user['id'],token).subscribe(
           data => {
-            console.log(data);
+
             if (data.success) {
               this.devices = data['data'];
             }
@@ -44,6 +44,11 @@ export class DevicesPage {
   ping(device) {
     console.log(device['hubID']);
     this.socket.emit("send", { 'emit':device['hubID'], 'payload': {'command':'ping'} });
+  }
+
+  reset(device) {
+    console.log(device['hubID']);
+    this.socket.emit("send", { 'emit':device['hubID'], 'payload': {'command':'reset'} });
   }
 
   ionViewDidLoad() {

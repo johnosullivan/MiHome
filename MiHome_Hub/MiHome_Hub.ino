@@ -37,8 +37,6 @@ bool isSending = 0;
 // Setups up the Arduino Wifi
 //const char* ssid     = "";
 //const char* password = "";
-
-//int Reset = 14;
  
 #define NEOPIN 4
 #define NEOSIZE 1

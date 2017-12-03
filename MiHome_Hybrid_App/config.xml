@@ -104,4 +104,5 @@
     </plugin>
     <allow-navigation href="http://192.168.56.1:8100" />
     <plugin name="cordova-sqlite-storage" spec="^2.1.1" />
+    <plugin name="cordova.plugin.mihomeplugin" spec="MiHomePlugin" />
 </widget>

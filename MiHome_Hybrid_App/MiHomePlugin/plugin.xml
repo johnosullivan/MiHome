@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="cordova.plugin.mihomeplugin" version="0.0.1" 
+xmlns="http://apache.org/cordova/ns/plugins/1.0"
+ xmlns:android="http://schemas.android.com/apk/res/android">
+ <name>MiHomePlugin</name>
+ <js-module name="MiHomePlugin" src="www/MiHomePlugin.js">
+ <clobbers target="cordova.plugins.MiHomePlugin" />
+ </js-module>
+ <platform name="android">
+ <config-file parent="/*" target="res/xml/config.xml">
+ <feature name="MiHomePlugin">
+ <param name="android-package" value="cordova.plugin.mihomeplugin.MiHomePlugin" />
+ </feature></config-file>
+ <config-file parent="/*" target="AndroidManifest.xml" >
+ </config-file>
+ <source-file src="src/android/MiHomePlugin.java" target-dir="src/cordova/plugin/mihomeplugin/MiHomePlugin" />
+ <source-file src="src/android/MiHomePlugin.java" 
+target-dir="src/cordova.plugin.MiHomePlugin/MiHomePlugin" />
+ </platform>
+ <!--ios -->
+ <platform name="ios">
+ <config-file parent="/*" target="config.xml">
+ <feature name="MiHomePlugin"><param name="ios-package" value="MiHomePlugin" />
+ </feature></config-file><source-file src="src/ios/MiHomePlugin.m" />
+ </platform></plugin>

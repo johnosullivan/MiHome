@@ -1,15 +1,15 @@
-/********* MiHome.m Cordova Plugin Implementation *******/
+/********* MiHomePlugin.m Cordova Plugin Implementation *******/
 
 #import <Cordova/CDV.h>
 
-@interface MiHome : CDVPlugin {
+@interface MiHomePlugin : CDVPlugin {
   // Member variables go here.
 }
 
 - (void)coolMethod:(CDVInvokedUrlCommand*)command;
 @end
 
-@implementation MiHome
+@implementation MiHomePlugin
 
 - (void)coolMethod:(CDVInvokedUrlCommand*)command
 {

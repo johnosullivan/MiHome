@@ -10,7 +10,7 @@ import { DevicesPage } from '../devices/devices';
 
 @Component({
   selector: 'page-setup',
-  templateUrl: 'setup.html',providers:[BarcodeScanner]
+  templateUrl: 'setup.html', providers:[BarcodeScanner,QRScanner]
 })
 export class SetupPage {
 

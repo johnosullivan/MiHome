@@ -37,6 +37,7 @@ bool isSending = 0;
 // Setups up the Arduino Wifi
 //const char* ssid     = "";
 //const char* password = "";
+ 
 #define NEOPIN 4
 #define NEOSIZE 1
 Adafruit_NeoPixel neostrip = Adafruit_NeoPixel(NEOSIZE, NEOPIN, NEO_GRB + NEO_KHZ800);
@@ -60,6 +61,8 @@ const char* firmware = "1.0.2";
 
 int resetState = 0;
 const int resetPin = 12;
+
+WiFiManager wifiManager;
 
 enum LED_BLINK_STATUS {
   BLINK_CONNECTING, 
@@ -105,6 +108,8 @@ void updateStatus(LED_BLINK_STATUS status) {
 
 int tickstate = 1;
 
+void(* resetFunc) (void) = 0;
+
 void tick()
 {
   //int state = digitalRead(0);
@@ -123,13 +128,36 @@ void configModeCallback (WiFiManager *myWiFiManager) {
   ticker.attach(0.5, tick);
 }
 
+uint32_t colorWheel(byte pos) {
+  if(pos < 85) {
+   return neostrip.Color(pos * 3, 255 - pos * 3, 0);
+  } else if(pos < 170) {
+   pos -= 85;
+   return neostrip.Color(255 - pos * 3, 0, pos * 3);
+  } else {
+   pos -= 170;
+   return neostrip.Color(0, pos * 3, 255 - pos * 3);
+  }
+}
+
+void pinging(uint8_t wait) {
+  uint16_t i, j;
+  for(j=0; j<256*5; j++) {
+    for(i=0; i< neostrip.numPixels(); i++) {
+      neostrip.setPixelColor(i, colorWheel(((i * 256 / neostrip.numPixels()) + j) & 255));
+    }
+    neostrip.show();
+    delay(wait);
+  }
+}
+
 void webSocketDeviceCallBack(const char * payload, size_t length) {
   Serial.println(payload);
   DynamicJsonBuffer jsonBuffer;
   JsonObject& root = jsonBuffer.parseObject(payload);
   const char* command = root["command"];
   const char* data_payload = root["payload"];
-  //Serial.println(command);
+  Serial.println(command);
   
   if (strcmp(command, "info") == 0) {
     JsonObject& rootinfo = jsonBuffer.createObject();
@@ -145,9 +173,14 @@ void webSocketDeviceCallBack(const char * payload, size_t length) {
   }
 
   if (strcmp(command, "ping") == 0) {
-    Serial.println("ping....");
+    pinging(5);
     neostrip.setPixelColor(0, neostrip.Color(0, 255, 0));
     neostrip.show();
+  }
+
+  if (strcmp(command, "reset") == 0) {
+    wifiManager.resetSettings();
+    //soft_restart();
   }
 
   if (strcmp(command, "linked") == 0) {
@@ -174,11 +207,9 @@ void setup()
   //digitalWrite(LED, 0);
   // Settle delay
   digitalWrite(LED, HIGH);
-  
   delay(5000);
   //pinMode(0, OUTPUT);
   //Connecting to the WiFi network
-  WiFiManager wifiManager;
   //wifiManager.resetSettings();
   wifiManager.setDebugOutput(false);
   resetState = digitalRead(resetPin);

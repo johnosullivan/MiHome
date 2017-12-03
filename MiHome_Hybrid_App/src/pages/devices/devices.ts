@@ -3,6 +3,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import { DataProvider } from '../../providers/data-service/data-service';
 import { UserServiceProvider } from '../../providers/user-service/user-service';
 import { SetupPage } from '../setup/setup';
+import { Socket } from 'ng-socket-io';
 
 @Component({
   selector: 'page-devices',
@@ -13,7 +14,7 @@ export class DevicesPage {
   date:any;
   devices:any;
 
-  constructor(public userServiceProvider:UserServiceProvider,public dataProvider:DataProvider,public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public socket:Socket,public userServiceProvider:UserServiceProvider,public dataProvider:DataProvider,public navCtrl: NavController, public navParams: NavParams) {
     this.date = Date();
     this.devices = [];
   }
@@ -27,7 +28,7 @@ export class DevicesPage {
       this.userServiceProvider.getToken().then((token) => {
         this.dataProvider.devices(user['id'],token).subscribe(
           data => {
-            console.log(data);
+
             if (data.success) {
               this.devices = data['data'];
             }
@@ -38,6 +39,16 @@ export class DevicesPage {
         );
       });
     });
+  }
+
+  ping(device) {
+    console.log(device['hubID']);
+    this.socket.emit("send", { 'emit':device['hubID'], 'payload': {'command':'ping'} });
+  }
+
+  reset(device) {
+    console.log(device['hubID']);
+    this.socket.emit("send", { 'emit':device['hubID'], 'payload': {'command':'reset'} });
   }
 
   ionViewDidLoad() {

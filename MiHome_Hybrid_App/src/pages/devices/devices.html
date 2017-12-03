@@ -30,13 +30,13 @@
           <ion-icon name="hammer"></ion-icon>
           Re-Config
         </button>
-        <button ion-button color="danger">
+        <button ion-button color="danger" (click)="reset(device)">
           <ion-icon name="trash"></ion-icon>
           Delete
         </button>
       </ion-item-options>
       <ion-item-options side="right">
-        <button ion-button color="menutheme">
+        <button ion-button color="menutheme" (click)="ping(device)">
           <ion-icon name="arrow-round-down"></ion-icon>
           Ping
         </button>

@@ -39,7 +39,8 @@ export class MyApp {
     this.authpages = [
       { title: 'Dashboard', icon:'desktop',component: DashboardPage },
       { title: 'My Hubs', icon:'hammer', component: DevicesPage },
-      { title: 'My Profile', icon:'person', component: ProfilePage }
+      { title: 'My Profile', icon:'person', component: ProfilePage },
+      { title: 'About', icon:'information-circle', component: AboutPage }
     ];
 
     var self = this;
@@ -65,8 +66,8 @@ export class MyApp {
   openPage(page) {
     if (page.title == "Login") {
 
-      let profileModal = this.modalCtrl.create(page.component, { });
-      profileModal.onDidDismiss(obj => {
+      let loginModal = this.modalCtrl.create(page.component, { });
+      loginModal.onDidDismiss(obj => {
         console.log(JSON.stringify(obj));
       if (obj.status) {
         this.dataProvider.devices(obj.user.id,obj.token).subscribe(
@@ -84,11 +85,30 @@ export class MyApp {
 
       }
       });
-      profileModal.present();
+      loginModal.present();
 
     } else if (page.title == "Register") {
-      let profileModal = this.modalCtrl.create(page.component, { userId: 8675309 });
-      profileModal.present();
+      let registerModal = this.modalCtrl.create(page.component, { userId: 8675309 });
+      registerModal.onDidDismiss(obj => {
+        this.authServiceProvider.login(obj.creds).subscribe(
+          data => {
+            if (data.success) {
+              console.log(data);
+              this.userServiceProvider.saveToken(data.token);
+              this.userServiceProvider.saveUser(data.user);
+              this.authServiceProvider.setAuth(true);
+              this.nav.setRoot(DevicesPage);
+            } else {
+
+            }
+          },
+          err => {
+            console.log(JSON.stringify(err._body));
+          },
+          () => console.log('Auto Logging in....')
+        );
+      });
+      registerModal.present();
     } else {
       this.nav.setRoot(page.component);
     }

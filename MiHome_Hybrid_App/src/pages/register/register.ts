@@ -33,7 +33,7 @@ export class RegisterPage {
         if (data.success) {
           console.log(data);
           this.isSpinner = false;
-          this.navCtrl.pop();
+          this.viewController.dismiss({status:true,creds:this.payload});
         } else {
 
         }

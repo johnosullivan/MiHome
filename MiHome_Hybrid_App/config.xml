@@ -109,4 +109,5 @@
         <variable name="CAMERA_USAGE_DESCRIPTION" value=" " />
     </plugin>
     <plugin name="cordova.plugin.mihomeplugin" spec="MiHomePlugin" />
+    <allow-navigation href="http://10.24.170.137:8100" />
 </widget>

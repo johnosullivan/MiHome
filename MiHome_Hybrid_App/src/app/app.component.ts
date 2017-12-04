@@ -13,12 +13,6 @@ import { ProfilePage } from '../pages/profile/profile';
 import { AuthServiceProvider } from '../providers/auth-service/auth-service';
 import { UserServiceProvider } from '../providers/user-service/user-service';
 import { DataProvider } from '../providers/data-service/data-service';
-import { SetupPage } from '../pages/setup/setup';
-import { TempHumidityPage } from '../pages/dashboard/dashpages/tempHum';
-import { CO2VOCPage } from '../pages/dashboard/dashpages/co2voc';
-import { PressurePage } from '../pages/dashboard/dashpages/pressure';
-import { UVLightPage } from '../pages/dashboard/dashpages/uvlight';
-import { IRPage } from '../pages/dashboard/dashpages/ir';
 import { DevicesPage } from '../pages/devices/devices';
 
 @Component({
@@ -38,11 +32,11 @@ export class MyApp {
     this.pages = [
       { title: 'Home', icon:'home', component: HomePage },
       { title: 'Login', icon:'log-in', component: LoginPage },
-      { title: 'Register', icon:'person-add', component: RegisterPage }
+      { title: 'Register', icon:'person-add', component: RegisterPage },
+      { title: 'About', icon:'information-circle', component: AboutPage }
     ];
 
     this.authpages = [
-      { title: 'About', icon:'information-circle', component: AboutPage },
       { title: 'Dashboard', icon:'desktop',component: DashboardPage },
       { title: 'My Hubs', icon:'hammer', component: DevicesPage },
       { title: 'My Profile', icon:'person', component: ProfilePage }

@@ -8,7 +8,46 @@
 </ion-header>
 
 
-<ion-content>
 
+<ion-content style="background-color:#eee;">
+  
+    <!--<button ion-button (click)="showToast('Yo Man! Its working ', 'center')">Default</button> -->
+    <ion-card>
+      <ion-card-content>
+        <ion-card-title>What is MiHome?</ion-card-title>
+        <p style="line-height: 1.5em;">
+          MiHome is an open source environmental sensor.
+          It was designed to provide students and researchers a cheap and reliable platform to collect
+          information about their homes, offices, classrooms, or anywhere else they may need to study. 
+          Users of MiHome have the options of building on top of the Particle IoT platform, or they can 
+          build their own with Arduinos.
+        </p>
+        <div text-center>
+            <ion-img width="120" height="100" style="background-color:rgb(255, 255, 255);" src="assets/arduino.png"></ion-img>
+          </div>
+          <ion-card-title>Hardware</ion-card-title>
+          <p style="line-height: 1.5em;">
+              The Particle IoT platform is an easy way of to be introduced to the world of <em>IoT</em>, or "Internet of Things". 
+              It's simple: connect one of your interent able devices into an array of sensors and/or hardware. 
+              After prrogramming some firmware with Particle's online IDE, you will have successfully launched an IoT device.
+              This approach is one of the ways MiHome supplies fast and reliable data to its users. 
+              The most recent version of the MiHome system does not actually use the Particle IoT platform, but rather it uses the 
+              ESP8266 Wifi module which is Arduino compatible. Within this setup, the Hub 
+              contains the ESP8266 Wifi module and a 915MHz radio transceiver and the 
+              nodes contains all the sensor equipment which is packaged with an Arduino Nano and 
+              the same 915MHz radio transceivers.
+            </p>
+            <br/>
+            <div text-center>
+                <ion-img width="100" height="100" style="background-color:rgb(255, 255, 255);" src="assets/img/ionic.png"></ion-img>
+              </div>
+              <ion-card-title>Software</ion-card-title>
+              <p style="line-height: 1.5em;">
+                MiHome was created using Apache Cordova and Ionic 2 in order to create a cross-platform
+                mobile app. Functionally MiHome takes place inside of a webview which allows the pages to
+                be written using HTML, SCSS, and TypeScript.
+                </p>
+      </ion-card-content>
+    </ion-card>
 
 </ion-content>

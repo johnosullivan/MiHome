@@ -1,0 +1,19 @@
+{
+  "name": "MiHomePlugin",
+  "version": "0.0.1",
+  "description": "Custom plugin",
+  "cordova": {
+    "id": "cordova.plugin.mihomeplugin",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios"
+  ],
+  "author": "MiHomeAuthor",
+  "license": "ISC"
+}

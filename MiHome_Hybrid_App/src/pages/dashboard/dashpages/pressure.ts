@@ -1,9 +1,8 @@
-import { Component,ViewChild, ElementRef } from '@angular/core';
-import { Nav, IonicPage, NavController, NavParams,ViewController,ModalController } from 'ionic-angular';
+import { Component, ViewChild} from '@angular/core';
+import { NavController, NavParams,ViewController} from 'ionic-angular';
 import { Chart } from 'chart.js';
 import { AlertController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
-import * as _ from 'lodash';
 
 @Component({
   selector: 'page-pressure',

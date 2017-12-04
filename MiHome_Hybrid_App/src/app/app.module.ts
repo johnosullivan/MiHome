@@ -4,7 +4,6 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { HttpModule } from '@angular/http';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
-import { ListPage } from '../pages/list/list';
 import { LoginPage } from '../pages/login/login';
 import { RegisterPage } from '../pages/register/register';
 import { AboutPage } from '../pages/about/about';
@@ -39,7 +38,6 @@ const config: SocketIoConfig = { url: 'https://pacific-springs-32410.herokuapp.c
   declarations: [
     MyApp,
     HomePage,
-    ListPage,
     LoginPage,
     RegisterPage,
     AboutPage,
@@ -72,7 +70,6 @@ const config: SocketIoConfig = { url: 'https://pacific-springs-32410.herokuapp.c
   entryComponents: [
     MyApp,
     HomePage,
-    ListPage,
     LoginPage,
     RegisterPage,
     AboutPage,

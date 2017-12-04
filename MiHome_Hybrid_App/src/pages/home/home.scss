@@ -1,3 +1,11 @@
-page-home {
-
+.center {
+    margin-top: 2em;
+}
+//thin style chosen
+@font-face{
+    font-family: Montserrat;
+    src: url('../assets/fonts/montserrat.woff2') format('woff2');
+    }
+*{
+font-family: Montserrat;
 }

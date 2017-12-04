@@ -17,6 +17,9 @@
         <button menuClose ion-item *ngFor="let p of authpages" (click)="openPage(p)">
           <ion-icon item-left name={{p.icon}}></ion-icon> {{p.title}}
         </button>
+        <button menuClose ion-item class="submit-btn" type="submit" color="menutheme" (click)="test()">
+          <ion-icon item-left name="log-out"></ion-icon>Logoff
+        </button>
         </ion-list>
       </div>
   </ion-content>

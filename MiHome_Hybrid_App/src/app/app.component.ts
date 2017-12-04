@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform } from 'ionic-angular';
+import { Nav, Platform, NavController} from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -20,13 +20,20 @@ import { DevicesPage } from '../pages/devices/devices';
 })
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
+  @ViewChild('navCtrl') navCtrl: NavController
 
   rootPage: any = HomePage;
 
   pages: Array<{title: string, icon:string, component: any}>;
   authpages: Array<{title: string, icon:string, component: any}>;
 
-  constructor(public dataProvider:DataProvider, public userServiceProvider:UserServiceProvider,public authServiceProvider:AuthServiceProvider,public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen,public modalCtrl: ModalController) {
+  constructor(public dataProvider:DataProvider, 
+    public userServiceProvider:UserServiceProvider,
+    public authServiceProvider:AuthServiceProvider,
+    public platform: Platform, 
+    public statusBar: StatusBar, 
+    public splashScreen: SplashScreen,
+    public modalCtrl: ModalController ) {
     this.initializeApp();
 
     this.pages = [
@@ -52,6 +59,15 @@ export class MyApp {
         }
     });
 
+  }
+
+  test() {
+    var self = this;
+    this.userServiceProvider.removeToken().then(function(token){
+      self.authServiceProvider.setAuth(false);
+     // self.navCtrl.setRoot(HomePage);
+     self.nav.setRoot(HomePage);
+    });
   }
 
 

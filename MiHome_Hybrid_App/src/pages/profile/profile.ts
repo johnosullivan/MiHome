@@ -12,7 +12,10 @@ import { HomePage } from '../home/home';
 export class ProfilePage {
 
   user:any;
-  constructor(public userServiceProvider:UserServiceProvider,public authServiceProvider:AuthServiceProvider,public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public userServiceProvider:UserServiceProvider,
+    public authServiceProvider:AuthServiceProvider,
+    public navCtrl: NavController, 
+    public navParams: NavParams) {
     this.user = {};
     this.userServiceProvider.getUser().then((user) => {
       this.user = user;
@@ -22,13 +25,6 @@ export class ProfilePage {
 
   ionViewDidLoad() { }
 
-  test() {
-    var self = this;
-    this.userServiceProvider.removeToken().then(function(token){
-      self.authServiceProvider.setAuth(false);
-      self.navCtrl.setRoot(HomePage);
-    });
-  }
 
 
 }

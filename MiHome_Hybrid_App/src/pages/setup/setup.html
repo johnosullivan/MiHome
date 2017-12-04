@@ -20,7 +20,11 @@
 
     <ion-card-content>
       <div *ngIf="state.stage_one">
-        <p style="line-height: 1.5em;">If your MiHome Hub is <b>bright yellow</b> you are ready to proceed. If <b>bright white</b> please power down your MiHome Hub by unplugging it and plugging it back into a power source. If either of the two situations, please tap the help icon at the top right to troublshoot your hardware. Linking is as easy as 1,2,3. To start off please scan your MiHome Hub QR Code.</p>
+        <p style="line-height: 1.5em;">If your MiHome Hub is <b>bright yellow</b> you are ready to proceed. 
+          If <b>bright white</b> please power down your MiHome Hub by unplugging it 
+          and plugging it back into a power source. If you are experiencing something else, 
+          please tap the help icon at the top right to troublshoot your hardware. Once you are seeing the <b>yellow light</b>
+          you can begin linking your MiHome node to this app. To start, tap the button below to scan your MiHome Hub QR Code.</p>
         <br>
         <button ion-button full color="menutheme" (click)="qr()" [(disabled)]="state.stage_one_qr">Scan Hub QR Code</button>
       </div>

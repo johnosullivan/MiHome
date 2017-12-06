@@ -74,7 +74,7 @@ export class SetupPage {
     this.barcodeScanner.scan().then((barcodeData) => {
       if (barcodeData.text != "") {
         self.nodeid = barcodeData.text;
-        self.socket.emit("send", { 'emit':'00000012340987011', 'payload': {'command':'info'} });
+        self.socket.emit("send", { 'emit':self.nodeid, 'payload': {'command':'info'} });
         self.state.stage_one = false;
         self.state.stage_two = true;
         self.state.stage_one_qr = true;

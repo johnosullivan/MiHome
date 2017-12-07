@@ -14,7 +14,7 @@ import { IRPage } from '../pages/dashboard/dashpages/IR';
 import { UVLightPage } from '../pages/dashboard/dashpages/uvlight';
 import { IonicStorageModule } from '@ionic/storage';
 
-
+import { WindowRef } from './WindowRef';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -85,6 +85,7 @@ const config: SocketIoConfig = { url: 'https://pacific-springs-32410.herokuapp.c
     DevicesPage
   ],
   providers: [
+    WindowRef,
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},

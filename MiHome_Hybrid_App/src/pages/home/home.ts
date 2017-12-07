@@ -4,10 +4,7 @@ import { ModalController } from 'ionic-angular';
 import { LoginPage } from '../login/login';
 import { RegisterPage } from '../register/register';
 import { Chart } from 'chart.js';
-
-declare var cordova;
-//https://github.com/ionic-team/ionic-native/issues/525
-//allow custom plugin to work with Ionic
+import { WindowRef } from '../../app/WindowRef';
 
 @Component({
   selector: 'page-home',
@@ -20,17 +17,9 @@ export class HomePage {
    title:any;
    circleChart: any;
 
-   constructor(public navCtrl: NavController, public modalCtrl: ModalController, private platform: Platform) {
+   constructor(private winRef: WindowRef,public navCtrl: NavController, public modalCtrl: ModalController, private platform: Platform) {
     this.title = "Welcome";
    }
-
-   showToast(message, position) {
-    console.log("Inside show toast in home");
-    this.platform.ready().then(() => {
-        cordova.plugins.MiHomePlugin.coolMethod(message, "short", position);
-    });
-}
-   
 
    openLogin() {
      let loginModal = this.modalCtrl.create(LoginPage);
@@ -42,10 +31,17 @@ export class HomePage {
      regModal.present();
    }
 
+   plugintest() {
+     console.log("Plugin testing...");
+     this.winRef.nativeWindow.MiHomePlugin.echo("echo",function(date) {
+       console.log(date);
+     });
+   }
+
 
    ionViewDidLoad() {
     this.circleChart = new Chart(this.circleCanvas.nativeElement, {
-      
+
                  type: 'doughnut',
                  data: {
                      labels: ["C++", "TypeScript", "HTML", "Arduino", "Javascript", "CSS", "Other"],
@@ -78,7 +74,7 @@ export class HomePage {
                        enabled: false
                   }
               }
-      
+
              });
      }
 

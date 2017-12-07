@@ -14,6 +14,7 @@ import { AuthServiceProvider } from '../providers/auth-service/auth-service';
 import { UserServiceProvider } from '../providers/user-service/user-service';
 import { DataProvider } from '../providers/data-service/data-service';
 import { DevicesPage } from '../pages/devices/devices';
+import { WindowRef } from './WindowRef';
 
 @Component({
   templateUrl: 'app.html'
@@ -27,11 +28,11 @@ export class MyApp {
   pages: Array<{title: string, icon:string, component: any}>;
   authpages: Array<{title: string, icon:string, component: any}>;
 
-  constructor(public dataProvider:DataProvider, 
+  constructor(public dataProvider:DataProvider,
     public userServiceProvider:UserServiceProvider,
     public authServiceProvider:AuthServiceProvider,
-    public platform: Platform, 
-    public statusBar: StatusBar, 
+    public platform: Platform,
+    public statusBar: StatusBar,
     public splashScreen: SplashScreen,
     public modalCtrl: ModalController ) {
     this.initializeApp();

@@ -33,8 +33,8 @@ export class HomePage {
 
    plugintest() {
      console.log("Plugin testing...");
-     this.winRef.nativeWindow.MiHomePlugin.echo("echo",function(date) {
-       console.log(date);
+     this.winRef.nativeWindow.MiHomePlugin.echo("echo",function() {
+
      });
    }
 

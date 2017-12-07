@@ -1,15 +1,19 @@
 #import "MiHomePlugin.h"
 
 #import <Cordova/CDVAvailability.h>
+#import <AudioToolbox/AudioServices.h>
 
 @implementation MiHomePlugin
 
 - (void)pluginInitialize {
+  NSLog(@"MiHomePlugin pluginInitialized");
 }
 
 - (void)echo:(CDVInvokedUrlCommand *)command {
   NSString* phrase = [command.arguments objectAtIndex:0];
   NSLog(@"%@", phrase);
+  //NSLog(@"echo echo");
+  AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
 }
 
 - (void)getDate:(CDVInvokedUrlCommand *)command {

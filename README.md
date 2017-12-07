@@ -1,5 +1,5 @@
 <p align="center">
-<img src="resources/mihomeicon.png">
+<img src="resources/mihomeicon.jpg">
 </p>
 
 # Mi Home <small>"the more you know, the better"</small>

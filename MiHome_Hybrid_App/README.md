@@ -1,1 +1,0 @@
-# MiHome App (Ionic2)

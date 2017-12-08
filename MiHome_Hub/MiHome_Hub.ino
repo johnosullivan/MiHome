@@ -37,7 +37,7 @@ bool isSending = 0;
 // Setups up the Arduino Wifi
 //const char* ssid     = "";
 //const char* password = "";
- 
+
 #define NEOPIN 4
 #define NEOSIZE 1
 Adafruit_NeoPixel neostrip = Adafruit_NeoPixel(NEOSIZE, NEOPIN, NEO_GRB + NEO_KHZ800);
@@ -65,7 +65,7 @@ const int resetPin = 12;
 WiFiManager wifiManager;
 
 enum LED_BLINK_STATUS {
-  BLINK_CONNECTING, 
+  BLINK_CONNECTING,
   BLINK_CONNECTED,
   BLINK_RADIO_CONNECTING,
   BLINK_RADIO_CONNECTED,
@@ -77,29 +77,29 @@ enum LED_BLINK_STATUS {
 
 void updateStatus(LED_BLINK_STATUS status) {
   switch (status) {
-    case BLINK_CONNECTING: 
-    
+    case BLINK_CONNECTING:
+
       break;
-    case BLINK_CONNECTED: 
-    
+    case BLINK_CONNECTED:
+
       break;
-    case BLINK_RADIO_CONNECTING: 
-    
+    case BLINK_RADIO_CONNECTING:
+
       break;
-    case BLINK_RADIO_CONNECTED: 
-    
+    case BLINK_RADIO_CONNECTED:
+
       break;
-    case BLINK_IDLE: 
-    
+    case BLINK_IDLE:
+
       break;
     case BLINK_SENTING:
-     
+
       break;
     case BLINK_PINGING:
-     
+
       break;
-    case BLINK_RUNNING: 
-    
+    case BLINK_RUNNING:
+
       break;
     default:
       break;
@@ -158,17 +158,17 @@ void webSocketDeviceCallBack(const char * payload, size_t length) {
   const char* command = root["command"];
   const char* data_payload = root["payload"];
   Serial.println(command);
-  
+
   if (strcmp(command, "info") == 0) {
     JsonObject& rootinfo = jsonBuffer.createObject();
     rootinfo["emit"] = hubID_RES;
-    JsonObject& infopayload = rootinfo.createNestedObject("payload");    
+    JsonObject& infopayload = rootinfo.createNestedObject("payload");
     infopayload["macaddress"] = WiFi.macAddress();
     infopayload["firmware"] = firmware;
     infopayload["hubID"] = hubID;
     infopayload["type"] = "info";
     char cbuf[200];
-    rootinfo.printTo(cbuf,sizeof(cbuf));    
+    rootinfo.printTo(cbuf,sizeof(cbuf));
     webSocket.emit("send", cbuf);
   }
 
@@ -187,7 +187,7 @@ void webSocketDeviceCallBack(const char * payload, size_t length) {
     neostrip.setPixelColor(0, neostrip.Color(0, 255, 0));
     neostrip.show();
   }
- 
+
 }
 void webSocketConnect(const char * payload, size_t length) { }
 
@@ -223,10 +223,10 @@ void setup()
   //wifiManager.connectWifi("loyola","");
 
   String mihome = "MiHome " + WiFi.macAddress();
-  
-  
+
+
   wifiManager.autoConnect(mihome.c_str());
-   
+
   // Prints details to the serial ports
   Serial.println();
   Serial.println("-----------------------------------------");
@@ -243,12 +243,12 @@ void setup()
   Serial.println(WiFi.macAddress());
   Serial.println("-----------------------------------------");
   Serial.println();
-  
+
 
   ticker.detach();
   neostrip.setPixelColor(0, neostrip.Color(255, 255, 255));
   neostrip.show();
-  
+
   delay(2000);
   // Setuping the pins
   pinMode(RFM69_RST, OUTPUT);
@@ -281,7 +281,7 @@ void setup()
   // Prints out the final details
   Serial.print("RFM69 Radio @");  Serial.print((int)RF69_FREQ);  Serial.println(" MHz");
   Serial.println();
-  
+
   webSocket.on("connect", webSocketConnect);
   webSocket.on(hubID, webSocketDeviceCallBack);
   webSocket.begin(socketHost, socketPort, socketPath);
@@ -421,7 +421,7 @@ void loop() {
   // Loops the websocket for the client
   webSocket.loop();
 
- 
+
   if (setup_status) {
     String setup_data = transmit("setup");
     if (setup_data != "") {

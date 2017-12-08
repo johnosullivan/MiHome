@@ -31,6 +31,25 @@ MiHome is a open source environmental sensors platform. It was design to provide
 - 2 hours of time.
 - Good understanding of I2C and SPI protocol.
 
-## Setups
+# Setups
 
-Pick your poison?
+## Hardware
+
+Please install the <a href="">Arduino IDE</a> and the following libraries:
+
+- ESP8266WiFi
+- ESP8266HTTPClient
+- ArduinoJson
+- RH_RF69
+- Adafruit_NeoPixel
+
+Open either the MiHome_Hub.ino or MiHome_Node.ino and flash it to the chip set. 
+
+## Software
+
+Please install the following libraries and dependencies:
+
+- <a href="https://ionicframework.com/docs/intro/installation/">Ionic Framework</a> - v2.0
+- <a href="https://cordova.apache.org/#getstarted">Cordova</a>
+- <a href="https://developer.apple.com/xcode/">Xcode</a>
+- <a href="https://developer.android.com/studio/index.html">Android SDK</a>

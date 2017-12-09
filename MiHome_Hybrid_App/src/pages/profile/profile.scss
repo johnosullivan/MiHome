@@ -1,3 +1,29 @@
-page-profile {
 
-}
+.card-background-page {
+      ion-card {
+        position: relative;
+        text-align: center;
+        margin-top: 0em;
+        margin-left: 0em;
+        width: 100%;
+      }
+    
+      .card-title {
+        position: absolute;
+        top: 25%;
+        font-size: 2.3em;
+        width: 100%;
+        font-weight: bold;
+        color: #000000;
+      }
+    
+      .card-subtitle {
+        font-size: 1.3em;
+        position: absolute;
+        font-weight: bold;
+        top: 48%;
+        width: 100%;
+        color: #000000;
+      }
+    
+    }

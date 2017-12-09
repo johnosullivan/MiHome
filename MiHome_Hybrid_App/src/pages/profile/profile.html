@@ -8,24 +8,15 @@
 </ion-header>
 
 
-<ion-content padding style="background-color: #eee;">
+<ion-content padding style="background-color: #eee;" class="card-background-page">
 
-  <ion-list>
-
-
-    <ion-item>
-      <ion-label>{{user.firstName}}</ion-label>
-    </ion-item>
-
-    <ion-item>
-      <ion-label>{{user.lastName}}</ion-label>
-    </ion-item>
-
-    <ion-item>
-      <ion-label>{{user.email}}</ion-label>
-    </ion-item>
-
-
-  </ion-list>
-
+<ion-card>
+<img src="assets/img/deskstuff.png"/>
+  <div class="card-title">User Information</div>
+  <div class="card-subtitle">
+    Name: {{user.firstName}} {{user.lastName}}<br/>
+    Username: {{user.username}}<br/>
+    Account registered to: {{user.email}}
+  </div>
+</ion-card>
 </ion-content>

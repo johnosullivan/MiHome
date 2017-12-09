@@ -115,4 +115,5 @@
     <plugin name="cordova-plugin-mihomeplugin" spec="MiHomePlugin" />
     <engine name="ios" spec="~4.4.0" />
     <allow-navigation href="http://10.39.19.130:8100" />
+    <allow-navigation href="http://10.24.168.45:8100" />
 </widget>

@@ -12,7 +12,6 @@
 - (void)echo:(CDVInvokedUrlCommand *)command {
   NSString* phrase = [command.arguments objectAtIndex:0];
   NSLog(@"%@", phrase);
-  //NSLog(@"echo echo");
   AudioServicesPlayAlertSound(kSystemSoundID_Vibrate);
 }
 

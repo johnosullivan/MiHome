@@ -53,21 +53,21 @@ int setup_status = 0;
 int SETUP_LCD = 6;
 void lightCallback(){
   if (setup_status) {
-    int state = digitalRead(SETUP_LCD);  
+    int state = digitalRead(SETUP_LCD);
     digitalWrite(SETUP_LCD, !state);
   }
 }
 
 void setupMode() {
-  
+
 }
 
 void errorMode() {
-  
+
 }
 
 void runningMode() {
-  
+
 }
 
 void setup()
@@ -87,32 +87,32 @@ void setup()
 
    byte error, address;
   int devices;
- 
+
   Serial.println("Scanning...");
- 
+
   devices = 0;
-  for(address = 1; address < 127; address++ ) 
+  for(address = 1; address < 127; address++ )
   {
     Wire.beginTransmission(address);
     error = Wire.endTransmission();
- 
+
     if (error == 0)
     {
       Serial.print("I2C device found at address | 0x");
-      if (address<16) 
+      if (address<16)
         Serial.print("0");
       Serial.print(address,HEX);
       Serial.println("  !");
- 
+
       devices++;
     }
-    else if (error==4) 
+    else if (error==4)
     {
       Serial.print("Unknow error at address | 0x");
-      if (address<16) 
+      if (address<16)
         Serial.print("0");
       Serial.println(address,HEX);
-    }    
+    }
   }
   if (devices == 0)
     Serial.println("No I2C devices found\n");
@@ -173,7 +173,7 @@ void setup()
   if (!rf69.setFrequency(RF69_FREQ)) {
     Serial.println("Set Frequency Initialization Failed!");
   }
-  
+
   // If you are using a high power RF69 eg RFM69HW, you *must* set a Tx power with the
   // ishighpowermodule flag set like this:
   rf69.setTxPower(20, true);  // range from 14-20 for power, 2nd arg must be true for 69HCW
@@ -235,9 +235,9 @@ void getSensorData_2() {
   }
 }
 
-void loop() {  
+void loop() {
  if(blinkingThread.shouldRun()) {
-   blinkingThread.run(); 
+   blinkingThread.run();
  }
  if (rf69.available()) {
     uint8_t buf[RH_RF69_MAX_MESSAGE_LEN];
@@ -250,7 +250,7 @@ void loop() {
       Serial.print("]: ");
       Serial.println((char*)buf);
       Serial.print("RSSI: ");
-      
+
       Serial.println(rf69.lastRssi(), DEC);
       if (strstr((char *)buf, "data_1")) {
         getSensorData_1();
@@ -262,7 +262,7 @@ void loop() {
         rf69.waitPacketSent();
         //Blink(LED, 40, 3);
       }
-      
+
       if (strstr((char *)buf, "data_2")) {
         getSensorData_2();
         String message = String(light) + ";" + String(UV) + ";" + String(IR) + ";" + String(pressure) + ";";
@@ -279,17 +279,17 @@ void loop() {
         uint8_t data[message.length()];
         message.getBytes(data, message.length());
         rf69.send(data, sizeof(data));
-        rf69.waitPacketSent();  
-        setup_status = 1;   
+        rf69.waitPacketSent();
+        setup_status = 1;
       }
       if (strstr((char *)buf, "sdone")) {
         String message = "ok";
         uint8_t data[message.length()];
         message.getBytes(data, message.length());
         rf69.send(data, sizeof(data));
-        rf69.waitPacketSent();  
-        setup_status = 0;  
-        digitalWrite(SETUP_LCD, 0);    
+        rf69.waitPacketSent();
+        setup_status = 0;
+        digitalWrite(SETUP_LCD, 0);
       }
     } else {
       Serial.println("Receive failed");

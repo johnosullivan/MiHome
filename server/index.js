@@ -21,6 +21,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/api/user', require('./routes/users'));
+
+/*
 app.use('/api/data', require('./routes/data'));
 app.use('/api/hardware', require('./routes/hardware'));
 
@@ -44,7 +46,7 @@ io.on('disconnected', function(socket) {
 server.listen(process.env.PORT || CONFIG.server.port, function() {
     console.log('Server listening on port: ', CONFIG.server.port);
 });
-
+*/
 
 /*app.listen(process.env.PORT || CONFIG.server.port, function () {
   //var port = server.address().port;

@@ -9,14 +9,15 @@ var User = require('../models/user');
 
 var router = express.Router();
 
+/*
 router.get('/setup/:hub', function(req, res){
   var socket = req.app.get('io');
   socket.emit(req.params.hub, {'command':'req.params.command','payload':'req.params.node' });
   res.json({});
 });
+*/
 
 router.post('/register', function createUser(request, response) {
-  //console.log("Registing");
   User.findOne({ username: request.body.username }, function handleQuery(error, user) {
     if (error) {
       response.status(500).json({ success: false, message: 'Internal server error' });
@@ -26,13 +27,11 @@ router.post('/register', function createUser(request, response) {
       response.status(409).json({ success: false, message: 'Username \'' + request.body.username + '\' already exists.' });
       return;
     }
-    //console.log("bcrypt 1");
     bcrypt.genSalt(10, function (error, salt) {
       if (error) {
         response.status(500).json({ success: false, message: 'Internal server error' });
         throw error;
       }
-      //console.log("bcrypt 2");
       bcrypt.hash(request.body.password, salt,null, function (error, hash) {
         if (error) { response.status(500).json({ success: false, message: 'Internal server error' });
           throw error;
@@ -44,8 +43,6 @@ router.post('/register', function createUser(request, response) {
           lastName: request.body.lastName,
           email: request.body.email
         });
-        //console.log("Saving");
-        //console.log(user);
         user.save(function (error) {
           if (error) {
             response.status(500).json({ success: false, message: 'Internal server error' });

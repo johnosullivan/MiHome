@@ -1,9 +1,6 @@
 const Influx = require('influxdb-nodejs');
 const client = new Influx('http://127.0.0.1:8086/mydb');
-// i --> integer
-// s --> string
-// f --> float
-// b --> boolean
+
 const fieldSchema = {
   use: 'i',
   bytes: 'i',
@@ -25,8 +22,6 @@ client.write('sensor_points')
   .catch(console.error);
 
 
-  client.query('sensor_points')
-    .then((data) => {
+  client.query('sensor_points').then((data) => {
       console.log(data.results[0].series[0]);
-    })
-    .catch(console.error);
+  }).catch(console.error);

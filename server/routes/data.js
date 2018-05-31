@@ -8,12 +8,22 @@ var Payload = require('../models/payload');
 var User = require('../models/user');
 var tokenMiddleware = require('../middleware/token');
 var router = express.Router();
+const Influx = require('influxdb-nodejs');
+const client = new Influx('http://127.0.0.1:8086/mydb');
 
-router.get('/', tokenMiddleware.verifyToken, function(req, res){
-  Payload.find({}, function (err, data) {
+router.get('/', function(req, res){
+  /*Payload.find({}, function (err, data) {
     res.json({'size':data.length,'data':data});
-  });
+  });*/
+
+  client.query('sensor_points').then((data) => {
+      console.log(data.results[0].series[0]);
+      var s = data.results[0].series[0];
+      res.json(s);
+  }).catch(console.error);
 });
+
+
 
 router.post('/find', tokenMiddleware.verifyToken, function(req, res){
   if (req.body.start === undefined || req.body.end === undefined) {
@@ -54,12 +64,24 @@ router.post('/connection_test', function(req, res){ res.json({'status':true}); }
 router.get('/ping', function(req, res){ res.json({'response':'pong'}); });
 
 router.post('/', function(req, res){
-  var temp_load = new Payload(req.body);
+  /*var temp_load = new Payload(req.body);
   temp_load['datetime'] = new Date();
   temp_load.save(function(err) {
     if (err) throw err;
     res.json(temp_load);
-  });
+  });*/
+  client.write('sensor_points')
+    .field({
+      use: 100,
+      bytes: 2000,
+      url: '',
+    })
+    .then(() => {
+      console.info('write point success')
+      res.json({message:'write point success'});
+    })
+    .catch(console.error);
+
 });
 
 module.exports = router;

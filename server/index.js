@@ -7,6 +7,19 @@ var mongoose = require('mongoose');
 var cors = require('cors')
 var CONFIG = require('./config.json');
 
+const Influx = require('influxdb-nodejs');
+const client = new Influx('http://127.0.0.1:8086/mydb');
+
+const fieldSchema = {
+  use: 'i',
+  bytes: 'i',
+  url: 's',
+};
+
+client.schema('sensor_points', fieldSchema, {
+  stripUnknown: true,
+});
+
 mongoose.Promise = global.Promise;
 mongoose.connect(CONFIG.database.address, { useMongoClient: true, promiseLibrary: global.Promise });
 
@@ -21,10 +34,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/api/user', require('./routes/users'));
-
-/*
 app.use('/api/data', require('./routes/data'));
 app.use('/api/hardware', require('./routes/hardware'));
+
 
 var server = http.createServer(app);
 
@@ -46,10 +58,11 @@ io.on('disconnected', function(socket) {
 server.listen(process.env.PORT || CONFIG.server.port, function() {
     console.log('Server listening on port: ', CONFIG.server.port);
 });
-*/
 
-/*app.listen(process.env.PORT || CONFIG.server.port, function () {
+/*
+app.listen(process.env.PORT || CONFIG.server.port, function () {
   //var port = server.address().port;
   console.log('MiHome API Running');
   console.log('Server listening at http://localhost:%s', "port");
-})*/
+})
+*/

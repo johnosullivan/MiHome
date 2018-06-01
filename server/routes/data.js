@@ -24,7 +24,6 @@ router.get('/', function(req, res){
 });
 
 
-
 router.post('/find', tokenMiddleware.verifyToken, function(req, res){
   if (req.body.start === undefined || req.body.end === undefined) {
     res.json({success: false, message:'Time Frame Required'});

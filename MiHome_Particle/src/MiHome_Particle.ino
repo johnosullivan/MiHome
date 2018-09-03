@@ -21,19 +21,6 @@ void loop() {
   float h = sht31.readHumidity();
   float tF = (t * 9) / 5 + 32;
 
-  if (!isnan(t)) {
-    //Particle.publish("Temp *C = ",String(t));
-    //Particle.publish("Temp *F = ",String(tF));
-  } else {
-    Serial.println("Failed to read temperature");
-  }
-
-  if (! isnan(h)) {
-    //Particle.publish("Hum. % = ",String(h));
-  } else {
-    Serial.println("Failed to read humidity");
-  }
-
   DynamicJsonBuffer jsonBuffer;
   JsonObject& root = jsonBuffer.createObject();
   root["hubID"] = 'MI54768634';

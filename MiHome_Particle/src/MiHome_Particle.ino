@@ -1,9 +1,16 @@
 #include <ArduinoJson.h>
+#include <Adafruit_CCS811.h>
 #include <adafruit-sht31.h>
 #include "math.h"
 
+#if defined(PARTICLE)
+ SYSTEM_THREAD(ENABLED)
+#endif
+
+
 // Setup the instances of the sensors
 Adafruit_SHT31 sht31 = Adafruit_SHT31();
+Adafruit_CCS811 ccs;
 
 // Executes setup of the sensors
 void setup() {
@@ -12,14 +19,25 @@ void setup() {
     Serial.println("Couldn't find SHT31");
   }
 
+  if(!ccs.begin()){
+    Serial.println("Couldn't find CCS811");
+  }
+
+  // Calibrate temperature sensor
+  while(!ccs.available());
+  float temp = ccs.calculateTemperature();
+  ccs.setTempOffset(temp - 25.0);
 }
 
 // Starts the program loop
 void loop() {
 
+  if(ccs.available()){ }
+
   float t = sht31.readTemperature();
   float h = sht31.readHumidity();
   float tF = (t * 9) / 5 + 32;
+  float temp = ccs.calculateTemperature();
 
   DynamicJsonBuffer jsonBuffer;
   JsonObject& root = jsonBuffer.createObject();
@@ -32,10 +50,17 @@ void loop() {
   fields.add("temperature_celsius");
   fields.add("temperature_fahrenheit");
   fields.add("humidity");
+  fields.add("co2");
+  fields.add("tvoc");
+  fields.add("ppb");
 
   data["temperature_celsius"] = t;
   data["temperature_fahrenheit"] = tF;
   data["humidity"] = h;
+  data["co2"] = ccs.geteCO2();
+  data["tvoc"] = ccs.getTVOC();
+  data["ppb"] = temp;
+
 
   char jsonbuf[300];
   root.printTo(jsonbuf,sizeof(jsonbuf));

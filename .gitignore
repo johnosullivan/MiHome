@@ -1,4 +1,4 @@
-/server/node_modules
+/server_nodejs/node_modules
 /.idea
 *.dump
 .DS_Store

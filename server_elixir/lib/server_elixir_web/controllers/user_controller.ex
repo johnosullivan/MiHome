@@ -10,6 +10,11 @@ defmodule ServerElixirWeb.UserController do
     render(conn, "version.json", version: "v1.0")
   end
 
+  def readings(conn, _params \\ %{}) do
+    IO.puts(_params)
+    render(conn, "version.json", version: "v1.0")
+  end
+
   def index(conn, _params) do
     users = Auth.list_users()
     render(conn, "index.json", users: users)

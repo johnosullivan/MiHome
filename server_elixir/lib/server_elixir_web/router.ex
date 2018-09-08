@@ -28,13 +28,13 @@ defmodule ServerElixirWeb.Router do
     plug(:ensure_authenticated)
   end
 
-  scope "/api/v1.0", ServerElixirWeb do
+  scope "/api", ServerElixirWeb do
     pipe_through(:api)
     post("/users/sign_in", UserController, :sign_in)
-    get("/version", UserController, :version)
+    post("/readings", UserController, :readings)
   end
 
-  scope "/api/v1.0", ServerElixirWeb do
+  scope "/api", ServerElixirWeb do
     pipe_through([:api, :api_auth])
     resources("/users", UserController, except: [:new, :edit])
   end

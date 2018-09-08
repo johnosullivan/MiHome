@@ -40,7 +40,13 @@ defmodule ServerElixir.Mixfile do
       {:phoenix_html, "~> 2.10"},
       {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:gettext, "~> 0.11"},
-      {:cowboy, "~> 1.0"}
+      {:cowboy, "~> 1.0"},
+      {:bcrypt_elixir, "~> 1.0"},
+      {:corsica, "~> 1.0"},
+      {:poison, "~> 3.1"},
+      {:elixir_uuid, "~> 1.2"},
+      {:guardian, "~> 1.0"},
+      {:decimal, "~> 1.0"},
     ]
   end
 

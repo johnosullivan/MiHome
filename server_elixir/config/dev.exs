@@ -48,6 +48,10 @@ config :logger, :console, format: "[$level] $message\n"
 # in production as building large stacktraces may be expensive.
 config :phoenix, :stacktrace_depth, 20
 
+config :server_elixir, ServerElixirWeb.Guardian,
+       issuer: "server_elixir",
+       secret_key: "BcuibCpINPwJPTRlyQXGBiLczhwl5cy7y408JgpsesV5iFg04OG9Ivqv9XwfZWqp"
+
 # Configure your database
 config :server_elixir, ServerElixir.Repo,
   adapter: Ecto.Adapters.Postgres,

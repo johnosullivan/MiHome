@@ -43,6 +43,8 @@ defmodule ServerElixirWeb.Router do
   defp ensure_authenticated(conn, _opts) do
     current_user_id = get_session(conn, :current_user_id)
 
+    IO.puts current_user_id
+
     if current_user_id do
       conn
     else

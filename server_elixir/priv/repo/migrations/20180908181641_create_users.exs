@@ -10,6 +10,7 @@ defmodule ServerElixir.Repo.Migrations.CreateUsers do
       add(:first_name, :string)
       add(:last_name, :string)
       add(:two_factor_auth, :string)
+      add(:status, :integer)
       timestamps()
     end
 

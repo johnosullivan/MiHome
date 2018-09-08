@@ -47,6 +47,7 @@ defmodule ServerElixir.Mixfile do
       {:elixir_uuid, "~> 1.2"},
       {:guardian, "~> 1.0"},
       {:decimal, "~> 1.0"},
+      {:ecto_enum, "~> 1.0"}
     ]
   end
 

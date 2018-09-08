@@ -11,6 +11,7 @@ defmodule ServerElixir.Auth.User do
     field(:first_name, :string)
     field(:last_name, :string)
     field(:two_factor_auth, :string)
+    field(:status, :integer)
     timestamps()
   end
 

@@ -2,3 +2,4 @@
 /.idea
 *.dump
 .DS_Store
+*.env

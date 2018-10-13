@@ -569,6 +569,10 @@ influx-ql@^2.7.0:
   version "2.7.0"
   resolved "https://registry.yarnpkg.com/influx-ql/-/influx-ql-2.7.0.tgz#38f8ab3c5f6d42275cf7270a9c0ba2552a38d7cc"
 
+influx@^5.0.7:
+  version "5.0.7"
+  resolved "https://registry.yarnpkg.com/influx/-/influx-5.0.7.tgz#35e65f6bf13cbaa1763108b5596a806a727a529a"
+
 influxdb-nodejs@^2.7.4:
   version "2.8.0"
   resolved "https://registry.yarnpkg.com/influxdb-nodejs/-/influxdb-nodejs-2.8.0.tgz#695b1f341e0463c5d02d1e21b3a22e1f86724ab4"

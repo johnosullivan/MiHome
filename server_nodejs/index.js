@@ -5,12 +5,17 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const http = require("http");
 
-const { authController } = require('./routes')
+const { 
+  authController,
+  dataController
+} = require('./controllers');
 
 const app = express();
 app.use(bodyParser.json());
 
 app.get('/ping', authController.ping);
+
+app.post('/data', dataController.data);
 
 const port = process.env.PORT || 8080;
 

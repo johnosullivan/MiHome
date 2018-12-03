@@ -1,4 +1,5 @@
 #include "application.h"
+#include <SPI.h>
 
 int led = D7;
 

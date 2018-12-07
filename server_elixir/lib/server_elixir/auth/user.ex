@@ -30,7 +30,7 @@ defmodule ServerElixir.Auth.User do
     change(changeset, password_hash: Bcrypt.hash_pwd_salt(password))
   end
 
-  # ServerElixir.Auth.create_user(%{email: "john@imbrex.io", password: "test_password", first_name: "John", last_name: "O'Sullivan", uuid: UUID.uuid4() })
+  # ServerElixir.Auth.create_user(%{email: "john@mihome.io", password: "test_password", first_name: "John", last_name: "O'Sullivan", uuid: UUID.uuid4() })
 
   defp put_password_hash(changeset) do
     changeset

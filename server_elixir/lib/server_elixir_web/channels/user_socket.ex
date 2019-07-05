@@ -1,8 +1,8 @@
 defmodule ServerElixirWeb.UserSocket do
-  use Phoenix.Socket
+  use Phoenix.Socket, log: :debug
 
   ## Channels
-  # channel "room:*", ServerElixirWeb.RoomChannel
+  channel "node:*", ServerElixirWeb.NodeChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket
@@ -20,7 +20,11 @@ defmodule ServerElixirWeb.UserSocket do
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
   def connect(_params, socket) do
+    IO.puts "Connection"
+    IO.inspect socket
     {:ok, socket}
+    # {:ok, assign(socket, :user_id, "342")}
+    #{:ok, assign(socket, :user_id, 1)}
   end
 
   # Socket id's are topics that allow you to identify all sockets for a given user:

@@ -16,9 +16,7 @@ defmodule ServerElixirWeb.UserController do
   end
 
   def index(conn, _params) do
-    user = Guardian.Plug.current_resource(conn)
-    IO.puts(user)
-
+    # user = Guardian.Plug.current_resource(conn)
     users = Auth.list_users()
     render(conn, "index.json", users: users)
   end

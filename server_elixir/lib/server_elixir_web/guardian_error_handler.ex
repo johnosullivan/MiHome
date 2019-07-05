@@ -4,7 +4,6 @@ defmodule ServerElixirWeb.GuardianErrorHandler do
     
     @impl Guardian.Plug.ErrorHandler
     def auth_error(conn, {type, reason}, opts) do
-        body = inspect({type, reason})
-        send_resp(conn, 401, body)
+        send_resp(conn, 401, "{}")
     end
 end

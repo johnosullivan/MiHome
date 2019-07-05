@@ -16,6 +16,9 @@ defmodule ServerElixirWeb.UserController do
   end
 
   def index(conn, _params) do
+    user = Guardian.Plug.current_resource(conn)
+    IO.puts(user)
+
     users = Auth.list_users()
     render(conn, "index.json", users: users)
   end
@@ -52,7 +55,7 @@ defmodule ServerElixirWeb.UserController do
   def sign_in(conn, %{"email" => email, "password" => password}) do
     case ServerElixir.Auth.authenticate_user(email, password) do
       {:ok, user} ->
-        {:ok, token, _} = ServerElixirWeb.Guardian.encode_and_sign(user, %{}, ttl: {24, :hour})
+        {:ok, token, _} = ServerElixirWeb.Guardian.encode_and_sign(user, %{}, ttl: {7, :day})
         conn
         # |> put_session(:current_user_id, user.id)
         |> put_status(:ok)

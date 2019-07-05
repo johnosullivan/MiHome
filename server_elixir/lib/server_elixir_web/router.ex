@@ -11,11 +11,24 @@ defmodule ServerElixirWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
-    plug(:fetch_session)
+    # plug(:fetch_session)
   end
 
   pipeline :api_auth do
-    plug(:ensure_authenticated)
+    # plug(:ensure_authenticated)
+  end
+
+  pipeline :bearer_auth do
+    plug Guardian.Plug.Pipeline, module: ServerElixirWeb.Guardian, error_handler: ServerElixirWeb.GuardianErrorHandler
+
+
+    plug(Guardian.Plug.VerifySession)
+    plug(Guardian.Plug.VerifyHeader, realm: "Bearer")
+    plug(Guardian.Plug.LoadResource)
+  end
+
+  pipeline :ensure_authed_access do
+    plug Guardian.Plug.EnsureAuthenticated, claims: %{"typ" => "access"}
   end
 
   scope "/", ServerElixirWeb do
@@ -35,7 +48,7 @@ defmodule ServerElixirWeb.Router do
   end
 
   scope "/api", ServerElixirWeb do
-    pipe_through([:api, :api_auth])
+    pipe_through([:api, :bearer_auth, :ensure_authed_access])
     resources("/users", UserController, except: [:new, :edit])
   end
 

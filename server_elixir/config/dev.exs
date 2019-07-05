@@ -50,7 +50,8 @@ config :phoenix, :stacktrace_depth, 20
 
 config :server_elixir, ServerElixirWeb.Guardian,
        issuer: "server_elixir",
-       secret_key: "BcuibCpINPwJPTRlyQXGBiLczhwl5cy7y408JgpsesV5iFg04OG9Ivqv9XwfZWqp"
+       secret_key: "BcuibCpINPwJPTRlyQXGBiLczhwl5cy7y408JgpsesV5iFg04OG9Ivqv9XwfZWqp",
+       serializer: ServerElixirWeb.GuardianSerializer
 
 # Configure your database
 config :server_elixir, ServerElixir.Repo,

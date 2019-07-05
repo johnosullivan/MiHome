@@ -20,6 +20,12 @@ defmodule ServerElixirWeb.UserView do
     }
   end
 
+  def render("401", %{reason: reason}) do
+    %{
+      reason: reason
+    }
+  end
+
   def render("version.json", %{version: version}) do
     %{version: version}
   end

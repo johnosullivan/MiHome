@@ -24,7 +24,7 @@ defmodule ServerElixirWeb.UserView do
     %{version: version}
   end
 
-  def render("sign_in.json", %{user: user}) do
+  def render("sign_in.json", %{user: user, token: token}) do
     %{
       data: %{
         user: %{
@@ -32,7 +32,8 @@ defmodule ServerElixirWeb.UserView do
           email: user.email,
           first_name: user.first_name,
           last_name: user.last_name
-        }
+        },
+        token: token
       }
     }
   end

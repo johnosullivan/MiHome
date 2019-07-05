@@ -52,10 +52,11 @@ defmodule ServerElixirWeb.UserController do
   def sign_in(conn, %{"email" => email, "password" => password}) do
     case ServerElixir.Auth.authenticate_user(email, password) do
       {:ok, user} ->
+        {:ok, token, _} = ServerElixirWeb.Guardian.encode_and_sign(user, %{}, ttl: {24, :hour})
         conn
-        |> put_session(:current_user_id, user.id)
+        # |> put_session(:current_user_id, user.id)
         |> put_status(:ok)
-        |> render(ServerElixirWeb.UserView, "sign_in.json", user: user)
+        |> render(ServerElixirWeb.UserView, "sign_in.json", user: user, token: token)
 
       {:error, message} ->
         conn

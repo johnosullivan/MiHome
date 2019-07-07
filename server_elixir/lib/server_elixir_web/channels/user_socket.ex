@@ -3,9 +3,11 @@ defmodule ServerElixirWeb.UserSocket do
 
   ## Channels
   channel "node:*", ServerElixirWeb.NodeChannel
+  channel "network", ServerElixirWeb.NetworkChannel
 
   ## Transports
-  transport :websocket, Phoenix.Transports.WebSocket
+  transport :websocket, Phoenix.Transports.WebSocket, 
+    transport_log: false
   # transport :longpoll, Phoenix.Transports.LongPoll
 
   # Socket params are passed from the client and can
@@ -20,11 +22,9 @@ defmodule ServerElixirWeb.UserSocket do
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
   def connect(_params, socket) do
-    IO.puts "Connection"
-    IO.inspect socket
+    IO.puts("Connection")
+    IO.inspect(socket)
     {:ok, socket}
-    # {:ok, assign(socket, :user_id, "342")}
-    #{:ok, assign(socket, :user_id, 1)}
   end
 
   # Socket id's are topics that allow you to identify all sockets for a given user:

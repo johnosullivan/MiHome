@@ -1,7 +1,7 @@
-defmodule ServerElixirWeb.NodeChannel do
+defmodule ServerElixirWeb.NetworkChannel do
   use ServerElixirWeb, :channel
 
-  def join("node:" <> device_id, payload, socket) do
+  def join("network", payload, socket) do
     if authorized?(payload) do
       {:ok, socket}
     else
@@ -13,6 +13,13 @@ defmodule ServerElixirWeb.NodeChannel do
   # by sending replies to requests from the client
   def handle_in("ping", payload, socket) do
     {:reply, {:ok, payload}, socket}
+  end
+
+  # It is also common to receive messages from the client and
+  # broadcast to everyone in the current topic (node:lobby).
+  def handle_in("shout", payload, socket) do
+    broadcast socket, "shout", payload
+    {:noreply, socket}
   end
 
   # Add authorization logic here as required.

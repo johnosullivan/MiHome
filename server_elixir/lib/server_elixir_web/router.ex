@@ -52,6 +52,11 @@ defmodule ServerElixirWeb.Router do
     resources("/users", UserController, except: [:new, :edit])
   end
 
+  scope "/api", ServerElixirWeb do
+    pipe_through([:api])
+    get("/ping", UserController, :ping)
+  end
+
   # Plug function
   defp ensure_authenticated(conn, _opts) do
     current_user_id = get_session(conn, :current_user_id)

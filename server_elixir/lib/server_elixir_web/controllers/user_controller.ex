@@ -15,6 +15,11 @@ defmodule ServerElixirWeb.UserController do
     render(conn, "version.json", version: "v1.0")
   end
 
+  def ping(conn, _params \\ %{}) do
+    ServerElixirWeb.Endpoint.broadcast "network", "new:msg", %{"user" => "Boris", "body" => "Tes msg"}
+    render(conn, "version.json", version: "v1.0")
+  end
+
   def index(conn, _params) do
     # user = Guardian.Plug.current_resource(conn)
     users = Auth.list_users()

@@ -6,7 +6,7 @@ defmodule ServerElixirWeb.UserSocket do
   channel "network", ServerElixirWeb.NetworkChannel
 
   ## Transports
-  transport :websocket, Phoenix.Transports.WebSocket, 
+  transport :websocket, Phoenix.Transports.WebSocket,
     transport_log: false
   # transport :longpoll, Phoenix.Transports.LongPoll
 

@@ -50,10 +50,9 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-  String message = "{\"data\":[48.756080,2.302038]}";
-  uint8_t data[message.length()];
-  message.getBytes(data, message.length());
-  rf69.send(data, sizeof(data));
+  char radiopacket[20] = "Hello World #";
+  Serial.print("Sending "); Serial.println(radiopacket);
+  rf69.send((uint8_t *)radiopacket, strlen(radiopacket));
   rf69.waitPacketSent();
   delay(5000);
 }

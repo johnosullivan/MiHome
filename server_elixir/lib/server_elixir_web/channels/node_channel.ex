@@ -2,6 +2,8 @@ defmodule ServerElixirWeb.NodeChannel do
   use ServerElixirWeb, :channel
 
   def join("node:" <> device_id, payload, socket) do
+    IO.puts("device_id")
+    IO.puts(device_id)
     if authorized?(payload) do
       {:ok, socket}
     else

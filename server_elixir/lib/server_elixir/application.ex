@@ -14,6 +14,7 @@ defmodule ServerElixir.Application do
       supervisor(ServerElixirWeb.Endpoint, []),
       # Start your own worker by calling: ServerElixir.Worker.start_link(arg1, arg2, arg3)
       # worker(ServerElixir.Worker, [arg1, arg2, arg3]),
+      worker(ChannelWatcher, [:rooms])
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

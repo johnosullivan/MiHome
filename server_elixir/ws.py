@@ -4,25 +4,42 @@ import websockets
 import asyncio
 import json
 import sys
-from random import *
+import random
+
+#env
+SERVER_CONNECTION_URL = 'ws://127.0.0.1:4000/socket/websocket'
+DEVICE_UNIQUE_IDENTIFIER = '0c97910c-fef3-4cfa-b73f-674bbc91c0c5'
 
 class WebSocketClient():
 
-    def __init__(self):
+    def __init__(self, connection_url):
+        self.connection_url_string = connection_url
         pass
 
-    async def connect(self, connection_link):
+    def getDeviceIdentifier(self):
+        return DEVICE_UNIQUE_IDENTIFIER
+
+    async def connect(self):
         # Connecting to webSocket server - elixir 
-        self.connection = await websockets.client.connect(connection_link)
+        self.connection = await websockets.client.connect(self.connection_url_string)
         if self.connection.open:
-            join_network_channel = {
-                "topic": "network",
-                "event": "phx_join",
-                "payload": { },
-                "ref": randint(1, 1000000)
-            }
             # Subs to the network channel and subs to its hub node channel
+            join_network_channel = {
+                'topic': 'network',
+                'event': 'phx_join',
+                'payload': { },
+                'ref': random.randint(1, 1000000)
+            }
             await client.sendMessage(json.dumps(join_network_channel))
+
+            join_node_channel = {
+                'topic': 'node:' + self.getDeviceIdentifier(),
+                'event': 'phx_join',
+                'payload': { },
+                'ref': random.randint(1, 1000000)
+            }
+            await client.sendMessage(json.dumps(join_node_channel))
+            
             return self.connection
 
 
@@ -47,10 +64,10 @@ class WebSocketClient():
         while True:
             try:
                 heartbeat_payload = {
-                    "topic": "phoenix",
-                    "event": "heartbeat",
-                    "payload": { },
-                    "ref": randint(1, 1000000)
+                    'topic': 'phoenix',
+                    'event': 'heartbeat',
+                    'payload': { },
+                    'ref': random.randint(1, 1000000)
                 }
                 await connection.send(json.dumps(heartbeat_payload))
                 await asyncio.sleep(30)
@@ -60,9 +77,9 @@ class WebSocketClient():
 
 if __name__ == '__main__':
     try:
-        client = WebSocketClient()
+        client = WebSocketClient(SERVER_CONNECTION_URL)
         loop = asyncio.get_event_loop()
-        connection = loop.run_until_complete(client.connect('ws://127.0.0.1:4000/socket/websocket'))
+        connection = loop.run_until_complete(client.connect())
 
         tasks = [
             asyncio.ensure_future(client.heartbeat(connection)),

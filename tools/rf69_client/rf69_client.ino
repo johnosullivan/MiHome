@@ -3,9 +3,9 @@
 #include <Wire.h>
 
 #define RF69_FREQ 915.0
-#define RFM69_INT     3
-#define RFM69_CS      4
-#define RFM69_RST     2
+#define RFM69_INT     4
+#define RFM69_CS      2
+#define RFM69_RST     3
 
 #define FREQUENCY RF69_915MHZ
 
@@ -36,10 +36,10 @@ void setup()
     Serial.println("Setting Frequency Failed!");
   }
   // Sets the power and the encryption key
-  rf69.setTxPower(20, true);
+  rf69.setTxPower(20, false);
   uint8_t key[] = { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08,
                     0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08};
-  rf69.setEncryptionKey(key);
+  //rf69.setEncryptionKey(key);
   // Prints out the final details
   Serial.print("RFM69 Radio @");  Serial.print((int)RF69_FREQ);  Serial.println(" MHz");
   Serial.println();

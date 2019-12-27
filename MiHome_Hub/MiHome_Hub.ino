@@ -459,6 +459,6 @@ void Blink(byte PIN, byte DELAY_MS, byte loops) {
     digitalWrite(PIN,HIGH);
     delay(DELAY_MS);
     digitalWrite(PIN,LOW);
-    delay(DELAY_MS);
+    
   }
 }

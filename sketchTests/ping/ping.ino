@@ -1,6 +1,6 @@
 #include <SPI.h>
 #include <RH_RF69.h>
-#include <Adafruit_BMP085.h>
+#include <Adafruit_SHT31.h>
 
 #define RF69_FREQ 915.0
 #define RFM69_INT     3
@@ -11,7 +11,7 @@
 
 RH_RF69 rf69(RFM69_CS, RFM69_INT);
 
-Adafruit_BMP085 bmp;
+Adafruit_SHT31 sht31 = Adafruit_SHT31();
 
 void setup() {
   Serial.begin(9600);
@@ -44,16 +44,14 @@ void setup() {
 
   Serial.print("RFM69 radio @");  Serial.print((int)RF69_FREQ);  Serial.println(" MHz");
 
-  if (!bmp.begin()) 
-  {
-    Serial.println("BMP180 Init Failed");
-  }
+  sht31.begin(0x44);
 }
 
 void loop() {
-  float temp = bmp.readTemperature();
+  float temp = sht31.readTemperature();
+  float hum = sht31.readHumidity();
   
-  String payload = String(temp) + ",0,0";
+  String payload = String(temp) + "," + String(hum);
   uint8_t data[payload.length()];
   payload.getBytes(data, payload.length());
   rf69.send(data, sizeof(data));

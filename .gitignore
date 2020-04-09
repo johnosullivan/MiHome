@@ -3,3 +3,4 @@
 *.dump
 .DS_Store
 *.env
+.vscode/c_cpp_properties.json

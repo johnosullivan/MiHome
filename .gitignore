@@ -1,4 +1,5 @@
 /server_nodejs/node_modules
+/server_go/gomihome
 /.idea
 *.dump
 .DS_Store

@@ -1,0 +1,33 @@
+version: '3'
+services:
+  postgres_service:
+      image: postgres:12
+      environment:
+        - POSTGRES_USER=postgres
+        - POSTGRES_PASSWORD=postgres
+        - POSTGRES_DB=postgres
+      ports:
+        - "5432:5432"
+  go_app:
+    image: gomihome:latest
+    depends_on:
+        - postgres_service
+    environment:
+      - PORT=3000
+      - LOGFILE=0
+      # File path for the concat log file
+      # - LOG_PATH=
+      - DBHOST=postgres_service
+      - DBPORT=5432
+      - DBUSER=postgres
+      - DBPASS=postgres
+      - DBNAME=postgres
+      - JWT_SECRET=MYRANDOMSECRET
+      - ENV_TYPE=0
+      - AWS_SM_ENABLED=0
+      - AWS_SM_REGION=us-west-1
+      - AWS_SM_NAME=
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+    ports:
+      - 3000:3000

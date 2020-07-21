@@ -21,7 +21,7 @@ func GetRoutes() *http.ServeMux {
 
   router.Handle("/authenticate", handlers.LoggingHandler(os.Stdout, http.HandlerFunc(controllers.AuthenticateHandler)))
 
-  router.Handle("/users", handlers.LoggingHandler(os.Stdout, http.HandlerFunc(controllers.UsersHandler)))
+  router.Handle("/accounts", handlers.LoggingHandler(os.Stdout, http.HandlerFunc(controllers.AccountsHandler)))
 
   router.Handle("/authping", handlers.LoggingHandler(os.Stdout,  middlewares.AuthMiddleware(http.HandlerFunc(controllers.AuthPingHandler))))
 

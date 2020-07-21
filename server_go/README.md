@@ -1,6 +1,6 @@
 # go-fun
 
-docker run --name=gofun-postgres \
+docker run --name=gomihome-postgres \
   -e POSTGRES_PASSWORD=postgres \
   -e POSTGRES_USER=postgres \
   -e POSTGRES_DB=postgres \

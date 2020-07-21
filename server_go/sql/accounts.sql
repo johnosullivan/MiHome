@@ -1,0 +1,21 @@
+create table accounts (
+  id varchar not null PRIMARY KEY,
+  first_name varchar not null,
+  last_name varchar not null,
+  email varchar not null unique,
+  password varchar not null,
+  password_salt varchar not null,
+  verified boolean not null DEFAULT false,
+  verified_token varchar not null DEFAULT '',
+  two_factor_auth varchar,
+  last_ip_login varchar,
+  current_ip_login varchar,
+  sign_in_count int not null DEFAULT 0,
+  failed_attempts int not null DEFAULT 0,
+  unlock_token varchar,
+  locked boolean not null DEFAULT false,
+  locked_at date,
+  profile jsonb not null default '{}'::jsonb,
+  created_at date not null DEFAULT NOW(),
+  updated_at date not null DEFAULT NOW()
+);

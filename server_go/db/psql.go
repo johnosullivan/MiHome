@@ -59,6 +59,10 @@ func PingDB() {
   }
 }
 
+func GetDB() *sql.DB {
+  return db
+}
+
 func InitDB() {
     var psqlInfo string
 

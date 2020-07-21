@@ -1,47 +1,96 @@
 package controllers
 
 import (
-  "io"
+  //"io"
   "time"
-  "fmt"
+  //"fmt"
 	"net/http"
+  "encoding/json"
   "github.com/dgrijalva/jwt-go"
   "github.com/johnosullivan/gomihome/utilities"
-
-  //"golang.org/x/crypto/bcrypt"
+  "github.com/johnosullivan/gomihome/models"
 )
 
 func AuthenticateHandler(w http.ResponseWriter, r *http.Request) {
     w.Header().Add("Content-Type", "application/json")
-    r.ParseForm()
 
-    var APP_KEY = utilities.GetJWTSecret()
+    var req utilities.LoginRequest
+    var JWT_SECRET = utilities.GetJWTSecret()
 
-    token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-        "user": "admin",
-        "exp":  time.Now().Add(time.Hour * time.Duration(1)).Unix(),
-        "iat":  time.Now().Unix(),
-    })
-
-    tokenString, err := token.SignedString([]byte(APP_KEY))
+    // Decode the request json body
+    err := json.NewDecoder(r.Body).Decode(&req)
     if err != nil {
-        w.WriteHeader(http.StatusInternalServerError)
-        io.WriteString(w, `{"error":"token_generation_failed"}`)
+        w.WriteHeader(http.StatusBadRequest)
         return
     }
 
-    io.WriteString(w, `{"token":"`+tokenString+`"}`)
+    //  Try to find the an account by email
+    acc := models.GetAccountByEmail(req.Email)
+
+    if (models.CheckPasswordHash(req.Password, acc.Password)) {
+        // Create a JWT clains
+        token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
+            "account": acc.Id,
+            "exp":  time.Now().Add(time.Hour * time.Duration(24)).Unix(),
+            "iat":  time.Now().Unix(),
+        })
+        tokenString, errtoken := token.SignedString([]byte(JWT_SECRET))
+        if errtoken != nil {
+            w.WriteHeader(http.StatusInternalServerError)
+            return
+        }
+
+        
+        response := utilities.AuthResponse{Token: tokenString}
+        respData, err := json.Marshal(response)
+        if err != nil {
+          http.Error(w, err.Error(), http.StatusInternalServerError)
+          return
+        }
+
+        w.WriteHeader(http.StatusOK)
+        w.Write(respData)
+        return
+    } else {
+        w.WriteHeader(http.StatusUnauthorized)
+        return
+    }
+
     return
 }
 
-func UsersHandler(w http.ResponseWriter, r *http.Request) {
-    fmt.Println(r.Method)
+func AccountsHandler(w http.ResponseWriter, r *http.Request) {
     switch r.Method {
-      case http.MethodPost:
-          w.Header().Add("Content-Type", "application/json")
-          io.WriteString(w, `{"status":"ok"}`)
-      case http.MethodPut:
+      case http.MethodPost: {
+        // Get the account request type (body params)
+        var acc utilities.AccountRequest
+        w.Header().Add("Content-Type", "application/json")
 
+        // Decode the request json body
+        err := json.NewDecoder(r.Body).Decode(&acc)
+        if err != nil {
+            w.WriteHeader(http.StatusBadRequest)
+            return
+        }
+
+        // Check the account exists in the system
+        if (models.AccountExists(acc.Email)) {
+            w.WriteHeader(http.StatusBadRequest)
+            return
+        } else {
+            // Attempts to create the account
+            if (models.CreateAccount(acc)) {
+              w.WriteHeader(http.StatusCreated)
+              return
+            } else {
+              w.WriteHeader(http.StatusBadRequest)
+              return
+            }
+        }
+      }
+      case http.MethodPut: {
+          w.WriteHeader(http.StatusMethodNotAllowed)
+      }
       default:
           w.WriteHeader(http.StatusMethodNotAllowed)
     }

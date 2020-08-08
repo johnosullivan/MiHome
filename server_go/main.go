@@ -14,7 +14,7 @@ import (
 
 	"github.com/johnosullivan/gomihome/routes"
 	"github.com/johnosullivan/gomihome/utilities"
-	"github.com/johnosullivan/gomihome/db"
+	//"github.com/johnosullivan/gomihome/db"
 
 	"github.com/joho/godotenv"
 )
@@ -61,7 +61,7 @@ func main() {
 
 	utilities.InitEnvironment()
 
-	database.InitDB()
+	//database.InitDB()
 
 	router := routes.GetRoutes()
 

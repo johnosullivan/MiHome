@@ -24,7 +24,10 @@ func PingLink(w http.ResponseWriter, r *http.Request) {
       return
     }
 
-    data := r.URL.Query().Get("data")
+    command := r.URL.Query().Get("data")
+
+
+    data := "{\"type\": \"" + command+ "\",\"payload\": {}}"
 
     hub := websockets.GetHub()
     hub.Broadcast <- []byte(data)

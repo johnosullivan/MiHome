@@ -1,0 +1,106 @@
+{
+	"info": {
+		"_postman_id": "1ec21aad-df57-4ec6-87e9-53b2e013a579",
+		"name": "gomihome",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Authenticate",
+			"item": [
+				{
+					"name": "Create Account",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"johndoe@gmail.com\",\n    \"password\": \"MyPassw0rd!\",\n    \"firstname\": \"John\",\n    \"lastname\": \"Doe\",\n    \"location\": \"\",\n    \"zip\": \"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{mihome_host}}:{{mihome_port}}/accounts",
+							"protocol": "http",
+							"host": [
+								"{{mihome_host}}"
+							],
+							"port": "{{mihome_port}}",
+							"path": [
+								"accounts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Authenticate",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"johndoe@gmail.com\",\n    \"password\": \"MyPassw0rd!\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{mihome_host}}:{{mihome_port}}/authenticate",
+							"protocol": "http",
+							"host": [
+								"{{mihome_host}}"
+							],
+							"port": "{{mihome_port}}",
+							"path": [
+								"authenticate"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Hardware",
+			"item": [
+				{
+					"name": "System Status",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"hwid\":\"ae1f984b-9b2e-40ba-be28-5dde779251ca\",\n    \"mac\":\"00:11:22:AA:BB:CC\",\n    \"pk\":\"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{mihome_host}}:{{mihome_port}}/status",
+							"protocol": "http",
+							"host": [
+								"{{mihome_host}}"
+							],
+							"port": "{{mihome_port}}",
+							"path": [
+								"status"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"protocolProfileBehavior": {}
+}

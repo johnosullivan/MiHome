@@ -61,7 +61,7 @@ func main() {
 
 	utilities.InitEnvironment()
 
-	//database.InitDB()
+	//database.InitDB() // Connection DB
 
 	router := routes.GetRoutes()
 

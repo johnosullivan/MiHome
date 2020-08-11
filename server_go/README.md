@@ -18,3 +18,15 @@ export JWT_SECRET=MYRANDOMSECRET
 export ENV_TYPE=0
 export AWS_SM_ENABLED=0
 ```
+
+```bash
+go build -o bin/gomihome
+
+heroku logs --tail
+
+heroku open
+
+git subtree push --prefix server_go heroku master
+
+git subtree push --prefix mihomecloud heroku master
+```

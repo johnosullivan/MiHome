@@ -28,5 +28,4 @@ heroku open
 
 git subtree push --prefix server_go heroku master
 
-git subtree push --prefix mihomecloud heroku master
 ```

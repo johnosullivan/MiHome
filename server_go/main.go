@@ -61,6 +61,7 @@ func main() {
 
 	utilities.InitEnvironment()
 
+	// TODO: Add DB Migrations
 	//database.InitDB() // Connection DB
 
 	router := routes.GetRoutes()

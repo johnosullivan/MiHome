@@ -14,7 +14,7 @@ import (
 
 	"github.com/johnosullivan/gomihome/routes"
 	"github.com/johnosullivan/gomihome/utilities"
-	//"github.com/johnosullivan/gomihome/db"
+	"github.com/johnosullivan/gomihome/db"
 
 	"github.com/joho/godotenv"
 )
@@ -35,7 +35,7 @@ func (app *App) Initialize() {
 
 func main() {
 	errenv := godotenv.Load()
-  if errenv != nil { }
+  	if errenv != nil { }
 
 	logfile, err := strconv.ParseBool(os.Getenv(LOGFILE_ENV_NAME))
 	utilities.CheckError(err)
@@ -62,7 +62,7 @@ func main() {
 	utilities.InitEnvironment()
 
 	// TODO: Add DB Migrations
-	//database.InitDB() // Connection DB
+	database.InitDB() // Connection DB
 
 	router := routes.GetRoutes()
 

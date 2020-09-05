@@ -12,28 +12,34 @@ import (
 )
 
 type SystemStatus struct {
-  Date    time.Time
-  Status  bool
+  Date    time.Time `json:"date"`
+  Status  bool      `json:"status"`
 }
 
 func PingLink(w http.ResponseWriter, r *http.Request) {
-    sysStatus := SystemStatus{time.Now(), true}
-    js, err := json.Marshal(sysStatus)
-    if err != nil {
-      http.Error(w, err.Error(), http.StatusInternalServerError)
-      return
+    switch r.Method {
+      case http.MethodGet: {
+          sysStatus := SystemStatus{time.Now(), true}
+          js, err := json.Marshal(sysStatus)
+          if err != nil {
+            http.Error(w, err.Error(), http.StatusInternalServerError)
+            return
+          }
+
+          command := r.URL.Query().Get("data")
+
+
+          data := "{\"type\": \"" + command+ "\",\"payload\": {}}"
+
+          hub := websockets.GetHub()
+          hub.Broadcast <- []byte(data)
+
+          w.Header().Set("Content-Type", "application/json")
+          w.Write(js)
+      }
+      default:
+          w.WriteHeader(http.StatusMethodNotAllowed)
     }
-
-    command := r.URL.Query().Get("data")
-
-
-    data := "{\"type\": \"" + command+ "\",\"payload\": {}}"
-
-    hub := websockets.GetHub()
-    hub.Broadcast <- []byte(data)
-
-    w.Header().Set("Content-Type", "application/json")
-    w.Write(js)
 }
 
 func AuthPingHandler(w http.ResponseWriter, r *http.Request) {

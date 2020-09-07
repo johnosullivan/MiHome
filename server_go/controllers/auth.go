@@ -3,7 +3,7 @@ package controllers
 import (
   //"io"
   "time"
-  //"fmt"
+  "fmt"
 	"net/http"
   "encoding/json"
   "github.com/dgrijalva/jwt-go"
@@ -72,12 +72,12 @@ func AccountsHandler(w http.ResponseWriter, r *http.Request) {
             w.WriteHeader(http.StatusBadRequest)
             return
         }
-
         // Check the account exists in the system
         if (models.AccountExists(acc.Email)) {
             w.WriteHeader(http.StatusBadRequest)
             return
         } else {
+            fmt.Println(acc)
             // Attempts to create the account
             if (models.CreateAccount(acc)) {
               w.WriteHeader(http.StatusCreated)

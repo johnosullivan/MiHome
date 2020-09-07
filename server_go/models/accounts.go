@@ -2,7 +2,7 @@ package models
 
 import (
   "log"
-  //"fmt"
+  "fmt"
 
   "golang.org/x/crypto/bcrypt"
   "github.com/satori/go.uuid"
@@ -29,8 +29,11 @@ func CheckPasswordHash(password, hash string) bool {
 }
 
 func CreateAccount(account utilities.AccountRequest) bool {
+    fmt.Println(account)
+
     hash, err := bcrypt.GenerateFromPassword([]byte(account.Password), bcrypt.DefaultCost)
     if err != nil {
+        fmt.Println(err)
         return false
     } else {
         acSqlStatement := `
@@ -44,6 +47,7 @@ func CreateAccount(account utilities.AccountRequest) bool {
           account.Email,
           string(hash))
         if err != nil {
+          fmt.Println(err)
           return false
         }
         return true

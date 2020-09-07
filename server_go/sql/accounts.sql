@@ -4,7 +4,7 @@ create table accounts (
   last_name varchar not null,
   email varchar not null unique,
   password varchar not null,
-  password_salt varchar not null,
+  password_salt varchar,
   verified boolean not null DEFAULT false,
   verified_token varchar not null DEFAULT '',
   two_factor_auth varchar,

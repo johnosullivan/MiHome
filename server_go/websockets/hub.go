@@ -1,7 +1,7 @@
 package websockets
 
 import (
-  //"fmt"
+  "fmt"
 	"time"
 )
 
@@ -17,6 +17,7 @@ type Hub struct {
 	Broadcast chan []byte
 	register chan *Client
 	unregister chan *Client
+  idtoclients map[string]*Client
 }
 
 func NewHub() *Hub {
@@ -25,6 +26,7 @@ func NewHub() *Hub {
 		register:   make(chan *Client),
 		unregister: make(chan *Client),
 		clients:    make(map[*Client]bool),
+    idtoclients: make(map[string]*Client),
 	}
   return sharedHub
 }
@@ -35,6 +37,13 @@ func GetHub() *Hub {
 
 func Add(message []byte) {
   sharedHub.Broadcast <- message
+}
+
+func SendToClient(id string, message []byte) {
+  client := sharedHub.idtoclients[id]
+  if client != nil {
+    client.send <- message
+  }
 }
 
 func (h *Hub) Ping() {
@@ -50,9 +59,13 @@ func (h *Hub) Run() {
 	for {
 		select {
   		case client := <-h.register:
+        fmt.Println(client)
   			h.clients[client] = true
   		case client := <-h.unregister:
   			if _, ok := h.clients[client]; ok {
+          if client.client_id != "" {
+            delete(h.idtoclients, client.client_id)
+          }
   				delete(h.clients, client)
   				close(client.send)
   			}

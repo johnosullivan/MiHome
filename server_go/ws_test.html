@@ -6,7 +6,7 @@
 
     var output = document.getElementById("output");
 
-    var socket = new WebSocket("ws://localhost:8000/ws");
+    var socket = new WebSocket("ws://localhost:3000/ws");
 
     socket.onopen = function () {
         output.innerHTML += "Status: Connected\n";

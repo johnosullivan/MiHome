@@ -26,13 +26,16 @@ func PingLink(w http.ResponseWriter, r *http.Request) {
             return
           }
 
+          /*
           command := r.URL.Query().Get("data")
-
-
           data := "{\"type\": \"" + command+ "\",\"payload\": {}}"
-
           hub := websockets.GetHub()
           hub.Broadcast <- []byte(data)
+          */
+
+          key := r.URL.Query().Get("key")
+
+          websockets.SendToClient(key, []byte("ping_db_case"))
 
           w.Header().Set("Content-Type", "application/json")
           w.Write(js)

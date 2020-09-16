@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/gorilla/websocket"
-  "fmt"
+  	"fmt"
 )
 
 const (
@@ -31,6 +31,7 @@ type Client struct {
 	hub *Hub
 	conn *websocket.Conn
 	send chan []byte
+	client_id string
 }
 
 func (c *Client) readPump() {
@@ -48,9 +49,15 @@ func (c *Client) readPump() {
 				log.Printf("error: %v", err)
 			}
 			break
-		}
+		}		
 		message = bytes.TrimSpace(bytes.Replace(message, newline, space, -1))
-		c.hub.Broadcast <- message
+
+		if string(message) == "auth" {
+			c.client_id = "1bdc22f5-372e-4005-87b7-a023c46115b0"
+			c.hub.idtoclients[c.client_id] = c
+		} else {
+			c.hub.Broadcast <- message
+		}
 	}
 }
 
@@ -96,19 +103,21 @@ func (c *Client) writePump() {
 }
 
 func ServeWebSocket(hub *Hub, w http.ResponseWriter, r *http.Request) {
-  upgrader.CheckOrigin = func(r *http.Request) bool { return true }
+  	upgrader.CheckOrigin = func(r *http.Request) bool { 
+  		return true 
+  	}
+
 	conn, err := upgrader.Upgrade(w, r, nil)
-  if err != nil {
-        fmt.Println("Websocket error")
+  	if err != nil {
         fmt.Println(err)
         return
     }
 
-  client := &Client{hub: hub, conn: conn, send: make(chan []byte, 256)}
-	client.hub.register <- client
+  	client := &Client{hub: hub, conn: conn, send: make(chan []byte, 256), client_id: ""}
+  	client.hub.register <- client
 
-	// Allow collection of memory referenced by the caller by doing all work in
-	// new goroutines.
-	go client.writePump()
-	go client.readPump()
+  	// Allow collection of memory referenced by the caller by doing all work in
+  	// new goroutines.
+  	go client.writePump()
+  	go client.readPump()
 }

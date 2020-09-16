@@ -14,7 +14,7 @@ import (
 
 	"github.com/johnosullivan/gomihome/routes"
 	"github.com/johnosullivan/gomihome/utilities"
-	"github.com/johnosullivan/gomihome/db"
+	//"github.com/johnosullivan/gomihome/db"
 
 	"github.com/joho/godotenv"
 
@@ -23,7 +23,7 @@ import (
 	"crypto/x509"
     "encoding/pem"
     "errors"
-	"fmt"
+	//"fmt"
 )
 
 const LOGFILE_ENV_NAME = "LOGFILE"
@@ -107,6 +107,7 @@ func ParseRsaPublicKeyFromPemStr(pubPEM string) (*rsa.PublicKey, error) {
 }
 
 func main() {
+	/*
 	// Create the keys
     priv, pub := GenerateRsaKeyPair()
 
@@ -131,9 +132,7 @@ func main() {
     } else {
             fmt.Println("Success")
     }
-
-	//////
-
+    */
 
 	errenv := godotenv.Load()
   	if errenv != nil { }
@@ -163,7 +162,7 @@ func main() {
 	utilities.InitEnvironment()
 
 	// TODO: Add DB Migrations
-	database.InitDB() // Connection DB
+	//database.InitDB() // Connection DB
 
 	router := routes.GetRoutes()
 

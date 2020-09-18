@@ -19,3 +19,19 @@ create table accounts (
   created_at date not null DEFAULT NOW(),
   updated_at date not null DEFAULT NOW()
 );
+
+create type node_status_type as enum('OFFLINE', 'ONLINE', 'ERROR', 'UPGRADING', 'PENDING');
+
+drop type node_status_type;
+
+create table nodes (
+  id varchar not null PRIMARY KEY,
+  account_id varchar not null,
+  node_name varchar not null,
+  seen_last_at date,
+  node_status smallint not null DEFAULT 0,
+  created_at date not null DEFAULT NOW(),
+  updated_at date not null DEFAULT NOW()
+);
+
+ALTER TABLE nodes ADD CONSTRAINT fk_nodes_accounts FOREIGN KEY(account_id) REFERENCES accounts(id);

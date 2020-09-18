@@ -5,15 +5,19 @@ import (
 	"log"
 	"net/http"
 	"time"
+	"strings"
 
 	"github.com/gorilla/websocket"
+
+	"github.com/johnosullivan/gomihome/models"
+
   	"fmt"
 )
 
 const (
 	writeWait = 10 * time.Second
-	pongWait = 60 * time.Second
-	pingPeriod = (pongWait * 9) / 10
+	pongWait = 36 * time.Second // 60 * time.Second
+	pingPeriod = 30 * time.Second // (pongWait * 9) / 10
 	maxMessageSize = 512
 )
 
@@ -36,12 +40,15 @@ type Client struct {
 
 func (c *Client) readPump() {
 	defer func() {
+		models.UpdateNodeStatus(c.client_id, 0)
 		c.hub.unregister <- c
 		c.conn.Close()
 	}()
 	c.conn.SetReadLimit(maxMessageSize)
 	c.conn.SetReadDeadline(time.Now().Add(pongWait))
-	c.conn.SetPongHandler(func(string) error { c.conn.SetReadDeadline(time.Now().Add(pongWait)); return nil })
+	c.conn.SetPongHandler(func(string) error { 
+		c.conn.SetReadDeadline(time.Now().Add(pongWait)); return nil 
+	})
 	for {
 		_, message, err := c.conn.ReadMessage()
 		if err != nil {
@@ -52,11 +59,15 @@ func (c *Client) readPump() {
 		}		
 		message = bytes.TrimSpace(bytes.Replace(message, newline, space, -1))
 
-		if string(message) == "auth" {
-			c.client_id = "1bdc22f5-372e-4005-87b7-a023c46115b0"
-			c.hub.idtoclients[c.client_id] = c
-		} else {
-			c.hub.Broadcast <- message
+		if strings.Contains(string(message), ",") {
+			parts := strings.Split(string(message), ",")
+			if parts[0] == "auth" {
+				c.client_id = parts[1]
+				c.hub.idtoclients[c.client_id] = c
+				models.UpdateNodeStatus(c.client_id, 1)
+			} else {
+				c.hub.Broadcast <- message
+			}
 		}
 	}
 }
@@ -97,6 +108,8 @@ func (c *Client) writePump() {
 			c.conn.SetWriteDeadline(time.Now().Add(writeWait))
 			if err := c.conn.WriteMessage(websocket.PingMessage, nil); err != nil {
 				return
+			} else {
+				// headbeat db update db
 			}
 		}
 	}

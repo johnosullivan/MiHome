@@ -23,6 +23,8 @@ func GetRoutes() *http.ServeMux {
 
   router.Handle("/accounts", handlers.LoggingHandler(os.Stdout, http.HandlerFunc(controllers.AccountsHandler)))
 
+  router.Handle("/nodes", handlers.LoggingHandler(os.Stdout, middlewares.AuthMiddleware(http.HandlerFunc(controllers.NodeHandler))))
+
   router.Handle("/authping", handlers.LoggingHandler(os.Stdout,  middlewares.AuthMiddleware(http.HandlerFunc(controllers.AuthPingHandler))))
 
   router.HandleFunc("/ws_test", func(w http.ResponseWriter, r *http.Request) {

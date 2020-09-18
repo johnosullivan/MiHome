@@ -28,3 +28,11 @@ type Account struct {
     Email string
     Password string
 }
+
+type NodeRequest struct {
+    Name string
+}
+
+type NodeResponse struct {
+    NodeId  string  `json:"node_id"`
+}

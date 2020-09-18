@@ -9,8 +9,5 @@ type App struct {
 	Router *mux.Router
 }
 
-/*func (a *App) Initialize() {
-	utilities.InitEnvironment()
-
-	a.Router = routes.GetRoutes()
-}*/
+const WS_ENUM_OFFLINE = 0
+const WS_ENUM_ONLINE = 1

@@ -1,17 +1,19 @@
 package websockets
 
 import (
+	"fmt"
 	"bytes"
 	"log"
 	"net/http"
 	"time"
-	"strings"
+	"encoding/json"
+	//"strings"
 
 	"github.com/gorilla/websocket"
 
 	"github.com/johnosullivan/gomihome/models"
-
-  	"fmt"
+	"github.com/johnosullivan/gomihome/utilities"
+	//"github.com/johnosullivan/gomihome/services"
 )
 
 const (
@@ -40,7 +42,7 @@ type Client struct {
 
 func (c *Client) readPump() {
 	defer func() {
-		models.UpdateNodeStatus(c.client_id, 0)
+		models.UpdateNodeStatus(c.client_id, utilities.WS_ENUM_OFFLINE)
 		c.hub.unregister <- c
 		c.conn.Close()
 	}()
@@ -59,16 +61,19 @@ func (c *Client) readPump() {
 		}		
 		message = bytes.TrimSpace(bytes.Replace(message, newline, space, -1))
 
-		if strings.Contains(string(message), ",") {
-			parts := strings.Split(string(message), ",")
-			if parts[0] == "auth" {
-				c.client_id = parts[1]
+		// {"type": "AUTH", "node_id": "7ed560b7-0ce7-4a46-8cc7-6790f3668c5e"}
+		//fmt.Println(string(message))
+
+		var data map[string]interface{}
+		if err := json.Unmarshal(message, &data); err == nil {
+        	type_name := data["type"].(string)
+        	if type_name == "AUTH" {
+        		c.client_id = data["node_id"].(string)
 				c.hub.idtoclients[c.client_id] = c
-				models.UpdateNodeStatus(c.client_id, 1)
-			} else {
-				c.hub.Broadcast <- message
-			}
-		}
+        		models.UpdateNodeStatus(c.client_id, utilities.WS_ENUM_ONLINE)
+				models.UpdateNodeLastSeen(c.client_id, time.Now())
+        	}
+    	}
 	}
 }
 
@@ -109,7 +114,8 @@ func (c *Client) writePump() {
 			if err := c.conn.WriteMessage(websocket.PingMessage, nil); err != nil {
 				return
 			} else {
-				// headbeat db update db
+				// headbeat db update last seen datetime stamps
+				models.UpdateNodeLastSeen(c.client_id, time.Now())
 			}
 		}
 	}

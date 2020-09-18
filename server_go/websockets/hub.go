@@ -1,7 +1,7 @@
 package websockets
 
 import (
-  "fmt"
+  //"fmt"
 	"time"
 )
 
@@ -59,7 +59,6 @@ func (h *Hub) Run() {
 	for {
 		select {
   		case client := <-h.register:
-        fmt.Println(client)
   			h.clients[client] = true
   		case client := <-h.unregister:
   			if _, ok := h.clients[client]; ok {

@@ -28,10 +28,10 @@ create table nodes (
   id varchar not null PRIMARY KEY,
   account_id varchar not null,
   node_name varchar not null,
-  seen_last_at date,
+  seen_last_at timestamp,
   node_status smallint not null DEFAULT 0,
-  created_at date not null DEFAULT NOW(),
-  updated_at date not null DEFAULT NOW()
+  created_at timestamp not null DEFAULT NOW(),
+  updated_at timestamp not null DEFAULT NOW()
 );
 
 ALTER TABLE nodes ADD CONSTRAINT fk_nodes_accounts FOREIGN KEY(account_id) REFERENCES accounts(id);

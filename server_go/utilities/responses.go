@@ -34,5 +34,14 @@ type NodeRequest struct {
 }
 
 type NodeResponse struct {
-    NodeId  string  `json:"node_id"`
+    NodeId  string          `json:"node_id"`
+    NodeName string         `json:"node_name"`
+    SeenLastAt string       `json:"seen_last_at"`
+    NodeStatus int          `json:"node_status"`
+    CreatedAt string        `json:"created_at"`
+    UpdatedAt string        `json:"updated_at"`
+}
+
+type NodesResponse struct {
+    Nodes  []NodeResponse   `json:"nodes"`
 }

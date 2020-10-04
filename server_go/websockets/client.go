@@ -111,7 +111,10 @@ func (c *Client) writePump() {
 			}
 		case <-ticker.C:
 			c.conn.SetWriteDeadline(time.Now().Add(writeWait))
+			fmt.Println("sending heartbeat...")
 			if err := c.conn.WriteMessage(websocket.PingMessage, nil); err != nil {
+				// if fails must be offline
+				fmt.Println(err)
 				return
 			} else {
 				// headbeat db update last seen datetime stamps

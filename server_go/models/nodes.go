@@ -56,6 +56,7 @@ func GetNodes(account string) (bool, []utilities.NodeResponse) {
           UpdatedAt: updated_at,
         })
       }
+      fmt.Println(err)
     }
 
     return true, nodes

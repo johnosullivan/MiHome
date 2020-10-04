@@ -61,7 +61,7 @@ func (c *Client) readPump() {
 		}		
 		message = bytes.TrimSpace(bytes.Replace(message, newline, space, -1))
 
-		// {"type": "AUTH", "node_id": "7ed560b7-0ce7-4a46-8cc7-6790f3668c5e"}
+		// {"type": "AUTH", "node_id": "c6d86d05-4151-4426-8c5e-ed43615f38fd"}
 		//fmt.Println(string(message))
 
 		var data map[string]interface{}

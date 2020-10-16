@@ -38,6 +38,7 @@ type Client struct {
 	conn *websocket.Conn
 	send chan []byte
 	client_id string
+	ping_time int64
 }
 
 func (c *Client) readPump() {
@@ -62,7 +63,7 @@ func (c *Client) readPump() {
 		message = bytes.TrimSpace(bytes.Replace(message, newline, space, -1))
 
 		// {"type": "AUTH", "node_id": "c6d86d05-4151-4426-8c5e-ed43615f38fd"}
-		//fmt.Println(string(message))
+		fmt.Println(string(message))
 
 		var data map[string]interface{}
 		if err := json.Unmarshal(message, &data); err == nil {
@@ -72,6 +73,9 @@ func (c *Client) readPump() {
 				c.hub.idtoclients[c.client_id] = c
         		models.UpdateNodeStatus(c.client_id, utilities.WS_ENUM_ONLINE)
 				models.UpdateNodeLastSeen(c.client_id, time.Now())
+        	}
+        	if type_name == "PING" {
+        		c.ping_time = time.Now().Unix()
         	}
     	}
 	}
@@ -111,14 +115,20 @@ func (c *Client) writePump() {
 			}
 		case <-ticker.C:
 			c.conn.SetWriteDeadline(time.Now().Add(writeWait))
-			fmt.Println("sending heartbeat...")
-			if err := c.conn.WriteMessage(websocket.PingMessage, nil); err != nil {
-				// if fails must be offline
-				fmt.Println(err)
-				return
+			escPingTime := time.Now().Unix() - c.ping_time
+			if escPingTime >= 70 {
+				models.UpdateNodeStatus(c.client_id, utilities.WS_ENUM_OFFLINE)
+				c.hub.unregister <- c
+				c.conn.Close()
 			} else {
-				// headbeat db update last seen datetime stamps
-				models.UpdateNodeLastSeen(c.client_id, time.Now())
+				if err := c.conn.WriteMessage(websocket.PingMessage, nil); err != nil {
+					// if fails must be offline
+					fmt.Println(err)
+					return
+				} else {
+					// headbeat db update last seen datetime stamps
+					models.UpdateNodeLastSeen(c.client_id, time.Now())
+				}
 			}
 		}
 	}

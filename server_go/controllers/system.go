@@ -35,7 +35,7 @@ func PingLink(w http.ResponseWriter, r *http.Request) {
 
           key := r.URL.Query().Get("key")
 
-          websockets.SendToClient(key, []byte("ping_db_case"))
+          websockets.SendToClient(key, []byte("PING"))
 
           w.Header().Set("Content-Type", "application/json")
           w.Write(js)

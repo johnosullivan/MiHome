@@ -20,6 +20,8 @@ require (
 	github.com/philhofer/fwd v1.0.0 // indirect
 	github.com/satori/go.uuid v1.2.0
 	github.com/sirupsen/logrus v1.6.0
+	github.com/skip2/go-qrcode v0.0.0-20200617195104-da1b6568686e
 	github.com/tinylib/msgp v1.1.2 // indirect
+	github.com/yeqown/go-qrcode v1.5.4
 	golang.org/x/crypto v0.0.0-20200510223506-06a226fb4e37
 )

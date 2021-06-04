@@ -27,6 +27,8 @@ func GetRoutes() *http.ServeMux {
 
   router.Handle("/authping", handlers.LoggingHandler(os.Stdout,  middlewares.AuthMiddleware(http.HandlerFunc(controllers.AuthPingHandler))))
 
+  router.Handle("/qrcode", handlers.LoggingHandler(os.Stdout, http.HandlerFunc(controllers.AuthenticateQRCode)))
+
   router.HandleFunc("/ws_test", func(w http.ResponseWriter, r *http.Request) {
         http.ServeFile(w, r, "ws_test.html")
   })

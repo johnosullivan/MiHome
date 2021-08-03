@@ -35,3 +35,17 @@ create table nodes (
 );
 
 ALTER TABLE nodes ADD CONSTRAINT fk_nodes_accounts FOREIGN KEY(account_id) REFERENCES accounts(id);
+
+
+
+create type build_status_type as enum('SCHEDULED', 'PENDING', 'BUILDING', 'FAILED', 'SUCESSS');
+
+create table builds (
+  id varchar not null PRIMARY KEY,
+  node_id varchar not null,
+  build_hash varchar not null,
+  build_path varchar not null,
+  configs jsonb not null default '{}'::jsonb,
+  created_at date not null DEFAULT NOW(),
+  updated_at date not null DEFAULT NOW()
+);

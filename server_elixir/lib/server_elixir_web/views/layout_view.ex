@@ -1,3 +1,3 @@
 defmodule ServerElixirWeb.LayoutView do
-  use ServerElixirWeb, :view
+  # use ServerElixirWeb, :view
 end

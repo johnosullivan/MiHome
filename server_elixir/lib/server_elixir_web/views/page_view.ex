@@ -1,3 +1,3 @@
 defmodule ServerElixirWeb.PageView do
-  use ServerElixirWeb, :view
+  # use ServerElixirWeb, :view
 end

@@ -9,7 +9,6 @@ defmodule ServerElixir.Auth do
   alias ServerElixir.Auth.User
   alias ServerElixir.Auth.Device
 
-
   def authenticate_user(email, password) do
     query = from(u in User, where: u.email == ^email)
     query |> Repo.one() |> verify_password(password)
@@ -20,8 +19,8 @@ defmodule ServerElixir.Auth do
     Bcrypt.no_user_verify()
     {:error, "Wrong email or password"}
   end
-  
-  #ServerElixir.Auth.add_device(%{ mac_address: "232323" })
+
+  # ServerElixir.Auth.add_device(%{ mac_address: "232323" })
 
   defp verify_password(user, password) do
     if Bcrypt.verify_pass(password, user.password_hash) do

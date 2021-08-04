@@ -1,5 +1,7 @@
 defmodule ServerElixir.Repo do
-  use Ecto.Repo, otp_app: :server_elixir
+  use Ecto.Repo,
+    otp_app: :server_elixir,
+    adapter: Ecto.Adapters.Postgres
 
   @doc """
   Dynamically loads the repository url from the

@@ -56,8 +56,8 @@ config :server_elixir, ServerElixirWeb.Guardian,
 # Configure your database
 config :server_elixir, ServerElixir.Repo,
   adapter: Ecto.Adapters.Postgres,
-  username: "mihome",
-  password: "XaryPzNpZhU4z7uvmTgR9sHekKZd",
-  database: "mihome",
+  username: "postgres",
+  password: "postgres",
+  database: "postgres",
   hostname: "localhost",
   pool_size: 10

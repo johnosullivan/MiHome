@@ -1,1 +1,21 @@
-ServerElixir.Auth.create_user(%{ first_name: "John", last_name: "O'Sullivan",  email: "jnosullivan@icloud.com", password: "", uuid: UUID.uuid4() })
+# ServerElixir
+
+**TODO: Add description**
+
+## Installation
+
+If [available in Hex](https://hex.pm/docs/publish), the package can be installed
+by adding `server_elixir` to your list of dependencies in `mix.exs`:
+
+```elixir
+def deps do
+  [
+    {:server_elixir, "~> 0.1.0"}
+  ]
+end
+```
+
+Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
+and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
+be found at [https://hexdocs.pm/server_elixir](https://hexdocs.pm/server_elixir).
+

@@ -7,7 +7,7 @@
 # General application configuration
 use Mix.Config
 
-# Use Jason for JSON parsing in Phoenix
+# Use Poison for JSON parsing in Phoenix
 config :phoenix, :json_library, Poison
 
 # Core Endpoint for system overall health (cloud compilers)
@@ -21,4 +21,5 @@ config :logger, :console,
   metadata: [:request_id]
 
 # Import environment specific config. This must remain at the bottom of this file so it overrides the configuration defined above.
+# export MIX_ENV=dev/prod
 import_config "#{Mix.env()}.exs"

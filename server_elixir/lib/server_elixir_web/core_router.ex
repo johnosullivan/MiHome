@@ -2,12 +2,12 @@ defmodule ServerElixir.CoreRouter do
   use ServerElixir, :router
 
   pipeline :api do
-    plug :accepts, ["json"]
+    plug(:accepts, ["json"])
   end
 
   scope "/api/v1", ServerElixir do
-    pipe_through :api
+    pipe_through(:api)
 
-    get "/", SystemController, :index
+    get("/", SystemController, :index)
   end
 end

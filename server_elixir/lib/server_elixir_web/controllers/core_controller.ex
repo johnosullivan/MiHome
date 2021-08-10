@@ -3,7 +3,6 @@ defmodule ServerElixir.SystemController do
   use ServerElixir, :json
 
   def index(conn, _params) do
-    # send_resp(conn, :ok, "pong")
-    pretty_json conn, 200, %{status: true}
+    send_resp(conn, :ok, Poison.encode!(%ServerElixir.SystemPingResponse{status: true}))
   end
 end

@@ -8,6 +8,8 @@ defmodule ServerElixir.CoreRouter do
   scope "/api/v1", ServerElixir do
     pipe_through(:api)
 
-    get("/", SystemController, :index)
+    get("/", Controllers.System, :index)
+
+    # post("/users", UserController, :sign_in)
   end
 end

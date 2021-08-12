@@ -28,7 +28,8 @@ defmodule ServerElixir.MixProject do
       {:bcrypt_elixir, "~> 2.0"},
       {:poison, "~> 5.0"},
       {:ecto_sql, "~> 3.4"},
-      {:postgrex, ">= 0.0.0"}
+      {:postgrex, ">= 0.0.0"},
+      {:elixir_uuid, "~> 1.2"}
     ]
   end
 end

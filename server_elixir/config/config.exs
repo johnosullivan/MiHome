@@ -10,6 +10,10 @@ use Mix.Config
 # Use Poison for JSON parsing in Phoenix
 config :phoenix, :json_library, Poison
 
+# General application configuration
+config :server_elixir,
+  ecto_repos: [ServerElixir.Repo]
+
 # Core Endpoint for system overall health (cloud compilers)
 config :server_elixir, ServerElixir.CoreEndpoint,
   http: [port: 3000],

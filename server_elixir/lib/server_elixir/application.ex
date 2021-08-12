@@ -8,7 +8,9 @@ defmodule ServerElixir.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      # Starts a worker by calling: ServerElixir.Worker.start_link(arg)
+      # Start Database
+      ServerElixir.Repo,
+      # Core Endpoints
       ServerElixir.CoreEndpoint
     ]
 

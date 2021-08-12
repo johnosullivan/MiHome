@@ -1,4 +1,4 @@
-defmodule ServerElixir.SystemController do
+defmodule ServerElixir.Controllers.System do
   use ServerElixir, :controller
   use ServerElixir, :json
 

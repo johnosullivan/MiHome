@@ -7,8 +7,8 @@
 # General application configuration
 use Mix.Config
 
-# Use Poison for JSON parsing in Phoenix
-config :phoenix, :json_library, Poison
+# Use Jason for JSON parsing in Phoenix
+config :phoenix, :json_library, Jason
 
 # General application configuration
 config :server_elixir,
@@ -23,6 +23,11 @@ config :server_elixir, ServerElixir.CoreEndpoint,
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
+
+config :server_elixir, ServerElixir.Guardian,
+  issuer: "server_elixir",
+  secret_key: "BcuibCpINPwJPTRlyQXGBiLczhwl5cy7y408JgpsesV5iFg04OG9Ivqv9XwfZWqp",
+  serializer: ServerElixir.GuardianSerializer
 
 # Import environment specific config. This must remain at the bottom of this file so it overrides the configuration defined above.
 # export MIX_ENV=dev/prod

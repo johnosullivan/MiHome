@@ -23,9 +23,12 @@ defmodule ServerElixir.Schema.User do
     |> put_password_hash()
   end
 
-  defp put_password_hash(%Ecto.Changeset{
-    valid?: true, changes: %{password: password}
-  } = changeset) do
+  defp put_password_hash(
+         %Ecto.Changeset{
+           valid?: true,
+           changes: %{password: password}
+         } = changeset
+       ) do
     change(changeset, password_hash: Bcrypt.hash_pwd_salt(password))
   end
 
@@ -33,3 +36,5 @@ defmodule ServerElixir.Schema.User do
     changeset
   end
 end
+
+# ServerElixir.Authentication.create_user(%{email: "john@mihome.io", password: "test_password", first_name: "John", last_name: "O'Sullivan", uuid: UUID.uuid4() })

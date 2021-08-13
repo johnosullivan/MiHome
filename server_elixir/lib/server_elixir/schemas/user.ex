@@ -36,5 +36,3 @@ defmodule ServerElixir.Schema.User do
     changeset
   end
 end
-
-# ServerElixir.Authentication.create_user(%{email: "john@mihome.io", password: "test_password", first_name: "John", last_name: "O'Sullivan", uuid: UUID.uuid4() })

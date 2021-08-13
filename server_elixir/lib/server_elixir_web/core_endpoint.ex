@@ -11,5 +11,7 @@ defmodule ServerElixir.CoreEndpoint do
 
   plug(Plug.MethodOverride)
   plug(Plug.Head)
+
+  # plug into the core router
   plug(ServerElixir.CoreRouter)
 end

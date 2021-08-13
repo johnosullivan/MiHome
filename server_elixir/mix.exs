@@ -30,7 +30,8 @@ defmodule ServerElixir.MixProject do
       {:ecto_sql, "~> 3.4"},
       {:postgrex, ">= 0.0.0"},
       {:elixir_uuid, "~> 1.2"},
-      {:guardian, "~> 1.0"}
+      {:guardian, "~> 1.0"},
+      {:nimble_totp, "~> 0.1.0"}
     ]
   end
 end

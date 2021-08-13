@@ -5,7 +5,6 @@ defmodule ServerElixir.UserView do
     %{
       data: %{
         user: %{
-          uuid: user.uuid,
           email: user.email,
           first_name: user.first_name,
           last_name: user.last_name
@@ -19,7 +18,6 @@ defmodule ServerElixir.UserView do
     %{
       data: %{
         user: %{
-          uuid: user.uuid,
           email: user.email,
           first_name: user.first_name,
           last_name: user.last_name

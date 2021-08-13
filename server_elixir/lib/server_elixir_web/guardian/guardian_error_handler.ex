@@ -3,9 +3,9 @@ defmodule ServerElixir.GuardianErrorHandler do
   import Plug.Conn
 
   @impl Guardian.Plug.ErrorHandler
-  def auth_error(conn, {type, reason}, opts) do
+  def auth_error(conn, {_type, reason}, _opts) do
     conn
     |> put_req_header("content-type", "application/json")
-    |> send_resp(:unauthorized, Poison.encode!(%{ reason: reason }, pretty: true))
+    |> send_resp(:unauthorized, Poison.encode!(%{reason: reason}, pretty: true))
   end
 end

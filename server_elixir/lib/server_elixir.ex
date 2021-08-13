@@ -3,19 +3,6 @@ defmodule ServerElixir do
   Documentation for `ServerElixir`.
   """
 
-  @doc """
-  Hello world.
-
-  ## Examples
-
-      iex> ServerElixir.hello()
-      :world
-
-  """
-  def hello do
-    :world
-  end
-
   def controller do
     quote do
       use Phoenix.Controller, namespace: ServerElixir

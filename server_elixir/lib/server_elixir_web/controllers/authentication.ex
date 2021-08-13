@@ -21,6 +21,7 @@ defmodule ServerElixir.Controllers.Authentication do
 
   def auth_ping(conn, _params) do
     resource = ServerElixir.Guardian.Plug.current_resource(conn)
+
     conn
     |> put_status(:ok)
     |> put_view(ServerElixir.UserView)

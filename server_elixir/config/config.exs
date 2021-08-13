@@ -16,7 +16,7 @@ config :server_elixir,
 
 # Core Endpoint for system overall health (cloud compilers)
 config :server_elixir, ServerElixir.CoreEndpoint,
-  http: [port: 3000],
+  http: [port: System.get_env("CORE_PORT")],
   debug_errors: true
 
 # Configures Elixir's Logger

@@ -17,7 +17,8 @@ config :server_elixir,
 # Core Endpoint for system overall health (cloud compilers)
 config :server_elixir, ServerElixir.CoreEndpoint,
   http: [port: System.get_env("CORE_PORT")],
-  debug_errors: true
+  debug_errors: true,
+  secret_key_base: "BcuibCpINPwJPTRlyQXGBiLczhwl5cy7y408JgpsesV5iFg04OG9Ivqv9XwfZWqp"
 
 # Configures Elixir's Logger
 config :logger, :console,

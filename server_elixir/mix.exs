@@ -31,7 +31,9 @@ defmodule ServerElixir.MixProject do
       {:postgrex, ">= 0.0.0"},
       {:elixir_uuid, "~> 1.2"},
       {:guardian, "~> 1.0"},
-      {:nimble_totp, "~> 0.1.0"}
+      {:nimble_totp, "~> 0.1.0"},
+      {:eqrcode, "~> 0.1.8"},
+      {:phoenix_html, "~> 3.0"}
     ]
   end
 

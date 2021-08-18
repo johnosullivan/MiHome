@@ -12,7 +12,8 @@ config :phoenix, :json_library, Jason
 
 # General application configuration
 config :server_elixir,
-  ecto_repos: [ServerElixir.Repo]
+  ecto_repos: [ServerElixir.Repo],
+  totp_key_name: "MiHome Connect"
 
 # Core Endpoint for system overall health (cloud compilers)
 config :server_elixir, ServerElixir.CoreEndpoint,

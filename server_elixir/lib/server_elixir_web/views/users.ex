@@ -14,6 +14,26 @@ defmodule ServerElixir.UserView do
     }
   end
 
+  def render("sign_in_user_totp.json", %{token: token}) do
+    %{
+      data: %{
+        token: token
+      }
+    }
+  end
+
+  def render("message.json", %{message: message}) do
+    %{
+      data: %{
+        message: message
+      }
+    }
+  end
+
+  def render("qr.html", %{uri: uri}) do
+    uri |> EQRCode.encode() |> EQRCode.svg(width: 250)
+  end
+
   def render("ping_auth_user.json", %{user: user}) do
     %{
       data: %{

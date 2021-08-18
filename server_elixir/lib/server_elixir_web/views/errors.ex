@@ -1,7 +1,7 @@
 defmodule ServerElixir.ErrorView do
   use ServerElixir, :view
 
-  def render("unauthorized.json", %{reason: reason}) do
+  def render("error.json", %{reason: reason}) do
     %{
       reason: reason
     }

@@ -2,15 +2,17 @@ defmodule ServerElixir.Schema.User do
   use Ecto.Schema
   import Ecto.Changeset
 
+  #@primary_key {:uuid, :string, []}
+  @primary_key false
   schema "users" do
     field(:email, :string)
     field(:is_active, :boolean, default: false)
     field(:password, :string, virtual: true)
     field(:password_hash, :string)
-    field(:uuid, :string)
     field(:first_name, :string)
     field(:last_name, :string)
-    field(:two_factor_auth, :string)
+    field(:two_factor_secret, :string)
+    field(:two_factor, :boolean, default: false)
     field(:status, :integer)
     timestamps()
   end

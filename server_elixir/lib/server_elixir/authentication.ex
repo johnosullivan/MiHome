@@ -32,7 +32,6 @@ defmodule ServerElixir.Authentication do
 
   def get_user!(id), do: Repo.get!(User, id)
 
-  # ServerElixir.Authentication.create_user(%{email: "john@mihome.io", password: "test_password", first_name: "John", last_name: "O'Sullivan", uuid: UUID.uuid4() })
   def create_user(attrs \\ %{}) do
     %User{}
     |> User.changeset(attrs)

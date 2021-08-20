@@ -1,6 +1,4 @@
 defmodule ServerElixir.GuardianSerializer do
-  @behaviour Guardian.Serializer
-
   alias ServerElixir.Schema.User
 
   def for_token(user = %User{}), do: {:ok, "User:#{user.id}"}

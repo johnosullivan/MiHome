@@ -5,7 +5,6 @@ defmodule ServerElixir.Authentication do
 
   import Ecto.Query, warn: false
   alias ServerElixir.Repo
-
   alias ServerElixir.Schema.User
 
   def authenticate_user(email, password) do

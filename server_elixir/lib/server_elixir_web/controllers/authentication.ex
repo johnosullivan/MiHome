@@ -8,7 +8,8 @@ defmodule ServerElixir.Controllers.Authentication do
       {:ok, user} ->
         if user.is_active do
           if user.two_factor do
-            {:ok, token, _} = ServerElixir.Guardian.encode_and_sign(user, %{typ: "totp"}, ttl: {2, :minute})
+            {:ok, token, _} =
+              ServerElixir.Guardian.encode_and_sign(user, %{typ: "totp"}, ttl: {2, :minute})
 
             conn
             |> put_status(:ok)

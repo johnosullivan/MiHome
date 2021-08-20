@@ -6,3 +6,12 @@
 
 # General application configuration
 use Mix.Config
+
+# Configure your database
+config :server_elixir, ServerElixir.Repo,
+  username: System.get_env("DATABASE_USERNAME"),
+  password: System.get_env("DATABASE_PASSWORD"),
+  database: System.get_env("DATABASE_NAME"),
+  hostname: System.get_env("DATABASE_HOSTNAME"),
+  show_sensitive_data_on_connection_error: true,
+  pool_size: 10

@@ -1,5 +1,5 @@
-defmodule ServerElixir.UserView do
-  use ServerElixir, :view
+defmodule ServerElixirWeb.UserView do
+  use ServerElixirWeb, :view
 
   def render("sign_in_user.json", %{user: user, token: token}) do
     %{

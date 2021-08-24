@@ -1,10 +1,10 @@
-defmodule ServerElixir.Controllers.MultiFactorAuthentication do
-  use ServerElixir, :controller
+defmodule ServerElixirWeb.Controllers.MultiFactorAuthentication do
+  use ServerElixirWeb, :controller
 
   alias ServerElixir.Authentication
 
   def confirm(conn, %{"code" => code}) do
-    user = ServerElixir.Guardian.Plug.current_resource(conn)
+    user = ServerElixirWeb.Guardian.Plug.current_resource(conn)
 
     if NimbleTOTP.valid?(user.two_factor_secret, code) do
       {:ok, token, _} = ServerElixir.Guardian.encode_and_sign(user, %{}, ttl: {7, :day})
@@ -24,7 +24,7 @@ defmodule ServerElixir.Controllers.MultiFactorAuthentication do
   end
 
   def update(conn, %{"code" => code}) do
-    user = ServerElixir.Guardian.Plug.current_resource(conn)
+    user = ServerElixirWeb.Guardian.Plug.current_resource(conn)
 
     if NimbleTOTP.valid?(user.two_factor_secret, code) do
       case Authentication.update_user(user, %{two_factor: true}) do
@@ -49,7 +49,7 @@ defmodule ServerElixir.Controllers.MultiFactorAuthentication do
   end
 
   def create(conn, _params) do
-    user = ServerElixir.Guardian.Plug.current_resource(conn)
+    user = ServerElixirWeb.Guardian.Plug.current_resource(conn)
 
     case Authentication.update_user(user, %{
            two_factor_secret: NimbleTOTP.secret(),

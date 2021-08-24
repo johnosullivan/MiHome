@@ -1,4 +1,4 @@
-defmodule ServerElixir.CoreEndpoint do
+defmodule ServerElixirWeb.CoreEndpoint do
   use Phoenix.Endpoint, otp_app: :server_elixir
 
   plug(Plug.RequestId)
@@ -21,5 +21,7 @@ defmodule ServerElixir.CoreEndpoint do
   plug(Plug.Head)
 
   # plug into the core router
-  plug(ServerElixir.CoreRouter)
+  plug(ServerElixirWeb.CoreRouter)
+
+  socket("/socket", ServerElixirWeb.Channels.UserSocket)
 end

@@ -1,4 +1,4 @@
-defmodule ServerElixir.Guardian do
+defmodule ServerElixirWeb.Guardian do
   use Guardian, otp_app: :server_elixir
 
   alias ServerElixir.Repo

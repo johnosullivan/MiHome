@@ -1,5 +1,5 @@
-defmodule ServerElixir.ErrorView do
-  use ServerElixir, :view
+defmodule ServerElixirWeb.ErrorView do
+  use ServerElixirWeb, :view
 
   def render("error.json", %{reason: reason}) do
     %{

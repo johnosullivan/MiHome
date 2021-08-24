@@ -1,4 +1,4 @@
-defmodule ServerElixir do
+defmodule ServerElixirWeb do
   @moduledoc """
   Documentation for `ServerElixir`.
   """
@@ -37,6 +37,12 @@ defmodule ServerElixir do
         namespace: ServerElixir
 
       import Phoenix.Controller, only: [get_flash: 2, view_module: 1]
+    end
+  end
+
+  def channel do
+    quote do
+      use Phoenix.Channel
     end
   end
 

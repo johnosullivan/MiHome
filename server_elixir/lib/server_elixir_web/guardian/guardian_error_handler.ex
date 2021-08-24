@@ -1,4 +1,4 @@
-defmodule ServerElixir.GuardianErrorHandler do
+defmodule ServerElixirWeb.GuardianErrorHandler do
   @behaviour Guardian.Plug.ErrorHandler
   import Plug.Conn
 

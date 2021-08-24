@@ -1,4 +1,4 @@
-defmodule ServerElixir.SystemPingResponse do
+defmodule ServerElixirWeb.SystemPingResponse do
   @derive [Poison.Encoder]
 
   defstruct [:status]

@@ -1,5 +1,5 @@
-defmodule ServerElixir.CoreRouter do
-  use ServerElixir, :router
+defmodule ServerElixirWeb.CoreRouter do
+  use ServerElixirWeb, :router
 
   pipeline :api do
     plug(:accepts, ["json"])

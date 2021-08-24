@@ -16,7 +16,7 @@ config :server_elixir,
   totp_key_name: "MiHome Connect"
 
 # Core Endpoint for system overall health (cloud compilers)
-config :server_elixir, ServerElixir.CoreEndpoint,
+config :server_elixir, ServerElixirWeb.CoreEndpoint,
   http: [port: 3000],
   debug_errors: true,
   secret_key_base: "BcuibCpINPwJPTRlyQXGBiLczhwl5cy7y408JgpsesV5iFg04OG9Ivqv9XwfZWqp"
@@ -26,10 +26,10 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
-config :server_elixir, ServerElixir.Guardian,
+config :server_elixir, ServerElixirWeb.Guardian,
   issuer: "server_elixir",
   secret_key: "BcuibCpINPwJPTRlyQXGBiLczhwl5cy7y408JgpsesV5iFg04OG9Ivqv9XwfZWqp",
-  serializer: ServerElixir.GuardianSerializer
+  serializer: ServerElixirWeb.GuardianSerializer
 
 # Import environment specific config. This must remain at the bottom of this file so it overrides the configuration defined above.
 # export MIX_ENV=dev/prod

@@ -4,7 +4,6 @@ defmodule ServerElixirWeb.Channels.NodeChannel do
   def join("node:" <> hub_id, payload, socket) do
     :ok = ChannelWatcher.monitor(:rooms, self(), {__MODULE__, :leave, [hub_id]})
 
-
     if authorized?(payload) do
       {:ok, socket}
     else

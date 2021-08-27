@@ -1,14 +1,11 @@
-defmodule ServerElixirWeb.Channels.UserSocket do
+defmodule ServerElixirWeb.Channels.Socket do
   use Phoenix.Socket, log: :debug
 
-  ## Channels
-  channel "node:*", ServerElixirWeb.Channels.NodeChannel
-  channel "network", ServerElixirWeb.Channels.NetworkChannel
+  alias ServerElixirWeb.Channels
 
-  ## Transports
-  transport :websocket, Phoenix.Transports.WebSocket,
-    transport_log: false
-  # transport :longpoll, Phoenix.Transports.LongPoll
+  ## Channels
+  ## channel "node:*", ServerElixirWeb.Channels.NodeChannel
+  channel "network", Channels.NetworkChannel
 
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After
@@ -22,14 +19,14 @@ defmodule ServerElixirWeb.Channels.UserSocket do
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
   def connect(_params, socket) do
-    IO.puts("Connection")
+    IO.puts("\nConnection")
     IO.inspect(socket)
     {:ok, socket}
   end
 
   # Socket id's are topics that allow you to identify all sockets for a given user:
   #
-  #     def id(socket), do: "user_socket:#{socket.assigns.user_id}"
+  #def id(socket), do: "user_socket:#{socket.assigns.user_id}"
   #
   # Would allow you to broadcast a "disconnect" event and terminate
   # all active sockets and channels for a given user:

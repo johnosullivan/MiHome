@@ -11,10 +11,7 @@ defmodule ServerElixir.Application do
       # Start Database
       ServerElixir.Repo,
       # Core Endpoints
-      ServerElixirWeb.CoreEndpoint,
-      # Core Sockets
-      # {ServerElixirWeb.ChannelWatcher, [:rooms]}
-      ServerElixirWeb.ChannelWatcher
+      ServerElixirWeb.CoreEndpoint
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

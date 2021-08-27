@@ -20,8 +20,11 @@ defmodule ServerElixirWeb.CoreEndpoint do
   plug(Plug.MethodOverride)
   plug(Plug.Head)
 
+  socket("/", ServerElixirWeb.Channels.Socket,
+      websocket: true,
+      longpoll: true
+  )
+
   # plug into the core router
   plug(ServerElixirWeb.CoreRouter)
-
-  socket("/socket", ServerElixirWeb.Channels.UserSocket)
 end

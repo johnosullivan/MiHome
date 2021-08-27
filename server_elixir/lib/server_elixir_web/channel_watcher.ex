@@ -25,8 +25,10 @@ defmodule ServerElixirWeb.ChannelWatcher do
 
   def handle_call({:demonitor, pid}, _from, state) do
     case Map.fetch(state.channels, pid) do
-      :error       -> {:reply, :ok, state}
-      {:ok,  _mfa} ->
+      :error ->
+        {:reply, :ok, state}
+
+      {:ok, _mfa} ->
         Process.unlink(pid)
         {:reply, :ok, drop_channel(state, pid)}
     end
@@ -34,7 +36,9 @@ defmodule ServerElixirWeb.ChannelWatcher do
 
   def handle_info({:EXIT, pid, _reason}, state) do
     case Map.fetch(state.channels, pid) do
-      :error -> {:noreply, state}
+      :error ->
+        {:noreply, state}
+
       {:ok, {mod, func, args}} ->
         Task.start_link(fn -> apply(mod, func, args) end)
         {:noreply, drop_channel(state, pid)}

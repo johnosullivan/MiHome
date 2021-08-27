@@ -12,8 +12,8 @@ defmodule ServerElixirWeb.CoreRouter do
 
   pipeline :bearer_auth do
     plug(Guardian.Plug.Pipeline,
-      module: ServerElixir.Guardian,
-      error_handler: ServerElixir.GuardianErrorHandler
+      module: ServerElixirWeb.Guardian,
+      error_handler: ServerElixirWeb.GuardianErrorHandler
     )
 
     plug(Guardian.Plug.VerifySession)
@@ -37,12 +37,12 @@ defmodule ServerElixirWeb.CoreRouter do
     else
       conn
       |> put_status(:unauthorized)
-      |> put_view(ServerElixir.ErrorView)
+      |> put_view(ServerElixirWeb.ErrorView)
       |> render("error.json", reason: "unauthenticated user")
     end
   end
 
-  scope "/api/v1", ServerElixir do
+  scope "/api/v1", ServerElixirWeb do
     pipe_through(:api)
 
     get("/", Controllers.System, :index)
@@ -50,13 +50,13 @@ defmodule ServerElixirWeb.CoreRouter do
     post("/authentication", Controllers.Authentication, :create)
   end
 
-  scope "/api/v1", ServerElixir do
+  scope "/api/v1", ServerElixirWeb do
     pipe_through([:api, :bearer_auth, :ensure_authed_totp])
 
     patch("/authentication", Controllers.MultiFactorAuthentication, :confirm)
   end
 
-  scope "/api/v1", ServerElixir do
+  scope "/api/v1", ServerElixirWeb do
     pipe_through([:api, :bearer_auth, :ensure_authed_access])
 
     get("/ping", Controllers.Authentication, :index)

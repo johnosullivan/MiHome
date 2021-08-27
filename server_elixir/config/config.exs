@@ -19,7 +19,9 @@ config :server_elixir,
 config :server_elixir, ServerElixirWeb.CoreEndpoint,
   http: [port: 3000],
   debug_errors: true,
-  secret_key_base: "BcuibCpINPwJPTRlyQXGBiLczhwl5cy7y408JgpsesV5iFg04OG9Ivqv9XwfZWqp"
+  secret_key_base: "BcuibCpINPwJPTRlyQXGBiLczhwl5cy7y408JgpsesV5iFg04OG9Ivqv9XwfZWqp",
+  check_origin: false,
+  pubsub_server: ServerElixirWeb.PubSub
 
 # Configures Elixir's Logger
 config :logger, :console,

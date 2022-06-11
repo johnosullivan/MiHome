@@ -3,9 +3,9 @@
 #include <Wire.h>
 
 #define RF69_FREQ 915.0
-#define RFM69_INT     3
-#define RFM69_CS      4
-#define RFM69_RST     2
+#define RFM69_INT     2
+#define RFM69_CS      3
+#define RFM69_RST     4
 
 #define FREQUENCY RF69_915MHZ
 
@@ -24,9 +24,9 @@ void setup()
   Serial.println();
 
   digitalWrite(RFM69_RST, HIGH);
-  delay(10);
+  delay(20);
   digitalWrite(RFM69_RST, LOW);
-  delay(10);
+  delay(20);
 
   if (!rf69.init()) {
     Serial.println("RFM69 Radio Initialization Failed!");
@@ -43,9 +43,11 @@ void setup()
   rf69.setTxPower(20, true);  // range from 14-20 for power, 2nd arg must be true for 69HCW
 
   // The encryption key has to be the same as the one in the server
-  uint8_t key[] = { 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08,
-                    0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08};
-  rf69.setEncryptionKey(key);
+  uint8_t key[] = { 0x73, 0x61, 0x6D, 0x70, 0x6C, 0x65, 0x45, 0x6E, 
+                    0x63, 0x72, 0x79, 0x70, 0x74, 0x4B, 0x65, 0x79, 0x0A };
+
+  
+  //rf69.setEncryptionKey(key);
 
 
   Serial.print("RFM69 radio @");  Serial.print((int)RF69_FREQ);  Serial.println(" MHz");

@@ -21,7 +21,7 @@
     "express-socket.io": "^1.0.3",
     "influx": "^5.0.7",
     "influxdb-nodejs": "^2.7.4",
-    "jsonwebtoken": "^7.4.3",
+    "jsonwebtoken": "^9.0.0",
     "mongoose": "5.7.5",
     "shortid": "^2.2.8",
     "socket.io": "^2.0.3",
